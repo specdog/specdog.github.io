@@ -4,99 +4,72 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>specdog — Feed the dog. Ship with specs.</title>
-<meta name="description" content="Structured, AI-queryable software specifications. Write .dog specs, compile to .dag graphs, query via MCP.">
+<meta name="description" content="CLI tool for structured software specs. Validate .dog files, compile .dag graphs, query via MCP.">
 <link rel="llms-txt" href="/llms.txt">
+<link rel="icon" type="image/svg+xml" href="/dotdog/assets/dog.svg">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "specdog",
-  "description": "The spec genome platform — structured, AI-queryable software specifications.",
   "url": "https://specdog.github.io",
-  "sameAs": [
-    "https://github.com/specdog",
-    "https://www.npmjs.com/package/dotdog"
-  ]
+  "sameAs": ["https://github.com/specdog", "https://www.npmjs.com/package/dotdog"]
 }
 </script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background: #ffffff; color: #1a1a2e;
     display: flex; align-items: center; justify-content: center;
     min-height: 100vh; padding: 24px;
   }
-  main { max-width: 560px; text-align: center; }
-  h1 { font-size: 2.4em; font-weight: 700; margin-bottom: 4px; }
+  main { max-width: 520px; text-align: center; }
+  svg { width: 100px; height: 100px; transition: transform .15s; }
+  h1 { font-size: 2.4em; font-weight: 700; margin: 12px 0 4px; }
   p.tagline { color: #6b7280; font-size: 1.1em; margin-bottom: 4px; }
   p.desc { color: #4b5563; font-size: 0.92em; margin-bottom: 16px; line-height: 1.6; }
-  /* dog widget */
-  .dog-widget { position: relative; display: inline-block; margin-bottom: 12px; cursor: pointer; user-select: none; }
-  .dog-widget svg { width: 120px; height: 120px; transition: transform 0.15s; }
-  .dog-widget:active svg { transform: scale(0.95); }
-  .hunger-bar { width: 120px; height: 6px; background: #e5e7eb; border-radius: 3px; margin: 0 auto 4px; overflow: hidden; }
-  .hunger-fill { height: 100%; background: #f59e0b; border-radius: 3px; transition: width 0.4s; }
-  .dog-status { font-size: 0.78em; color: #9ca3af; margin-bottom: 8px; min-height: 18px; }
-  .dog-actions { display: flex; gap: 8px; justify-content: center; margin-bottom: 16px; flex-wrap: wrap; }
-  .dog-actions button {
-    padding: 6px 14px; border-radius: 20px; border: 1px solid #e5e7eb;
-    background: #fff; color: #4b5563; font-size: 0.82em; cursor: pointer;
-    font-family: inherit; transition: all 0.15s;
-  }
-  .dog-actions button:hover { background: #fef3c7; border-color: #f59e0b; color: #92400e; }
-  .dog-actions button:active { transform: scale(0.96); }
-  /* rest */
-  pre {
-    background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px;
-    padding: 14px 18px; text-align: left; font-size: 0.85em; color: #1e293b;
-    margin-bottom: 20px; overflow-x: auto;
-  }
+  .dog-widget { display: inline-block; cursor: pointer; user-select: none; margin-bottom: 8px; }
+  #dog-status { font-size: .75em; color: #9ca3af; min-height: 18px; margin: 4px 0; }
+  .actions { display: flex; gap: 6px; justify-content: center; margin-bottom: 16px; flex-wrap: wrap; }
+  .actions button { padding: 4px 12px; border-radius: 14px; border: 1px solid #e5e7eb; background: #fff; color: #4b5563; font-size: .78em; cursor: pointer; font-family: inherit; }
+  .actions button:hover { background: #fef3c7; border-color: #f59e0b; color: #92400e; }
+  pre { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px 18px; text-align: left; font-size: .85em; color: #1e293b; margin-bottom: 20px; overflow-x: auto; }
   .btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-  a.btn {
-    display: inline-block; padding: 10px 22px; border-radius: 6px;
-    font-size: 0.92em; font-weight: 600; text-decoration: none;
-  }
+  a.btn { display: inline-block; padding: 10px 22px; border-radius: 6px; font-size: .92em; font-weight: 600; text-decoration: none; }
   a.primary { background: #f59e0b; color: #1a1a2e; }
   a.primary:hover { background: #d97706; }
   a.secondary { background: #f1f5f9; color: #1e293b; border: 1px solid #cbd5e1; }
   a.secondary:hover { background: #e2e8f0; }
-  footer { margin-top: 24px; color: #9ca3af; font-size: 0.8em; }
+  footer { margin-top: 24px; color: #9ca3af; font-size: .8em; }
   footer a { color: #9ca3af; }
-  .sad .dog-face { fill: #fcd34d; }
-  .happy .dog-face { fill: #fbbf24; }
-  .tongue-out .tongue { opacity: 1; }
-  .tongue { opacity: 0; transition: opacity 0.2s; }
 </style>
 </head>
 <body>
 <main>
-  <!-- TAMAGOTCHI DOG -->
-  <div id="dog" class="dog-widget" title="Feed the dog">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <div class="dog-widget" title="Feed the dog">
+    <svg id="dog-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
       <ellipse cx="28" cy="28" rx="13" ry="17" fill="#d97706" transform="rotate(-15 28 28)"/>
       <ellipse cx="92" cy="28" rx="13" ry="17" fill="#d97706" transform="rotate(15 92 28)"/>
-      <circle class="dog-face" cx="60" cy="63" r="32" fill="#f59e0b"/>
-      <circle cx="46" cy="56" r="5" fill="#1a1a2e"/>
-      <circle cx="74" cy="56" r="5" fill="#1a1a2e"/>
-      <circle cx="48" cy="54" r="2" fill="#fff"/>
-      <circle cx="76" cy="54" r="2" fill="#fff"/>
+      <circle cx="60" cy="63" r="32" fill="#f59e0b"/>
+      <circle cx="46" cy="56" r="5" fill="#1a1a2e"/><circle cx="74" cy="56" r="5" fill="#1a1a2e"/>
+      <circle cx="48" cy="54" r="2" fill="#fff"/><circle cx="76" cy="54" r="2" fill="#fff"/>
       <ellipse cx="60" cy="70" rx="7" ry="5" fill="#1a1a2e"/>
       <path d="M52 78 Q60 86 68 78" fill="none" stroke="#1a1a2e" stroke-width="2" stroke-linecap="round"/>
-      <ellipse class="tongue" cx="60" cy="84" rx="5" ry="6" fill="#ef4444"/>
+      <ellipse id="tongue" cx="60" cy="84" rx="5" ry="6" fill="#ef4444" opacity="0" style="transition:opacity .2s"/>
+      <g id="bone" opacity="0"><path d="M44 80 Q44 70 55 76 L65 76 Q76 70 76 80 Q76 90 65 86 L55 86 Q44 90 44 80 Z" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/></g>
     </svg>
   </div>
-  <div class="hunger-bar"><div id="hunger-fill" class="hunger-fill" style="width:100%"></div></div>
-  <div id="dog-status" class="dog-status">🐕 Good dog. Specs are valid.</div>
-  <div class="dog-actions">
+  <div id="dog-status">🐕 Spec</div>
+  <div class="actions">
     <button onclick="feed()">🦴 Feed</button>
     <button onclick="pet()">✋ Pet</button>
-    <button onclick="throwBone()">🎾 Fetch</button>
+    <button onclick="fetchBall()">🎾 Fetch</button>
   </div>
 
   <h1>specdog</h1>
   <p class="tagline">Feed the dog. Ship with specs.</p>
-  <p class="desc">Structured, AI-queryable software specifications.<br>Write <code>.dog</code> specs, compile to <code>.dag</code> graphs, query via MCP.</p>
+  <p class="desc">CLI tool for structured software specs. Write <code>.dog</code> specs, compile to <code>.dag</code> graphs, query via MCP.</p>
   <pre>$ npm install -g dotdog
 $ dotdog init my-app
 $ dotdog validate
@@ -106,61 +79,16 @@ $ dotdog validate
     <a class="btn secondary" href="https://www.npmjs.com/package/dotdog">npm</a>
     <a class="btn secondary" href="https://github.com/specdog/dotdog">GitHub</a>
   </div>
-  <footer>dotdog@0.3.0 &middot; <a href="https://github.com/specdog/dotdog/blob/main/LICENSE">MIT</a></footer>
+  <footer>dotdog@0.3.0 · <a href="https://github.com/specdog/dotdog/blob/main/LICENSE">MIT</a></footer>
 </main>
 <script>
-  let hunger = 100;
-  const dog = document.getElementById('dog');
-  const fill = document.getElementById('hunger-fill');
-  const status = document.getElementById('dog-status');
-
-  function update() {
-    fill.style.width = hunger + '%';
-    if (hunger > 60) {
-      dog.className = 'dog-widget';
-      status.innerHTML = '🐕 Good dog. Specs are valid.';
-    } else if (hunger > 25) {
-      dog.className = 'dog-widget';
-      status.innerHTML = '🐕 Hungry... run dotdog validate?';
-    } else {
-      dog.className = 'dog-widget sad';
-      status.innerHTML = '😢 Stale specs! Feed the dog!';
-    }
-  }
-
-  function feed() {
-    hunger = Math.min(100, hunger + 30);
-    dog.classList.add('happy');
-    status.innerHTML = '🍖 Nom nom! Specs are fresh!';
-    setTimeout(() => dog.classList.remove('happy'), 600);
-    update();
-  }
-
-  function pet() {
-    hunger = Math.min(100, hunger + 10);
-    status.innerHTML = '✋ Good doggo. *wags tail*';
-    dog.querySelector('svg').style.transform = 'rotate(-5deg)';
-    setTimeout(() => dog.querySelector('svg').style.transform = 'rotate(5deg)', 150);
-    setTimeout(() => dog.querySelector('svg').style.transform = '', 300);
-    update();
-  }
-
-  function throwBone() {
-    if (hunger < 20) { status.innerHTML = '😢 Too hungry to fetch... feed first!'; return; }
-    hunger = Math.max(0, hunger - 15);
-    dog.querySelector('svg').style.transform = 'translateX(30px)';
-    status.innerHTML = '🎾 Fetch! *dotdog compile*';
-    setTimeout(() => dog.querySelector('svg').style.transform = '', 400);
-    update();
-  }
-
-  // Hunger decays — specs go stale over time
-  setInterval(() => { hunger = Math.max(0, hunger - 2); update(); }, 8000);
-
-  // Click dog to feed
-  dog.addEventListener('click', feed);
-
-  update();
+const svg=document.getElementById('dog-svg'),st=document.getElementById('dog-status');
+const bone=document.getElementById('bone'),tongue=document.getElementById('tongue');
+function feed(){bone.setAttribute('opacity','1');st.innerHTML='🦴 Dog fed. Ship with specs!';setTimeout(()=>bone.setAttribute('opacity','0'),1500);}
+function pet(){tongue.setAttribute('opacity','1');svg.style.transform='rotate(-5deg)';st.innerHTML='✋ Good dog.';setTimeout(()=>{svg.style.transform='';tongue.setAttribute('opacity','0');},800);}
+function fetchBall(){svg.style.transform='translateX(20px)';st.innerHTML='🎾 Fetch!';setTimeout(()=>svg.style.transform='',400);}
+svg.parentElement.addEventListener('click',feed);
+document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;if(e.key==='v')feed();if(e.key==='c')fetchBall();if(e.key==='p')pet();});
 </script>
 </body>
 </html>

@@ -1,17 +1,14 @@
 # specdog
 
-> The spec genome platform — structured, AI-queryable software specifications. Write .dog specs, compile to .dag graphs, query via MCP.
+> CLI tool for structured software specs. Write .dog specs, compile to .dag graphs, query via MCP.
 
 ## Docs
 
-- [dotdog CLI docs](https://specdog.github.io/dotdog): Full documentation — install, commands, MCP API
-- [dotdog on GitHub](https://github.com/specdog/dotdog): Source code, format specs, AGENTS.md
-- [dotdog on npm](https://www.npmjs.com/package/dotdog): npm registry — `npm install -g dotdog`
-- [Format spec (.dog)](https://github.com/specdog/dotdog/blob/main/spec/format-spec.dog): .dog language definition
-- [Format spec (.dag)](https://github.com/specdog/dotdog/blob/main/spec/format-spec-dag.dog): .dag graph definition v1.2
+- [dotdog docs](https://specdog.github.io/dotdog): Full documentation, install, commands, MCP API
+- [dotdog on GitHub](https://github.com/specdog/dotdog): Source, format specs, AGENTS.md
+- [dotdog on npm](https://www.npmjs.com/package/dotdog): npm install -g dotdog
 
-## Quick Start for Agents
+## Agent files
 
 - [AGENTS.md](https://github.com/specdog/dotdog/blob/main/AGENTS.md): Instructions for AI coding agents
-- [llms.txt](https://specdog.github.io/dotdog/llms.txt): Project-level agent discovery
 - [CLI source](https://github.com/specdog/dotdog/blob/main/packages/dotdog/src/cli.ts): 11 commands, typed parser, MCP server

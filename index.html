@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>specdog</title>
+<meta name="description" content="Feed the dog. Ship with specs. — Structured, AI-queryable software specifications.">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    background: #ffffff;
+    color: #1a1a2e;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 100vh; padding: 24px;
+  }
+  main { max-width: 560px; text-align: center; }
+  svg { width: 80px; height: 80px; margin-bottom: 16px; }
+  h1 { font-size: 2.4em; font-weight: 700; margin-bottom: 4px; color: #1a1a2e; }
+  p.tagline { color: #6b7280; font-size: 1.1em; margin-bottom: 8px; }
+  p.desc { color: #4b5563; font-size: 0.95em; margin-bottom: 24px; line-height: 1.6; }
+  pre {
+    background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px;
+    padding: 14px 18px; text-align: left; font-size: 0.85em; color: #1e293b;
+    margin-bottom: 24px; overflow-x: auto;
+  }
+  .btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  a.btn {
+    display: inline-block; padding: 10px 22px; border-radius: 6px;
+    font-size: 0.92em; font-weight: 600; text-decoration: none;
+  }
+  a.primary { background: #f59e0b; color: #1a1a2e; }
+  a.primary:hover { background: #d97706; }
+  a.secondary { background: #f1f5f9; color: #1e293b; border: 1px solid #cbd5e1; }
+  a.secondary:hover { background: #e2e8f0; }
+  footer { margin-top: 32px; color: #9ca3af; font-size: 0.8em; }
+  footer a { color: #9ca3af; }
+</style>
+</head>
+<body>
+<main>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+    <circle cx="60" cy="65" r="38" fill="#f59e0b" opacity="0.15"/>
+    <ellipse cx="28" cy="28" rx="13" ry="17" fill="#d97706" transform="rotate(-15 28 28)"/>
+    <ellipse cx="92" cy="28" rx="13" ry="17" fill="#d97706" transform="rotate(15 92 28)"/>
+    <circle cx="60" cy="63" r="32" fill="#f59e0b"/>
+    <circle cx="46" cy="56" r="5" fill="#1a1a2e"/>
+    <circle cx="74" cy="56" r="5" fill="#1a1a2e"/>
+    <circle cx="48" cy="54" r="2" fill="#fff"/>
+    <circle cx="76" cy="54" r="2" fill="#fff"/>
+    <ellipse cx="60" cy="70" rx="7" ry="5" fill="#1a1a2e"/>
+    <path d="M52 78 Q60 86 68 78" fill="none" stroke="#1a1a2e" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+  <h1>specdog</h1>
+  <p class="tagline">Feed the dog. Ship with specs.</p>
+  <p class="desc">Structured, AI-queryable software specifications.<br>Write <code>.dog</code> specs, compile to <code>.dag</code> graphs, query via MCP.</p>
+  <pre>$ npm install -g dotdog
+$ dotdog init my-app
+$ dotdog validate
+  my-app — 7 .dog files, 100% complete</pre>
+  <div class="btns">
+    <a class="btn primary" href="/dotdog">Get Started</a>
+    <a class="btn secondary" href="https://www.npmjs.com/package/dotdog">npm</a>
+    <a class="btn secondary" href="https://github.com/specdog/dotdog">GitHub</a>
+  </div>
+  <footer>dotdog@0.3.0 &middot; <a href="https://github.com/specdog/dotdog/blob/main/LICENSE">MIT</a></footer>
+</main>
+</body>
+</html>

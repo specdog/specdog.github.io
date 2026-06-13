@@ -74,12 +74,17 @@
 $ dotdog init my-app
 $ dotdog validate
   my-app — 7 .dog files, 100% complete</pre>
+  <div class="try-it" style="margin-bottom:16px">
+    <input id="repo-input" type="text" placeholder="Try on your repo: user/repo" style="padding:8px 12px;border:1px solid #cbd5e1;border-radius:6px;font-size:.85em;width:240px;font-family:monospace">
+    <button onclick="tryRepo()" style="padding:8px 14px;background:#f59e0b;color:#1a1a2e;border:none;border-radius:6px;font-size:.85em;font-weight:600;cursor:pointer;font-family:inherit;margin-left:6px">Test it</button>
+    <div id="try-result" style="margin-top:8px;font-size:.8em;color:#4b5563;min-height:20px"></div>
+  </div>
   <div class="btns">
     <a class="btn primary" href="/dotdog">Get Started</a>
     <a class="btn secondary" href="https://www.npmjs.com/package/dotdog">npm</a>
     <a class="btn secondary" href="https://github.com/specdog/dotdog">GitHub</a>
   </div>
-  <footer>dotdog@0.3.0 · <a href="https://github.com/specdog/dotdog/blob/main/LICENSE">MIT</a></footer>
+  <footer>dotdog@0.3.3 · <a href="https://github.com/specdog/dotdog/blob/main/LICENSE">MIT</a></footer>
 </main>
 <script>
 const svg=document.getElementById('dog-svg'),st=document.getElementById('dog-status');
@@ -89,6 +94,7 @@ function pet(){tongue.setAttribute('opacity','1');svg.style.transform='rotate(-5
 function fetchBall(){svg.style.transform='translateX(20px)';st.innerHTML='🎾 Fetch!';setTimeout(()=>svg.style.transform='',400);}
 svg.parentElement.addEventListener('click',feed);
 document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;if(e.key==='v')feed();if(e.key==='c')fetchBall();if(e.key==='p')pet();});
+function tryRepo(){const repo=document.getElementById('repo-input').value.trim();if(!repo){document.getElementById('try-result').innerHTML='Enter a repo like <code>user/repo</code>';return;}const name=repo.split('/').pop();document.getElementById('try-result').innerHTML='<code>npx dotdog init '+name+'</code> then <code>dotdog validate</code> — dogfood your own repo. <a href=\"/dotdog\">Learn more</a>';}
 </script>
 </body>
 </html>

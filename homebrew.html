@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>dotdog — Homebrew</title>
+<link rel="icon" type="image/svg+xml" href="/dotdog/assets/dog.svg">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #ffffff; color: #1a1a2e;
+    min-height: 100vh; padding: 24px;
+    max-width: 520px; margin: 80px auto;
+  }
+  h1 { font-size: 2.2em; font-weight: 700; margin-bottom: 4px; }
+  p.sub { color: #6b7280; font-size: 1.05em; margin-bottom: 24px; }
+  pre { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px 18px; font-size: .88em; color: #1e293b; margin-bottom: 20px; overflow-x: auto; }
+  a { color: #d97706; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .back { margin-top: 32px; font-size: .9em; color: #6b7280; }
+  .step h3 { font-size: 1em; font-weight: 600; margin-bottom: 8px; margin-top: 20px; color: #1a1a2e; }
+  .step p { color: #4b5563; font-size: .88em; line-height: 1.5; }
+  footer { margin-top: 32px; color: #9ca3af; font-size: .8em; }
+  footer a { color: #9ca3af; }
+</style>
+</head>
+<body>
+<h1>dotdog / Homebrew</h1>
+<p class="sub">macOS-native install. No config.</p>
+
+<pre><code>brew tap specdog/dotdog
+brew install dotdog
+dotdog --version</code></pre>
+
+<div class="step">
+<h3>What this does</h3>
+<p>Downloads dotdog from npm. Installs globally via Homebrew. Depends only on Node.js.</p>
+</div>
+
+<div class="step">
+<h3>Formula</h3>
+<p><code>Formula/dotdog.rb</code> — <a href="https://github.com/specdog/homebrew-dotdog">specdog/homebrew-dotdog</a></p>
+</div>
+
+<div class="back">
+  <a href="/">← Back to specdog</a>
+</div>
+
+<footer>dotdog@0.3.3 · <a href="https://github.com/specdog/dotdog/blob/main/LICENSE">MIT</a></footer>
+</body>
+</html>

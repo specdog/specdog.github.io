@@ -25,9 +25,6 @@
   ol, ul { margin: 0 0 16px 26px; color: #374151; }
   li { margin-bottom: 6px; }
   blockquote { border-left: 4px solid #f59e0b; padding-left: 16px; margin: 16px 0; color: #6b7280; font-style: italic; }
-  .cta { margin: 24px 0; }
-  .cta a { display: inline-block; background: #f59e0b; color: #1a1a2e; padding: 10px 22px; border-radius: 6px; font-weight: 600; text-decoration: none; }
-  .cta a:hover { background: #d97706; }
   table { width: 100%; border-collapse: collapse; margin: 16px 0; }
   th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid #e5e7eb; font-size: .9em; }
   th { font-weight: 600; color: #1a1a2e; }
@@ -49,8 +46,6 @@
 
 <h1>SDD Guide</h1>
 <p>Spec-Driven Development (SDD) is a methodology that makes software specs the <strong>ground truth</strong> for AI coding agents. Instead of the agent reading prose and guessing, it queries a compiled knowledge graph.</p>
-
-<div class="cta"><a href="https://www.npmjs.com/package/dotdog">npm install -g dotdog &rarr;</a></div>
 
 <h2>What problem does it solve?</h2>
 <p>AI coding agents are powerful but imprecise. Give them 600 lines of prose in a <code>.dog</code> file and they'll waste 8,015 tokens scanning for the 4 lines that matter. They hallucinate entity names, invent relationships, miss required fields. The longer the spec, the more they drift.</p>

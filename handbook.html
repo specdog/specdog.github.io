@@ -3,77 +3,139 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Spec-Driven Development | specdog</title>
-<meta name="description" content="Write specs first. Validate. Compile. Let AI agents query them. No hallucination.">
+<title>SDD Handbook | specdog</title>
+<meta name="description" content="Spec-Driven Development: write specs first, compile to a graph AI agents can query, eliminate hallucination.">
 <link rel="icon" type="image/svg+xml" href="/dotdog/assets/dog.svg">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fff; color: #1a1a2e; padding: 40px 24px; max-width: 680px; margin: 0 auto; line-height: 1.7; }
-  h1 { font-size: 2em; margin-bottom: 8px; }
-  h2 { font-size: 1.3em; margin: 32px 0 12px; border-bottom: 1px solid #e5e7eb; padding-bottom: 4px; }
-  h3 { font-size: 1.05em; margin: 20px 0 6px; }
-  p { margin-bottom: 10px; color: #374151; }
-  pre { background: #1a1a2e; color: #e2e8f0; padding: 14px; border-radius: 8px; font-size: .85em; overflow-x: auto; margin-bottom: 16px; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fff; color: #1a1a2e; max-width: 720px; margin: 0 auto; padding: 40px 24px; line-height: 1.75; }
+  nav { display: flex; justify-content: center; gap: 24px; padding: 0 0 32px; }
+  nav a { color: #6b7280; text-decoration: none; font-size: .9em; font-weight: 500; }
+  nav a:hover { color: #d97706; }
+  nav a.active { color: #d97706; }
+  h1 { font-size: 2.2em; margin-bottom: 8px; }
+  h2 { font-size: 1.35em; margin: 36px 0 12px; border-bottom: 1px solid #e5e7eb; padding-bottom: 6px; }
+  h3 { font-size: 1.08em; margin: 24px 0 8px; }
+  p { margin-bottom: 12px; color: #374151; }
+  pre { background: #1e293b; color: #e2e8f0; padding: 14px 18px; border-radius: 8px; font-size: .85em; overflow-x: auto; margin-bottom: 16px; position: relative; }
   code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: .9em; }
+  pre code { background: none; padding: 0; color: #e2e8f0; }
   a { color: #d97706; text-decoration: none; }
   a:hover { text-decoration: underline; }
-  ul { margin: 0 0 14px 24px; }
-  li { margin-bottom: 4px; }
-  .back { display: inline-block; margin-bottom: 20px; }
+  ol, ul { margin: 0 0 16px 26px; color: #374151; }
+  li { margin-bottom: 6px; }
+  blockquote { border-left: 4px solid #f59e0b; padding-left: 16px; margin: 16px 0; color: #6b7280; font-style: italic; }
   .cta { margin: 24px 0; }
   .cta a { display: inline-block; background: #f59e0b; color: #1a1a2e; padding: 10px 22px; border-radius: 6px; font-weight: 600; text-decoration: none; }
   .cta a:hover { background: #d97706; }
-  footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #9ca3af; font-size: .8em; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid #e5e7eb; font-size: .9em; }
+  th { font-weight: 600; color: #1a1a2e; }
+  td { color: #374151; }
+  .copy-btn { position: absolute; top: 8px; right: 8px; background: none; border: none; color: #94a3b8; cursor: pointer; padding: 4px 6px; border-radius: 4px; line-height: 1; }
+  .copy-btn:hover { color: #e2e8f0; background: rgba(255,255,255,0.08); }
+  .copy-btn.copied { color: #4ade80; }
+  .copy-btn svg { width: 16px; height: 16px; }
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #9ca3af; font-size: .8em; }
 </style>
 </head>
 <body>
-<a class="back" href="/">&larr; specdog</a>
+<nav>
+  <a href="/">specdog</a>
+  <a href="/handbook" class="active">SDD Handbook</a>
+  <a href="/agents">For Agents</a>
+  <a href="https://github.com/specdog/dotdog">GitHub</a>
+</nav>
+
 <h1>Spec-Driven Development</h1>
-<p>Write specs before code. Validate completeness. Compile to a graph AI agents can query. No hallucination.</p>
+<p>Spec-Driven Development (SDD) is a methodology that makes software specs the <strong>ground truth</strong> for AI coding agents. Instead of the agent reading prose and guessing, it queries a compiled knowledge graph.</p>
 
 <div class="cta"><a href="https://www.npmjs.com/package/dotdog">npm install -g dotdog &rarr;</a></div>
 
-<h2>Why</h2>
-<p>AI agents read prose and guess. They hallucinate entity names, invent relationships, miss required fields.</p>
-<p>A compiled <code>.dag</code> graph is 94% smaller than source — the agent loads exact data, not prose.</p>
+<h2>What problem does it solve?</h2>
+<p>AI coding agents are powerful but imprecise. Give them 600 lines of prose in a <code>.dog</code> file and they'll waste 8,015 tokens scanning for the 4 lines that matter. They hallucinate entity names, invent relationships, miss required fields. The longer the spec, the more they drift.</p>
+<p>SDD solves this by compiling human-written specs into a <strong>positional DAG graph</strong> — a token-efficient structure the agent loads in one shot. The DAG is 94% smaller than source. It doesn't replace reading — it replaces <em>scanning</em>.</p>
 
-<h2>How</h2>
-<pre>$ npm install -g dotdog
-$ dotdog init my-app
-$ dotdog validate
-$ dotdog compile
-$ dotdog serve</pre>
-<p>Five minutes from zero to AI agents querying your specs.</p>
+<table>
+<tr><th></th><th>Without SDD</th><th>With SDD</th></tr>
+<tr><td>Agent input</td><td>~8,100 tokens of prose</td><td>~740 tokens of graph</td></tr>
+<tr><td>Entity names</td><td>Extracted by guesswork</td><td>Exact, from DAG</td></tr>
+<tr><td>Relationships</td><td>Invented or missed</td><td>Pre-compiled edges</td></tr>
+<tr><td>Hallucination</td><td>Common</td><td>Near-zero</td></tr>
+<tr><td>Verification</td><td>Manual review</td><td>Automated (<code>dotdog validate</code>)</td></tr>
+</table>
+
+<h2>The DAG: a compressed index, not a summary</h2>
+<p>If the agent ignores the DAG and reads <code>.dog</code> files directly, they waste 8,015 tokens. The DAG is a compiled index — it doesn't replace reading the spec, it replaces <strong>scanning 600 lines of prose to find which 4 lines matter</strong>.</p>
+<p>A <code>.dag</code> file stores entities, properties, states, lifecycles, and relationships in a <strong>v2 positional format</strong> — no JSON keys, no whitespace overhead. The agent gets the exact graph: 11 entities, 5 relationships, every property typed, every lifecycle transition mapped. One file. All structure.</p>
 
 <h2>The practice</h2>
 <ol>
-<li><strong>Specify</strong> — write <code>.dog</code> files with entities, properties, states</li>
-<li><strong>Validate</strong> — score completeness before every commit</li>
-<li><strong>Compile</strong> — build a token-efficient graph</li>
-<li><strong>Expose</strong> — MCP server for AI agents</li>
-<li><strong>Verify</strong> — detect drift between spec and code</li>
+<li><strong>Specify</strong> — write <code>.dog</code> files: entities with properties, states, lifecycles, and relationships</li>
+<li><strong>Validate</strong> — score completeness before every commit. The score must not decrease.</li>
+<li><strong>Compile</strong> — build a <code>.dag</code> graph. 94% smaller than source. Token-efficient.</li>
+<li><strong>Expose</strong> — MCP server for AI agents. Six tools: <code>getEntity</code>, <code>traverse</code>, <code>search</code>, <code>schema</code>, <code>summary</code>, <code>listProjects</code>.</li>
+<li><strong>Verify</strong> — detect drift between spec and code. <code>dotdog verify --init</code> auto-maps entities to code files.</li>
 </ol>
+
+<h2>The loop</h2>
+<pre><code>npm install -g dotdog       # install
+dotdog init my-app          # scaffold specs
+dotdog validate             # score completeness
+dotdog compile              # build .dag graph
+dotdog serve                # expose to AI agents</code></pre>
+<button class="copy-btn" onclick="copyBlock(this)" title="Copy">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+</button>
+
+<h2>The spec file anatomy</h2>
+<p>A complete spec project has 7 <code>.dog</code> files:</p>
+
+<table>
+<tr><th>File</th><th>Purpose</th></tr>
+<tr><td><code>SPEC.dog</code></td><td>Product description, user stories</td></tr>
+<tr><td><code>constitution.dog</code></td><td>Hard constraints, scope (in vs out)</td></tr>
+<tr><td><code>data-model.dog</code></td><td>Entities + relationships + lifecycles</td></tr>
+<tr><td><code>plan.dog</code></td><td>Phased implementation order</td></tr>
+<tr><td><code>INDEX.dog</code></td><td>Agent entry points, issue→task mapping</td></tr>
+<tr><td><code>COPY.dog</code></td><td>Optional: copyright / license info</td></tr>
+<tr><td><code>DESIGN-SYSTEM.dog</code></td><td>Optional: design tokens, surfaces</td></tr>
+</table>
+
+<p>Three files are required for validation scoring. Four are optional. A complete spec pushes from 95% to 100%.</p>
+
+<h2>Why specs as ground truth?</h2>
+<p>AI agents are trained on the internet — they know every framework, every API, every pattern. What they don't know is <em>your</em> project. Your entity names. Your lifecycle rules. Your invariants.</p>
+<p>When specs are in prose (READMEs, docs, comments), the agent has to interpret them. Interpretation means drift. Drift means wrong code.</p>
+<p>When specs are in a DAG, the agent <strong>queries</strong> instead of interpreting. No guessing entity names. No inventing properties. No missing required fields. The DAG is a database for the agent's brain.</p>
+
+<h2>AI agents aren't optional anymore</h2>
+<p>Every developer has an AI agent in their editor, in their CLI, in their CI pipeline. These agents will read your codebase whether you prepare for them or not. The question is: do they read structured ground truth, or do they read prose and guess?</p>
+<p>SDD makes your codebase <strong>agent-native</strong>. The <code>.dag</code> is the agent's entry point. The MCP server is its query interface. The pre-commit hook blocks regressions. The agent never ships code that violates the spec — because the spec is law, not suggestion.</p>
 
 <h2>Who uses this</h2>
 <ul>
-<li><strong>New projects</strong> — spec before code. <code>dotdog init --minimal</code></li>
-<li><strong>Existing codebases</strong> — add specs alongside code. <code>dotdog verify --init</code></li>
-<li><strong>Teams</strong> — validate in CI, share MCP server</li>
-<li><strong>Smart contracts</strong> — one bug costs millions. Spec first.</li>
+<li><strong>New projects</strong> — spec before code. <code>dotdog init --minimal</code> scaffolds in seconds.</li>
+<li><strong>Existing codebases</strong> — add specs alongside code. <code>dotdog verify --init</code> auto-maps entities.</li>
+<li><strong>Teams</strong> — validate in CI, share MCP server. Score gates on every PR.</li>
+<li><strong>Smart contracts</strong> — one bug costs millions. Spec the invariants first, let the DAG enforce them.</li>
+<li><strong>AI agents</strong> — <a href="/agents">agent instructions</a> for working with dotdog projects.</li>
 </ul>
 
 <h2>Further reading</h2>
 <ul>
 <li><a href="/dotdog/tutorial">Tutorial: Build a spec-driven project</a></li>
 <li><a href="/dotdog/adopting">Adding dotdog to an existing project</a></li>
+<li><a href="/dotdog/integrations">Integrations: CI, pre-commit, MCP</a></li>
+<li><a href="/agents">For AI Agents: how to work with dotdog projects</a></li>
 <li><a href="https://martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html">Martin Fowler on SDD</a></li>
-<li><a href="https://github.com/github/spec-kit">GitHub spec-kit</a></li>
 </ul>
 
 <footer>dotdog@<span id="version">0.5.0</span> &middot; <a href="https://github.com/specdog/dotdog/blob/main/LICENSE">MIT</a></footer>
 <script>
 async function loadVersion(){try{const r=await fetch('https://registry.npmjs.org/dotdog/latest');const d=await r.json();document.getElementById('version').textContent=d.version;}catch(e){}}
 loadVersion();
+function copyBlock(btn){const pre=btn.parentElement.querySelector('pre');navigator.clipboard.writeText(pre.textContent).then(()=>{btn.classList.add('copied');btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';},2000);});}
 </script>
 </body>
 </html>

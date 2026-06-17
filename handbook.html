@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spec-Driven Development Handbook | specdog</title>
+<meta name="description" content="Specifications that ship. The complete guide to spec-driven development for teams and AI agents.">
+<link rel="icon" type="image/svg+xml" href="/dotdog/assets/dog.svg">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fff; color: #1a1a2e; padding: 40px 24px; max-width: 720px; margin: 0 auto; line-height: 1.7; }
+  h1 { font-size: 2em; margin-bottom: 8px; }
+  h2 { font-size: 1.4em; margin: 32px 0 12px; border-bottom: 1px solid #e5e7eb; padding-bottom: 4px; }
+  h3 { font-size: 1.1em; margin: 20px 0 8px; }
+  p { margin-bottom: 12px; color: #374151; }
+  pre { background: #1a1a2e; color: #e2e8f0; padding: 16px; border-radius: 8px; font-size: .85em; overflow-x: auto; margin-bottom: 16px; }
+  code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: .9em; }
+  table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+  th, td { border: 1px solid #e5e7eb; padding: 8px 12px; text-align: left; font-size: .9em; }
+  th { background: #f8fafc; font-weight: 600; }
+  a { color: #d97706; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { margin: 0 0 16px 24px; }
+  li { margin-bottom: 4px; }
+  .back { display: inline-block; margin-bottom: 20px; font-size: .9em; }
+  footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #9ca3af; font-size: .8em; }
+</style>
+</head>
+<body>
+<a class="back" href="/">← specdog</a>
+<h1>Spec-Driven Development Handbook</h1>
+<p><strong>Specifications that ship.</strong></p>
+
+<h2>What is SDD?</h2>
+<p>For decades, specifications were scaffolding — written once and discarded when the real work of coding began. Spec-Driven Development changes this: <strong>specifications become executable.</strong> They validate themselves. They guide AI agents. They catch drift before it becomes a bug.</p>
+<p>GitHub calls it <a href="https://github.com/github/spec-kit">"flipping the script"</a>. Amazon calls it <a href="https://www.allthingsdistributed.com/2006/11/working_backwards.html">working backwards</a>. Stripe calls it <a href="https://stripe.com/blog/api-first-development">API-first</a>. The practice is the same: <strong>write the spec first, then build.</strong></p>
+
+<h2>Why write specs before code?</h2>
+
+<h3>AI agents need structure</h3>
+<p>An AI coding agent reads your README and guesses. It hallucinates entity names, invents relationships, misses required fields. When your spec is compiled into a typed graph, the agent queries exact data — not prose. Zero hallucination.</p>
+
+<h3>Specs that verify themselves</h3>
+<p>A <code>.dog</code> file is not a static document. It is a validated contract. <code>dotdog validate</code> scores completeness. <code>dotdog compile</code> produces a token-efficient graph. <code>dotdog verify</code> checks properties exist in code. The spec becomes part of your CI pipeline.</p>
+
+<h3>One source of truth</h3>
+<p>Product, engineering, and AI agents all read the same spec. No tribal knowledge. No "ask the senior engineer." The spec IS the answer — versioned, validated, queryable.</p>
+
+<h2>The five-step practice</h2>
+
+<h3>1. Specify</h3>
+<p>Write <code>.dog</code> files — structured Markdown with typed YAML entities. Define what your product does, what data it uses, what states it transitions through. Start with <code>SPEC.dog</code> and <code>data-model.dog</code>.</p>
+<pre>$ dotdog init my-project --minimal</pre>
+
+<h3>2. Validate</h3>
+<p>Score completeness before every commit. Find gaps. Fill them. Get to 100%.</p>
+<pre>$ dotdog validate
+$ dotdog analyze</pre>
+
+<h3>3. Compile</h3>
+<p>Build a positional <code>.dag</code> graph. 94% smaller than the source. Optimized for AI agent context windows.</p>
+<pre>$ dotdog compile</pre>
+
+<h3>4. Expose</h3>
+<p>Start the MCP server. Any MCP-compatible agent queries your spec — getEntity, traverse, search, schema, summary, listProjects.</p>
+<pre>$ dotdog serve</pre>
+
+<h3>5. Verify</h3>
+<p>Map entities to code files. Detect when properties change or disappear. Catch drift between spec and implementation.</p>
+<pre>$ dotdog verify --init
+$ dotdog verify
+$ dotdog staleness</pre>
+
+<h2>Adoption paths</h2>
+<h3>New projects</h3>
+<p>Init a minimal spec before the first line of code. <code>dotdog init --minimal</code> creates SPEC.dog and data-model.dog. Fill them in. Validate. Then code against the spec.</p>
+<h3>Existing codebases</h3>
+<p>Add dotdog alongside your codebase. Write SPEC.dog describing what already exists. Map entities to code files with <code>dotdog verify --init</code>. Grow the spec incrementally.</p>
+<h3>Teams</h3>
+<p>Run <code>dotdog validate</code> in CI. Block PRs with broken specs. Run <code>dotdog staleness</code> to catch unaddressed tasks. Share the MCP server so every AI agent has access.</p>
+<h3>Smart contracts and DeFi</h3>
+<p>One bug costs millions. Write the spec — entities, states, events, constraints. Validate. Generate Solidity stubs from the spec. Deploy with confidence.</p>
+<h3>AI-first products</h3>
+<p>Building a product where AI agents are the primary user? Your spec is their API. Agents query entities, traverse relationships, check states. The spec is the contract between your system and every agent that touches it.</p>
+
+<h2>How dotdog compares</h2>
+<table>
+<tr><th></th><th>dotdog</th><th>spec-kit</th><th>OpenSpec</th><th>Shotgun</th></tr>
+<tr><td>Format</td><td>.dog (Markdown + YAML)</td><td>Markdown directories</td><td>Markdown proposals</td><td>YAML spec files</td></tr>
+<tr><td>Validation</td><td>Built-in scoring</td><td>Manual review</td><td>Manual review</td><td>Manual review</td></tr>
+<tr><td>AI agent access</td><td>MCP server (6 tools)</td><td>Slash commands</td><td>CLI proposals</td><td>CLI injection</td></tr>
+<tr><td>Token efficiency</td><td>94% savings (.dag)</td><td>Raw prose</td><td>Raw prose</td><td>Raw prose</td></tr>
+<tr><td>Drift detection</td><td>verify + staleness</td><td>None</td><td>None</td><td>None</td></tr>
+<tr><td>Dogfooded</td><td>100% on itself</td><td>Unknown</td><td>Unknown</td><td>Unknown</td></tr>
+</table>
+
+<h2>Further reading</h2>
+<ul>
+<li><a href="/dotdog/tutorial">Tutorial: Build a spec-driven project</a></li>
+<li><a href="/dotdog/adopting">Adding dotdog to an existing project</a></li>
+<li><a href="/dotdog/why-dotdog">Why dotdog? Compare with alternatives</a></li>
+<li><a href="https://martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html">Martin Fowler on SDD tools</a></li>
+<li><a href="https://www.allthingsdistributed.com/2006/11/working_backwards.html">Amazon's Working Backwards</a></li>
+<li><a href="https://github.com/github/spec-kit">GitHub spec-kit: Spec-Driven Development</a></li>
+</ul>
+
+<footer>dotdog@<span id="version">0.5.0</span> · <a href="https://github.com/specdog/dotdog/blob/main/LICENSE">MIT</a></footer>
+<script>
+async function loadVersion(){try{const r=await fetch('https://registry.npmjs.org/dotdog/latest');const d=await r.json();document.getElementById('version').textContent=d.version;}catch(e){}}
+loadVersion();
+</script>
+</body>
+</html>

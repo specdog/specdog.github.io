@@ -61,7 +61,7 @@
 <nav>
   <a href="/" class="active">specdog</a>
   <a href="/handbook">SDD Handbook</a>
-  <a href="https://github.com/specdog/dotdog">GitHub</a>
+  <a href="/agents">For Agents</a>
 </nav>
 <main>
   <div class="dog-widget" title="Feed the dog">
@@ -90,24 +90,15 @@
 
   <div class="install-wrap">
     <pre><code>npm install -g dotdog
-dotdog init my-app
+dotdog init dotdog-demo
 dotdog validate</code></pre>
     <button class="copy-btn" onclick="copyInstall(this)" title="Copy">
       <svg id="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
     </button>
   </div>
 
-  <div class="try-section" style="margin-bottom:20px;width:100%">
-    <p style="font-size:.85em;color:#6b7280;margin-bottom:8px">See what dotdog does — no install needed</p>
-    <div style="display:flex;gap:6px;justify-content:center;margin-bottom:8px">
-      <input id="repo-input" type="text" placeholder="Enter a project name" style="padding:10px 14px;border:1px solid #cbd5e1;border-radius:6px;font-size:.9em;width:200px;font-family:monospace">
-      <button onclick="tryRepo()" style="padding:10px 18px;background:#f59e0b;color:#1a1a2e;border:none;border-radius:6px;font-size:.9em;font-weight:600;cursor:pointer;font-family:inherit">🐕 Test it</button>
-    </div>
-    <div id="try-result" style="margin-top:8px;min-height:24px"></div>
-  </div>
   <div class="btns">
     <a class="btn primary" href="/dotdog">Get Started</a>
-    <a class="btn secondary" href="/handbook">SDD Handbook</a>
     <a class="btn secondary" href="https://www.npmjs.com/package/dotdog">npm</a>
     <a class="btn secondary" href="https://github.com/specdog/dotdog">GitHub</a>
   </div>
@@ -121,8 +112,6 @@ function pet(){tongue.setAttribute('opacity','1');svg.style.transform='rotate(-5
 function fetchBall(){svg.style.transform='translateX(20px)';st.innerHTML='🎾 Fetch!';setTimeout(()=>svg.style.transform='',400);}
 svg.parentElement.addEventListener('click',feed);
 document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;if(e.key==='v')feed();if(e.key==='c')fetchBall();if(e.key==='p')pet();});
-let typingTimer;
-function tryRepo(){clearTimeout(typingTimer);const r=document.getElementById('repo-input').value.trim();const el=document.getElementById('try-result');if(!r){el.innerHTML='Enter a repo name like <code>my-app</code>';return;}const n=r.split('/').pop();el.innerHTML='<pre style=\"font-size:.78em;line-height:1.8;background:#1e293b;color:#e2e8f0\">$ npx dotdog init '+n+'\\n$ dotdog validate\\n  '+n+' — 7 .dog files, 100% complete\\n\\n$ dotdog compile\\n  \\u2713 '+n+'.dag\\n  12,100 \\u2192 739 tokens (94% savings)\\n\\n$ dotdog serve\\n  AI agents query your specs via MCP</pre><a href=\"/dotdog\" style=\"font-size:.8em\">Get started \\u2192</a>';}
 function copyInstall(btn){
   const pre=btn.parentElement.querySelector('pre');
   navigator.clipboard.writeText(pre.textContent).then(()=>{

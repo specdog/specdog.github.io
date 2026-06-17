@@ -41,6 +41,9 @@
   a.primary:hover { background: #d97706; }
   a.secondary { background: #f1f5f9; color: #1e293b; border: 1px solid #cbd5e1; }
   a.secondary:hover { background: #e2e8f0; }
+  .line { transition: opacity .15s; }
+  .cmd { color: #93c5fd; }
+  .out { color: #86efac; }
   footer { margin-top: 24px; color: #9ca3af; font-size: .8em; }
   footer a { color: #9ca3af; }
 </style>
@@ -74,17 +77,24 @@
 $ dotdog init my-app
 $ dotdog validate
   my-app — 7 .dog files, 100% complete</pre>
-  <div class="try-it" style="margin-bottom:16px">
-    <input id="repo-input" type="text" placeholder="Try on your repo: user/repo" style="padding:8px 12px;border:1px solid #cbd5e1;border-radius:6px;font-size:.85em;width:240px;font-family:monospace">
-    <button onclick="tryRepo()" style="padding:8px 14px;background:#f59e0b;color:#1a1a2e;border:none;border-radius:6px;font-size:.85em;font-weight:600;cursor:pointer;font-family:inherit;margin-left:6px">Test it</button>
-    <div id="try-result" style="margin-top:8px;font-size:.8em;color:#4b5563;min-height:20px"></div>
+  <div class="try-section" style="margin-bottom:20px">
+    <p style="font-size:.85em;color:#6b7280;margin-bottom:8px">See what dotdog does — no install needed</p>
+    <div style="display:flex;gap:6px;justify-content:center;margin-bottom:8px">
+      <input id="repo-input" type="text" placeholder="Enter a project name" style="padding:10px 14px;border:1px solid #cbd5e1;border-radius:6px;font-size:.9em;width:200px;font-family:monospace">
+      <button onclick="tryRepo()" style="padding:10px 18px;background:#f59e0b;color:#1a1a2e;border:none;border-radius:6px;font-size:.9em;font-weight:600;cursor:pointer;font-family:inherit">🐕 Test it</button>
+    </div>
+    <div id="try-result" style="margin-top:8px;min-height:24px"></div>
+  </div>
+  <div class="star-section" style="margin-bottom:16px">
+    <iframe src="https://ghbtns.com/github-btn.html?user=specdog&repo=dotdog&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160" height="30" title="Star specdog/dotdog on GitHub"></iframe>
   </div>
   <div class="btns">
+    <a class="btn primary" href="/dotdog/handbook">SDD Handbook</a>
     <a class="btn primary" href="/dotdog">Get Started</a>
     <a class="btn secondary" href="https://www.npmjs.com/package/dotdog">npm</a>
     <a class="btn secondary" href="https://github.com/specdog/dotdog">GitHub</a>
   </div>
-  <footer>dotdog@0.3.3 · <a href="https://github.com/specdog/dotdog/blob/main/LICENSE">MIT</a></footer>
+  <footer>dotdog@<span id="version">0.5.0</span> · <a href="https://github.com/specdog/dotdog/blob/main/LICENSE">MIT</a></footer>
 </main>
 <script>
 const svg=document.getElementById('dog-svg'),st=document.getElementById('dog-status');
@@ -94,7 +104,11 @@ function pet(){tongue.setAttribute('opacity','1');svg.style.transform='rotate(-5
 function fetchBall(){svg.style.transform='translateX(20px)';st.innerHTML='🎾 Fetch!';setTimeout(()=>svg.style.transform='',400);}
 svg.parentElement.addEventListener('click',feed);
 document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;if(e.key==='v')feed();if(e.key==='c')fetchBall();if(e.key==='p')pet();});
-function tryRepo(){const repo=document.getElementById('repo-input').value.trim();if(!repo){document.getElementById('try-result').innerHTML='Enter a repo like <code>user/repo</code>';return;}const name=repo.split('/').pop();document.getElementById('try-result').innerHTML='<code>npx dotdog init '+name+'</code> then <code>dotdog validate</code> — dogfood your own repo. <a href=\"/dotdog\">Learn more</a>';}
+let typingTimer;
+function tryRepo(){clearTimeout(typingTimer);const r=document.getElementById('repo-input').value.trim();const el=document.getElementById('try-result');if(!r){el.innerHTML='Enter a name like <code>my-app</code>';return;}const n=r.split('/').pop();const T='<pre style="background:#1a1a2e;color:#e2e8f0;padding:16px;border-radius:8px;font-size:.78em;line-height:2;text-align:left;margin:0 auto;max-width:440px">';const steps=[['<span style="color:#93c5fd">$ dotdog init '+n+'</span>','  <span style="color:#86efac">'+n+' — 7 .dog files created</span>','<span style="color:#9ca3af;font-size:.75em">  Defines entities, screens, user stories</span>'],['<span style="color:#93c5fd">$ dotdog validate</span>','  <span style="color:#86efac">'+n+' — 100% complete</span>','<span style="color:#9ca3af;font-size:.75em">  No gaps. Spec is production-ready.</span>'],['<span style="color:#93c5fd">$ dotdog compile</span>','  <span style="color:#86efac">\u2713 '+n+'.dag  (94% smaller)</span>','<span style="color:#9ca3af;font-size:.75em">  AI agents load exact data, not prose.</span>'],['<span style="color:#93c5fd">$ dotdog serve</span>','  <span style="color:#86efac">MCP server running on stdio</span>','<span style="color:#9ca3af;font-size:.75em">  Agents query via getEntity, traverse, search</span>'],['','<br><a href="/dotdog" class="btn primary" style="font-size:.85em">Get Started \u2192</a>','']];el.innerHTML=T+steps.map(s=>'<div class="line" style="opacity:0;height:0;overflow:hidden;transition:all .3s">'+s[0]+'<br>'+s[1]+'<br>'+s[2]+'</div>').join('')+'</pre>';let i=0;function show(){if(i<steps.length){const d=document.querySelectorAll('.line')[i];d.style.opacity='1';d.style.height='auto';i++;typingTimer=setTimeout(show,i===1?100:600);}}show();}
+
+async function loadVersion(){try{const r=await fetch('https://registry.npmjs.org/dotdog/latest');const d=await r.json();document.getElementById('version').textContent=d.version;}catch(e){}}
+loadVersion();
 </script>
 </body>
 </html>

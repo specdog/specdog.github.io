@@ -73,12 +73,13 @@
   <h1>specdog</h1>
   <p class="tagline">Feed the dog. Ship with specs.</p>
   <p class="desc">CLI tool for structured software specs. Write <code>.dog</code> specs, compile to <code>.dag</code> graphs, query via MCP.</p>
-  <div style="position:relative;max-width:440px;margin:0 auto 16px">
-  <pre style="margin:0;padding-right:50px">$ npm install -g dotdog
-$ dotdog init my-app
-$ dotdog validate
-  my-app — 7 .dog files, 100% complete</pre>
-  <button onclick="copyInstall()" style="position:absolute;top:8px;right:8px;background:#f1f5f9;border:1px solid #cbd5e1;border-radius:4px;padding:4px 10px;font-size:.75em;cursor:pointer;font-family:inherit;color:#4b5563">📋 Copy install</button>
+  <div style="max-width:440px;margin:0 auto 16px">
+  <div style="display:flex;align-items:center;background:#1a1a2e;border-radius:8px;padding:12px 16px">
+    <code style="color:#e2e8f0;font-size:.9em;flex:1">$ npm install -g dotdog</code>
+    <button onclick="copyInstall()" style="background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:4px" title="Copy">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+    </button>
+  </div>
 </div>
   <div class="try-section" style="margin-bottom:20px">
     <p style="font-size:.85em;color:#6b7280;margin-bottom:8px">See what dotdog does — no install needed</p>
@@ -88,12 +89,9 @@ $ dotdog validate
     </div>
     <div id="try-result" style="margin-top:8px;min-height:24px"></div>
   </div>
-  <div class="star-section" style="margin-bottom:16px">
-    <a href="https://github.com/specdog/dotdog" style="display:inline-flex;align-items:center;gap:6px;background:#f1f5f9;border:1px solid #cbd5e1;padding:8px 16px;border-radius:6px;color:#1e293b;text-decoration:none;font-weight:600;font-size:.85em"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg> Star on GitHub</a>
-  </div>
+
   <div class="btns">
     <a class="btn primary" href="/dotdog">Get Started</a>
-    <a class="btn secondary" href="/dotdog/handbook">SDD Handbook</a>
     <a class="btn secondary" href="https://www.npmjs.com/package/dotdog">npm</a>
     <a class="btn secondary" href="https://github.com/specdog/dotdog">GitHub</a>
   </div>

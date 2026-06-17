@@ -110,7 +110,7 @@ const bone=document.getElementById('bone'),tongue=document.getElementById('tongu
 function feed(){bone.setAttribute('opacity','1');st.innerHTML='🦴 Dog fed. Ship with specs!';setTimeout(()=>bone.setAttribute('opacity','0'),1500);}
 function pet(){tongue.setAttribute('opacity','1');svg.style.transform='rotate(-5deg)';st.innerHTML='✋ Good dog.';setTimeout(()=>{svg.style.transform='';tongue.setAttribute('opacity','0');},800);}
 function fetchBall(){svg.style.transform='translateX(20px)';st.innerHTML='🎾 Fetch!';setTimeout(()=>svg.style.transform='',400);}
-svg.parentElement.addEventListener('click',feed);
+svg.parentElement.addEventListener('click',pet);
 document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;if(e.key==='v')feed();if(e.key==='c')fetchBall();if(e.key==='p')pet();});
 function copyInstall(btn){
   const pre=btn.parentElement.querySelector('pre');

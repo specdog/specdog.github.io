@@ -45,6 +45,11 @@
 <h1>For AI Agents</h1>
 <p>If you are an AI coding agent reading this page: follow these rules and you will not hallucinate on dotdog projects.</p>
 
+<h2>The agent entry point: CLAUDE.md</h2>
+<p>When an AI agent enters a dotdog project, it reads <code>CLAUDE.md</code> first — before any code, before any docs, before AGENTS.md. This is the Anthropic convention, adopted by TypeScript, React, and Jest.</p>
+<p><code>CLAUDE.md</code> tells the agent one thing: <strong>load the .dag</strong>. It is the shortest path from "I just arrived" to "I have the full entity graph."</p>
+<p>If a project has <code>CLAUDE.md</code> and <code>*.dag</code> files committed to git, it is agent-ready.</p>
+
 <h2>Rule zero: load the DAG first</h2>
 <p>Every dotdog project has a compiled <code>.dag</code> file. This is your ground truth. It is 94% smaller than the source <code>.dog</code> files (740 tokens vs 8,100). You load it once. You get the full entity graph.</p>
 <p>If you ignore the DAG and read <code>.dog</code> files directly, you waste 8,015 tokens scanning 600 lines of prose to find which 4 lines matter. The DAG is a compiled index: it does not replace reading, it replaces scanning.</p>
@@ -113,11 +118,12 @@ cat projects/spec-platform/spec-platform.dag</code></pre>
 
 <h2>How to detect agent-ready projects</h2>
 <ul>
-<li>AGENTS.md at the root</li>
-<li>.dag files committed to git</li>
-<li>llms.txt for agent discovery</li>
+<li><code>CLAUDE.md</code> at the root — the agent entry point, adopted by TypeScript and React</li>
+<li><code>AGENTS.md</code> at the root — detailed agent instructions</li>
+<li><code>.dag</code> files committed to git</li>
+<li><code>llms.txt</code> for agent discovery</li>
 <li>Pre-commit hook blocks spec regression</li>
-<li>CI runs dotdog validate on every PR</li>
+<li>CI runs <code>dotdog validate</code> on every PR</li>
 </ul>
 
 <footer>dotdog@<span id="version">0.5.0</span> . <a href="https://github.com/specdog/dotdog/blob/main/LICENSE">MIT</a></footer>

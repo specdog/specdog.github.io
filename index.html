@@ -73,10 +73,13 @@
   <h1>specdog</h1>
   <p class="tagline">Feed the dog. Ship with specs.</p>
   <p class="desc">CLI tool for structured software specs. Write <code>.dog</code> specs, compile to <code>.dag</code> graphs, query via MCP.</p>
-  <pre>$ npm install -g dotdog
+  <div style="position:relative;max-width:440px;margin:0 auto 16px">
+  <pre style="margin:0;padding-right:50px">$ npm install -g dotdog
 $ dotdog init my-app
 $ dotdog validate
   my-app — 7 .dog files, 100% complete</pre>
+  <button onclick="copyInstall()" style="position:absolute;top:8px;right:8px;background:#f1f5f9;border:1px solid #cbd5e1;border-radius:4px;padding:4px 10px;font-size:.75em;cursor:pointer;font-family:inherit;color:#4b5563">📋 Copy</button>
+</div>
   <div class="try-section" style="margin-bottom:20px">
     <p style="font-size:.85em;color:#6b7280;margin-bottom:8px">See what dotdog does — no install needed</p>
     <div style="display:flex;gap:6px;justify-content:center;margin-bottom:8px">
@@ -107,6 +110,7 @@ document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'||e.target.
 let typingTimer;
 function tryRepo(){clearTimeout(typingTimer);const r=document.getElementById('repo-input').value.trim();const el=document.getElementById('try-result');if(!r){el.innerHTML='Enter a name like <code>my-app</code>';return;}const n=r.split('/').pop();const T='<pre style="background:#1a1a2e;color:#e2e8f0;padding:16px;border-radius:8px;font-size:.78em;line-height:2;text-align:left;margin:0 auto;max-width:440px">';const steps=[['<span style="color:#93c5fd">$ dotdog init '+n+'</span>','  <span style="color:#86efac">'+n+' — 7 .dog files created</span>','<span style="color:#9ca3af;font-size:.75em">  Defines entities, screens, user stories</span>'],['<span style="color:#93c5fd">$ dotdog validate</span>','  <span style="color:#86efac">'+n+' — 100% complete</span>','<span style="color:#9ca3af;font-size:.75em">  No gaps. Spec is production-ready.</span>'],['<span style="color:#93c5fd">$ dotdog compile</span>','  <span style="color:#86efac">\u2713 '+n+'.dag  (94% smaller)</span>','<span style="color:#9ca3af;font-size:.75em">  AI agents load exact data, not prose.</span>'],['<span style="color:#93c5fd">$ dotdog serve</span>','  <span style="color:#86efac">MCP server running on stdio</span>','<span style="color:#9ca3af;font-size:.75em">  Agents query via getEntity, traverse, search</span>'],['','<br><a href="/dotdog" class="btn primary" style="font-size:.85em">Get Started \u2192</a>','']];el.innerHTML=T+steps.map(s=>'<div class="line" style="opacity:0;height:0;overflow:hidden;transition:all .3s">'+s[0]+'<br>'+s[1]+'<br>'+s[2]+'</div>').join('')+'</pre>';let i=0;function show(){if(i<steps.length){const d=document.querySelectorAll('.line')[i];d.style.opacity='1';d.style.height='auto';i++;typingTimer=setTimeout(show,i===1?100:600);}}show();}
 
+function copyInstall(){navigator.clipboard.writeText('npm install -g dotdog\ndotdog init my-app\ndotdog validate');const b=event.target;b.textContent='✓ Copied';setTimeout(()=>b.textContent='📋 Copy',2000);}
 async function loadVersion(){try{const r=await fetch('https://registry.npmjs.org/dotdog/latest');const d=await r.json();document.getElementById('version').textContent=d.version;}catch(e){}}
 loadVersion();
 </script>

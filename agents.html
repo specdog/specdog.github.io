@@ -1,139 +1,138 @@
-1|<!DOCTYPE html>
-2|<html lang="en">
-3|<head>
-4|<meta charset="UTF-8">
-5|<meta name="viewport" content="width=device-width, initial-scale=1.0">
-6|<title>For AI Agents | specdog</title>
-7|<meta name="description" content="Instructions for AI coding agents working with dotdog spec-driven projects.">
-8|<link rel="icon" type="image/svg+xml" href="/dotdog/assets/dog.svg">
-9|<style>
-10|  * { margin: 0; padding: 0; box-sizing: border-box; }
-11|  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fff; color: #1a1a2e; max-width: 720px; margin: 0 auto; padding: 40px 24px; line-height: 1.75; }
-12|  nav { display: flex; justify-content: center; gap: 24px; padding: 0 0 32px; }
-13|  nav a { color: #6b7280; text-decoration: none; font-size: .9em; font-weight: 500; }
-14|  nav a:hover { color: #d97706; }
-15|  nav a.active { color: #d97706; }
-16|  h1 { font-size: 2.2em; margin-bottom: 8px; }
-17|  h2 { font-size: 1.35em; margin: 36px 0 12px; border-bottom: 1px solid #e5e7eb; padding-bottom: 6px; }
-18|  h3 { font-size: 1.08em; margin: 24px 0 8px; }
-19|  p { margin-bottom: 12px; color: #374151; }
-20|  pre { background: #1e293b; color: #e2e8f0; padding: 14px 18px; border-radius: 8px; font-size: .85em; overflow-x: auto; margin-bottom: 16px; position: relative; }
-21|  code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: .9em; }
-22|  pre code { background: none; padding: 0; color: #e2e8f0; }
-23|  a { color: #d97706; text-decoration: none; }
-24|  a:hover { text-decoration: underline; }
-25|  ol, ul { margin: 0 0 16px 26px; color: #374151; }
-26|  li { margin-bottom: 6px; }
-27|  .copy-btn { position: absolute; top: 8px; right: 8px; background: none; border: none; color: #94a3b8; cursor: pointer; padding: 4px 6px; border-radius: 4px; line-height: 1; }
-28|  .copy-btn:hover { color: #e2e8f0; background: rgba(255,255,255,0.08); }
-29|  .copy-btn.copied { color: #4ade80; }
-30|  .copy-btn svg { width: 16px; height: 16px; }
-31|  table { width: 100%; border-collapse: collapse; margin: 16px 0; }
-32|  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid #e5e7eb; font-size: .9em; }
-33|  th { font-weight: 600; color: #1a1a2e; }
-34|  td { color: #374151; }
-35|  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #9ca3af; font-size: .8em; }
-36|</style>
-37|</head>
-38|<body>
-39|<nav>
-40|  <a href="/">specdog</a>
-41|  <a href="/handbook">guide</a>
-42|  <a href="/agents" class="active">for agents</a>
-43|      <a href="/dogfood">dogfood</a>
-<a href="/collar">collar</a>
-44|</nav>
-45|
-46|<h1>For AI Agents</h1>
-47|<p>If you are an AI coding agent reading this page: follow these rules and you will not hallucinate on dotdog projects.</p>
-48|
-49|<h2>The agent entry point: CLAUDE.md</h2>
-50|<p>When an AI agent enters a dotdog project, it reads <code>CLAUDE.md</code> first — before any code, before any docs, before AGENTS.md. This is the Anthropic convention, adopted by TypeScript, React, and Jest.</p>
-51|<p><code>CLAUDE.md</code> tells the agent one thing: <strong>load the .dag</strong>. It is the shortest path from "I just arrived" to "I have the full entity graph."</p>
-52|<p>If a project has <code>CLAUDE.md</code> and <code>*.dag</code> files committed to git, it is agent-ready.</p>
-53|
-54|<h2>Rule zero: load the DAG first</h2>
-55|<p>Every dotdog project has a compiled <code>.dag</code> file. This is your ground truth. It is 94% smaller than the source <code>.dog</code> files (740 tokens vs 8,100). You load it once. You get the full entity graph.</p>
-56|<p>If you ignore the DAG and read <code>.dog</code> files directly, you waste 8,015 tokens scanning 600 lines of prose to find which 4 lines matter. The DAG is a compiled index: it does not replace reading, it replaces scanning.</p>
-57|
-58|<pre><code>find . -name "*.dag" -not -path "*/node_modules/*"
-59|cat projects/spec-platform/spec-platform.dag</code></pre>
-60|<button class="copy-btn" onclick="copyBlock(this)" title="Copy">
-61|  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-62|</button>
-63|
-64|<h2>Hard rules</h2>
-65|<ol>
-66|<li>Load the DAG before reading any code file.</li>
-67|<li>Do not grep for structure. The DAG has the entity graph.</li>
-68|<li>If the DAG does not say it, you do not know it. Say unverified.</li>
-69|<li>If code contradicts DAG, DAG wins. Fix code toward DAG.</li>
-70|<li>Run dotdog validate before committing. Score must not decrease.</li>
-71|</ol>
-72|
-73|<h2>What the DAG gives you</h2>
-74|<table>
-75|<tr><th>Field</th><th>Example</th></tr>
-76|<tr><td>Entity name</td><td>User, Session, Payment</td></tr>
-77|<tr><td>Type</td><td>entity, event, relationship</td></tr>
-78|<tr><td>Properties</td><td>email: string (required), role: enum[admin, user]</td></tr>
-79|<tr><td>States</td><td>active, suspended, deleted</td></tr>
-80|<tr><td>Lifecycle</td><td>active -> suspended -> deleted</td></tr>
-81|<tr><td>Relationships</td><td>User -> Session [has] (1:many, cascade)</td></tr>
-82|</table>
-83|
-84|<h2>MCP: live queries</h2>
-85|<table>
-86|<tr><th>Tool</th><th>What it does</th></tr>
-87|<tr><td>getEntity</td><td>Get entity with properties, states, lifecycle</td></tr>
-88|<tr><td>traverse</td><td>Follow edges from a node, return subgraph</td></tr>
-89|<tr><td>search</td><td>Find entities by name or type</td></tr>
-90|<tr><td>schema</td><td>Get full property schema for an entity</td></tr>
-91|<tr><td>summary</td><td>Project stats: node count, edge count, token savings</td></tr>
-92|<tr><td>listProjects</td><td>List all spec projects in the repo</td></tr>
-93|</table>
-94|
-95|<pre><code>npx dotdog serve</code></pre>
-96|<button class="copy-btn" onclick="copyBlock(this)" title="Copy">
-97|  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-98|</button>
-99|
-100|<h2>Commands reference</h2>
-101|<table>
-102|<tr><th>Command</th><th>When to use</th></tr>
-103|<tr><td>dotdog validate</td><td>Before committing spec changes</td></tr>
-104|<tr><td>dotdog compile</td><td>After editing .dog files</td></tr>
-105|<tr><td>dotdog staleness</td><td>Check if spec and code have drifted</td></tr>
-106|<tr><td>dotdog verify</td><td>Check spec references match code files</td></tr>
-107|<tr><td>dotdog verify --init</td><td>Auto-generate verify section from codebase</td></tr>
-108|<tr><td>dotdog analyze</td><td>Gap detection and contradiction checking</td></tr>
-109|</table>
-110|
-111|<h2>Common failure modes</h2>
-112|<ul>
-113|<li>Reading code before DAG: you are guessing. Stop. Load the DAG first.</li>
-114|<li>Trusting memory over DAG: reload it. Memory is the weakest source.</li>
-115|<li>Fixing code to match your assumption: DAG wins. Fix code toward DAG.</li>
-116|<li>Skipping validation: compile and validate after every .dog edit.</li>
-117|<li>Grep for structure: use DAG traversal instead. Faster and correct.</li>
-118|</ul>
-119|
-120|<h2>How to detect agent-ready projects</h2>
-121|<ul>
-122|<li><code>CLAUDE.md</code> at the root — the agent entry point, adopted by TypeScript and React</li>
-123|<li><code>AGENTS.md</code> at the root — detailed agent instructions</li>
-124|<li><code>.dag</code> files committed to git</li>
-125|<li><code>llms.txt</code> for agent discovery</li>
-126|<li>Pre-commit hook blocks spec regression</li>
-127|<li>CI runs <code>dotdog validate</code> on every PR</li>
-128|</ul>
-129|
-130|<footer>dotdog@<span id="version">0.5.0</span> . <a href="https://github.com/specdog/dotdog/blob/main/LICENSE">MIT</a></footer>
-131|<script>
-132|async function loadVersion(){try{var r=await fetch("https://registry.npmjs.org/dotdog/latest");var d=await r.json();document.getElementById("version").textContent=d.version;}catch(e){}}
-133|loadVersion();
-134|function copyBlock(btn){var pre=btn.parentElement.querySelector("pre");navigator.clipboard.writeText(pre.textContent).then(function(){btn.classList.add("copied");btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';setTimeout(function(){btn.classList.remove("copied");btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>'},2000)})}
-135|</script>
-136|</body>
-137|</html>
-138|
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For AI Agents | specdog</title>
+<meta name="description" content="Instructions for AI coding agents working with dotdog spec-driven projects.">
+<link rel="icon" type="image/svg+xml" href="/dotdog/assets/dog.svg">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fff; color: #1a1a2e; max-width: 720px; margin: 0 auto; padding: 40px 24px; line-height: 1.75; }
+  nav { display: flex; justify-content: center; gap: 24px; padding: 0 0 32px; }
+  nav a { color: #6b7280; text-decoration: none; font-size: .9em; font-weight: 500; }
+  nav a:hover { color: #d97706; }
+  nav a.active { color: #d97706; }
+  h1 { font-size: 2.2em; margin-bottom: 8px; }
+  h2 { font-size: 1.35em; margin: 36px 0 12px; border-bottom: 1px solid #e5e7eb; padding-bottom: 6px; }
+  h3 { font-size: 1.08em; margin: 24px 0 8px; }
+  p { margin-bottom: 12px; color: #374151; }
+  pre { background: #1e293b; color: #e2e8f0; padding: 14px 18px; border-radius: 8px; font-size: .85em; overflow-x: auto; margin-bottom: 16px; position: relative; }
+  code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: .9em; }
+  pre code { background: none; padding: 0; color: #e2e8f0; }
+  a { color: #d97706; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ol, ul { margin: 0 0 16px 26px; color: #374151; }
+  li { margin-bottom: 6px; }
+  .copy-btn { position: absolute; top: 8px; right: 8px; background: none; border: none; color: #94a3b8; cursor: pointer; padding: 4px 6px; border-radius: 4px; line-height: 1; }
+  .copy-btn:hover { color: #e2e8f0; background: rgba(255,255,255,0.08); }
+  .copy-btn.copied { color: #4ade80; }
+  .copy-btn svg { width: 16px; height: 16px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid #e5e7eb; font-size: .9em; }
+  th { font-weight: 600; color: #1a1a2e; }
+  td { color: #374151; }
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #9ca3af; font-size: .8em; }
+</style>
+</head>
+<body>
+<nav>
+  <a href="/">specdog</a>
+  <a href="/handbook">guide</a>
+  <a href="/agents" class="active">for agents</a>
+  <a href="/dogfood">dogfood</a>
+  <a href="/collar">collar</a>
+</nav>
+
+<h1>For AI Agents</h1>
+<p>If you are an AI coding agent reading this page: follow these rules and you will not hallucinate on dotdog projects.</p>
+
+<h2>The agent entry point: CLAUDE.md</h2>
+<p>When an AI agent enters a dotdog project, it reads <code>CLAUDE.md</code> first — before any code, before any docs, before AGENTS.md. This is the Anthropic convention, adopted by TypeScript, React, and Jest.</p>
+<p><code>CLAUDE.md</code> tells the agent one thing: <strong>load the .dag</strong>. It is the shortest path from "I just arrived" to "I have the full entity graph."</p>
+<p>If a project has <code>CLAUDE.md</code> and <code>*.dag</code> files committed to git, it is agent-ready.</p>
+
+<h2>Rule zero: load the DAG first</h2>
+<p>Every dotdog project has a compiled <code>.dag</code> file. This is your ground truth. It is 94% smaller than the source <code>.dog</code> files (740 tokens vs 8,100). You load it once. You get the full entity graph.</p>
+<p>If you ignore the DAG and read <code>.dog</code> files directly, you waste 8,015 tokens scanning 600 lines of prose to find which 4 lines matter. The DAG is a compiled index: it does not replace reading, it replaces scanning.</p>
+
+<pre><code>find . -name "*.dag" -not -path "*/node_modules/*"
+cat projects/spec-platform/spec-platform.dag</code></pre>
+<button class="copy-btn" onclick="copyBlock(this)" title="Copy">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+</button>
+
+<h2>Hard rules</h2>
+<ol>
+<li>Load the DAG before reading any code file.</li>
+<li>Do not grep for structure. The DAG has the entity graph.</li>
+<li>If the DAG does not say it, you do not know it. Say unverified.</li>
+<li>If code contradicts DAG, DAG wins. Fix code toward DAG.</li>
+<li>Run dotdog validate before committing. Score must not decrease.</li>
+</ol>
+
+<h2>What the DAG gives you</h2>
+<table>
+<tr><th>Field</th><th>Example</th></tr>
+<tr><td>Entity name</td><td>User, Session, Payment</td></tr>
+<tr><td>Type</td><td>entity, event, relationship</td></tr>
+<tr><td>Properties</td><td>email: string (required), role: enum[admin, user]</td></tr>
+<tr><td>States</td><td>active, suspended, deleted</td></tr>
+<tr><td>Lifecycle</td><td>active -> suspended -> deleted</td></tr>
+<tr><td>Relationships</td><td>User -> Session [has] (1:many, cascade)</td></tr>
+</table>
+
+<h2>MCP: live queries</h2>
+<table>
+<tr><th>Tool</th><th>What it does</th></tr>
+<tr><td>getEntity</td><td>Get entity with properties, states, lifecycle</td></tr>
+<tr><td>traverse</td><td>Follow edges from a node, return subgraph</td></tr>
+<tr><td>search</td><td>Find entities by name or type</td></tr>
+<tr><td>schema</td><td>Get full property schema for an entity</td></tr>
+<tr><td>summary</td><td>Project stats: node count, edge count, token savings</td></tr>
+<tr><td>listProjects</td><td>List all spec projects in the repo</td></tr>
+</table>
+
+<pre><code>npx dotdog serve</code></pre>
+<button class="copy-btn" onclick="copyBlock(this)" title="Copy">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+</button>
+
+<h2>Commands reference</h2>
+<table>
+<tr><th>Command</th><th>When to use</th></tr>
+<tr><td>dotdog validate</td><td>Before committing spec changes</td></tr>
+<tr><td>dotdog compile</td><td>After editing .dog files</td></tr>
+<tr><td>dotdog staleness</td><td>Check if spec and code have drifted</td></tr>
+<tr><td>dotdog verify</td><td>Check spec references match code files</td></tr>
+<tr><td>dotdog verify --init</td><td>Auto-generate verify section from codebase</td></tr>
+<tr><td>dotdog analyze</td><td>Gap detection and contradiction checking</td></tr>
+</table>
+
+<h2>Common failure modes</h2>
+<ul>
+<li>Reading code before DAG: you are guessing. Stop. Load the DAG first.</li>
+<li>Trusting memory over DAG: reload it. Memory is the weakest source.</li>
+<li>Fixing code to match your assumption: DAG wins. Fix code toward DAG.</li>
+<li>Skipping validation: compile and validate after every .dog edit.</li>
+<li>Grep for structure: use DAG traversal instead. Faster and correct.</li>
+</ul>
+
+<h2>How to detect agent-ready projects</h2>
+<ul>
+<li><code>CLAUDE.md</code> at the root — the agent entry point, adopted by TypeScript and React</li>
+<li><code>AGENTS.md</code> at the root — detailed agent instructions</li>
+<li><code>.dag</code> files committed to git</li>
+<li><code>llms.txt</code> for agent discovery</li>
+<li>Pre-commit hook blocks spec regression</li>
+<li>CI runs <code>dotdog validate</code> on every PR</li>
+</ul>
+
+<footer>dotdog@<span id="version">0.5.0</span> . <a href="https://github.com/specdog/dotdog/blob/main/LICENSE">MIT</a></footer>
+<script>
+async function loadVersion(){try{var r=await fetch("https://registry.npmjs.org/dotdog/latest");var d=await r.json();document.getElementById("version").textContent=d.version;}catch(e){}}
+loadVersion();
+function copyBlock(btn){var pre=btn.parentElement.querySelector("pre");navigator.clipboard.writeText(pre.textContent).then(function(){btn.classList.add("copied");btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';setTimeout(function(){btn.classList.remove("copied");btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>'},2000)})}
+</script>
+</body>
+</html>

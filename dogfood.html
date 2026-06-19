@@ -1,157 +1,156 @@
-1|<!DOCTYPE html>
-2|<html lang="en">
-3|<head>
-4|<meta charset="UTF-8">
-5|<meta name="viewport" content="width=device-width, initial-scale=1.0">
-6|<title>dotdog Dogfood Dashboard</title>
-7|<meta name="description" content="dotdog validates itself. Real-time status from dotdog's own spec.">
-8|<link rel="icon" type="image/svg+xml" href="/dotdog/assets/dog.svg">
-9|<style>
-10|  * { margin: 0; padding: 0; box-sizing: border-box; }
-11|  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fff; color: #1a1a2e; max-width: 720px; margin: 0 auto; padding: 40px 24px; line-height: 1.75; }
-12|  nav { display: flex; justify-content: center; gap: 24px; padding: 0 0 32px; }
-13|  nav a { color: #6b7280; text-decoration: none; font-size: .9em; font-weight: 500; }
-14|  nav a:hover { color: #d97706; }
-15|  nav a.active { color: #d97706; }
-16|  h1 { font-size: 2.2em; margin-bottom: 8px; }
-17|  h2 { font-size: 1.35em; margin: 36px 0 12px; border-bottom: 1px solid #e5e7eb; padding-bottom: 6px; }
-18|  h3 { font-size: 1.08em; margin: 24px 0 8px; color: #374151; }
-19|  .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 24px 0; }
-20|  .metric { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; text-align: center; }
-21|  .metric .value { font-size: 2em; font-weight: 700; color: #1a1a2e; }
-22|  .metric .label { font-size: .85em; color: #6b7280; margin-top: 4px; }
-23|  .metric .value.green { color: #16a34a; }
-24|  .metric .value.purple { color: #7c3aed; }
-25|  .prediction { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px 20px; margin: 12px 0; }
-26|  .prediction.correct { border-left: 3px solid #16a34a; }
-27|  .prediction.pending { border-left: 3px solid #d97706; }
-28|  .prediction .status { font-size: .85em; font-weight: 600; }
-29|  .prediction .status.correct { color: #16a34a; }
-30|  .prediction .status.pending { color: #d97706; }
-31|  .prediction .title { font-size: 1.05em; margin: 4px 0; }
-32|  .prediction .meta { font-size: .85em; color: #6b7280; }
-33|  .file-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
-34|  .file-tag { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; padding: 4px 12px; font-size: .85em; font-family: monospace; }
-35|  pre { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px 18px; font-size: .85em; overflow-x: auto; margin: 8px 0; }
-36|  .badge-row { display: flex; gap: 12px; align-items: center; margin: 16px 0; flex-wrap: wrap; }
-37|  footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid #e5e7eb; text-align: center; font-size: .85em; color: #9ca3af; }
-38|  footer span { font-family: monospace; }
-39|  .pipeline { margin: 16px 0; font-family: monospace; font-size: .85em; line-height: 1.4; color: #334155; }
-40|</style>
-41|</head>
-42|<body>
-43|<nav>
-44|  <a href="/">specdog</a>
-45|  <a href="/dotdog">guide</a>
-46|  <a href="/agents">for agents</a>
-47|  <a href="/dogfood" class="active">dogfood</a>
-<a href="/collar">collar</a>
-48|</nav>
-49|
-50|<h1>dotdog Dogfood 🐕</h1>
-51|<p>dotdog validates itself. This page shows real output from running dotdog on its own spec. No mock data. No demos. The tool eating its own dogfood.</p>
-52|
-53|<div class="metric-grid">
-54|  <div class="metric">
-55|    <div class="value green">7</div>
-56|    <div class="label">.dog files</div>
-57|  </div>
-58|  <div class="metric">
-59|    <div class="value green">100%</div>
-60|    <div class="label">complete</div>
-61|  </div>
-62|  <div class="metric">
-63|    <div class="value">8</div>
-64|    <div class="label">nodes in .dag</div>
-65|  </div>
-66|  <div class="metric">
-67|    <div class="value purple">94%</div>
-68|    <div class="label">token savings</div>
-69|  </div>
-70|  <div class="metric">
-71|    <div class="value green">28/28</div>
-72|    <div class="label">tests passing</div>
-73|  </div>
-74|  <div class="metric">
-75|    <div class="value green">6/6</div>
-76|    <div class="label">simulate</div>
-77|  </div>
-78|</div>
-79|
-80|<h2>Spec Files</h2>
-81|<div class="file-list">
-82|  <span class="file-tag">SPEC.dog</span>
-83|  <span class="file-tag">data-model.dog</span>
-84|  <span class="file-tag">constitution.dog</span>
-85|  <span class="file-tag">DESIGN-SYSTEM.dog</span>
-86|  <span class="file-tag">plan.dog</span>
-87|  <span class="file-tag">INDEX.dog</span>
-88|  <span class="file-tag">COPY.dog</span>
-89|</div>
-90|
-91|<h2>Compile</h2>
-92|<pre>8563 → 512 tokens (94% savings)
-93|8 nodes, 4 edges
-94|8051 tokens saved</pre>
-95|
-96|<div class="badge-row">
-97|  <img src="/dotdog/assets/dogfood-badge.svg" alt="dotdog savings badge" onerror="this.style.display='none'">
-98|</div>
-99|
-100|<h2>Predictions</h2>
-101|
-102|<div class="prediction correct">
-103|  <div class="status correct">✅ Correct</div>
-104|  <div class="title">.dag token savings exceed 90%</div>
-105|  <div class="meta">90% confidence — verified at 94% actual</div>
-106|</div>
-107|
-108|<div class="prediction correct">
-109|  <div class="status correct">✅ Correct</div>
-110|  <div class="title">First external dotdog adopter</div>
-111|  <div class="meta">50% confidence — community contributors merged</div>
-112|</div>
-113|
-114|<div class="prediction pending">
-115|  <div class="status pending">⏳ Pending</div>
-116|  <div class="title">dotdog reaches 200 PRs by July 2026</div>
-117|  <div class="meta">80% confidence — tracking at current velocity</div>
-118|</div>
-119|
-120|<h2>Simulation</h2>
-121|<pre>Scenario: Node, Task, Prediction → Compile → DAG
-122|
-123|[1/6] Write Node, Task, and Prediction specs       ✓
-124|[2/6] Compile parses entities into a DAG graph     ✓
-125|[3/6] DAG has token savings exceeding prediction   ✓
-126|[4/6] Validate Task and Node completeness at 100%  ✓
-127|[5/6] Prediction list shows forecasts with status  ✓
-128|[6/6] DAG served via MCP to AI agents              ✓
-129|
-130|RESULT: Success (6/6 steps passed)</pre>
-131|
-132|<h2>The Pipeline</h2>
-133|<pre class="pipeline">
-134|.spec files → dotdog validate  → 100% complete
-135|            → dotdog compile   → 94% savings
-136|            → dotdog simulate   → 6/6 passed
-137|            → dotdog staleness  → spec matches reality
-138|            → dotdog badge      → shields.io SVG
-139|            → dotdog serve      → AI agents query specs</pre>
-140|
-141|<h2>For AI Agents</h2>
-142|<p>This page's data comes from <code>dotdog</code> commands. An AI agent can query the same data via MCP:</p>
-143|<pre>getEntity("Node")    → exact properties
-144|traverse("DAG", 2)   → full compile graph
-145|search("Prediction") → all predictions</pre>
-146|<p>Read the <a href="/agents">for agents</a> page for setup instructions.</p>
-147|
-148|<footer>
-149|  <span id="version">dotdog@</span> · <a href="https://github.com/specdog/dotdog">GitHub</a> · <a href="https://www.npmjs.com/package/dotdog">npm</a>
-150|</footer>
-151|<script>
-152|  fetch('https://registry.npmjs.org/dotdog/latest').then(r=>r.json()).then(d=>{document.getElementById('version').textContent='dotdog@'+d.version}).catch(()=>{})
-153|</script>
-154|</body>
-155|</html>
-156|
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>dotdog Dogfood Dashboard</title>
+<meta name="description" content="dotdog validates itself. Real-time status from dotdog's own spec.">
+<link rel="icon" type="image/svg+xml" href="/dotdog/assets/dog.svg">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fff; color: #1a1a2e; max-width: 720px; margin: 0 auto; padding: 40px 24px; line-height: 1.75; }
+  nav { display: flex; justify-content: center; gap: 24px; padding: 0 0 32px; }
+  nav a { color: #6b7280; text-decoration: none; font-size: .9em; font-weight: 500; }
+  nav a:hover { color: #d97706; }
+  nav a.active { color: #d97706; }
+  h1 { font-size: 2.2em; margin-bottom: 8px; }
+  h2 { font-size: 1.35em; margin: 36px 0 12px; border-bottom: 1px solid #e5e7eb; padding-bottom: 6px; }
+  h3 { font-size: 1.08em; margin: 24px 0 8px; color: #374151; }
+  .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 24px 0; }
+  .metric { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; text-align: center; }
+  .metric .value { font-size: 2em; font-weight: 700; color: #1a1a2e; }
+  .metric .label { font-size: .85em; color: #6b7280; margin-top: 4px; }
+  .metric .value.green { color: #16a34a; }
+  .metric .value.purple { color: #7c3aed; }
+  .prediction { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px 20px; margin: 12px 0; }
+  .prediction.correct { border-left: 3px solid #16a34a; }
+  .prediction.pending { border-left: 3px solid #d97706; }
+  .prediction .status { font-size: .85em; font-weight: 600; }
+  .prediction .status.correct { color: #16a34a; }
+  .prediction .status.pending { color: #d97706; }
+  .prediction .title { font-size: 1.05em; margin: 4px 0; }
+  .prediction .meta { font-size: .85em; color: #6b7280; }
+  .file-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+  .file-tag { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; padding: 4px 12px; font-size: .85em; font-family: monospace; }
+  pre { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px 18px; font-size: .85em; overflow-x: auto; margin: 8px 0; }
+  .badge-row { display: flex; gap: 12px; align-items: center; margin: 16px 0; flex-wrap: wrap; }
+  footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid #e5e7eb; text-align: center; font-size: .85em; color: #9ca3af; }
+  footer span { font-family: monospace; }
+  .pipeline { margin: 16px 0; font-family: monospace; font-size: .85em; line-height: 1.4; color: #334155; }
+</style>
+</head>
+<body>
+<nav>
+  <a href="/">specdog</a>
+  <a href="/dotdog">guide</a>
+  <a href="/agents">for agents</a>
+  <a href="/dogfood" class="active">dogfood</a>
+  <a href="/collar">collar</a>
+</nav>
+
+<h1>dotdog Dogfood 🐕</h1>
+<p>dotdog validates itself. This page shows real output from running dotdog on its own spec. No mock data. No demos. The tool eating its own dogfood.</p>
+
+<div class="metric-grid">
+  <div class="metric">
+    <div class="value green">7</div>
+    <div class="label">.dog files</div>
+  </div>
+  <div class="metric">
+    <div class="value green">100%</div>
+    <div class="label">complete</div>
+  </div>
+  <div class="metric">
+    <div class="value">8</div>
+    <div class="label">nodes in .dag</div>
+  </div>
+  <div class="metric">
+    <div class="value purple">94%</div>
+    <div class="label">token savings</div>
+  </div>
+  <div class="metric">
+    <div class="value green">28/28</div>
+    <div class="label">tests passing</div>
+  </div>
+  <div class="metric">
+    <div class="value green">6/6</div>
+    <div class="label">simulate</div>
+  </div>
+</div>
+
+<h2>Spec Files</h2>
+<div class="file-list">
+  <span class="file-tag">SPEC.dog</span>
+  <span class="file-tag">data-model.dog</span>
+  <span class="file-tag">constitution.dog</span>
+  <span class="file-tag">DESIGN-SYSTEM.dog</span>
+  <span class="file-tag">plan.dog</span>
+  <span class="file-tag">INDEX.dog</span>
+  <span class="file-tag">COPY.dog</span>
+</div>
+
+<h2>Compile</h2>
+<pre>8563 → 512 tokens (94% savings)
+8 nodes, 4 edges
+8051 tokens saved</pre>
+
+<div class="badge-row">
+  <img src="/dotdog/assets/dogfood-badge.svg" alt="dotdog savings badge" onerror="this.style.display='none'">
+</div>
+
+<h2>Predictions</h2>
+
+<div class="prediction correct">
+  <div class="status correct">✅ Correct</div>
+  <div class="title">.dag token savings exceed 90%</div>
+  <div class="meta">90% confidence — verified at 94% actual</div>
+</div>
+
+<div class="prediction correct">
+  <div class="status correct">✅ Correct</div>
+  <div class="title">First external dotdog adopter</div>
+  <div class="meta">50% confidence — community contributors merged</div>
+</div>
+
+<div class="prediction pending">
+  <div class="status pending">⏳ Pending</div>
+  <div class="title">dotdog reaches 200 PRs by July 2026</div>
+  <div class="meta">80% confidence — tracking at current velocity</div>
+</div>
+
+<h2>Simulation</h2>
+<pre>Scenario: Node, Task, Prediction → Compile → DAG
+
+[1/6] Write Node, Task, and Prediction specs       ✓
+[2/6] Compile parses entities into a DAG graph     ✓
+[3/6] DAG has token savings exceeding prediction   ✓
+[4/6] Validate Task and Node completeness at 100%  ✓
+[5/6] Prediction list shows forecasts with status  ✓
+[6/6] DAG served via MCP to AI agents              ✓
+
+RESULT: Success (6/6 steps passed)</pre>
+
+<h2>The Pipeline</h2>
+<pre class="pipeline">
+.spec files → dotdog validate  → 100% complete
+            → dotdog compile   → 94% savings
+            → dotdog simulate   → 6/6 passed
+            → dotdog staleness  → spec matches reality
+            → dotdog badge      → shields.io SVG
+            → dotdog serve      → AI agents query specs</pre>
+
+<h2>For AI Agents</h2>
+<p>This page's data comes from <code>dotdog</code> commands. An AI agent can query the same data via MCP:</p>
+<pre>getEntity("Node")    → exact properties
+traverse("DAG", 2)   → full compile graph
+search("Prediction") → all predictions</pre>
+<p>Read the <a href="/agents">for agents</a> page for setup instructions.</p>
+
+<footer>
+  <span id="version">dotdog@</span> · <a href="https://github.com/specdog/dotdog">GitHub</a> · <a href="https://www.npmjs.com/package/dotdog">npm</a>
+</footer>
+<script>
+  fetch('https://registry.npmjs.org/dotdog/latest').then(r=>r.json()).then(d=>{document.getElementById('version').textContent='dotdog@'+d.version}).catch(()=>{})
+</script>
+</body>
+</html>

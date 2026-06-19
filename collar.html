@@ -1,104 +1,104 @@
-1|<!DOCTYPE html>
-2|<html lang="en">
-3|<head>
-4|<meta charset="UTF-8">
-5|<meta name="viewport" content="width=device-width, initial-scale=1.0">
-6|<title>collar — DAG-first agent harness | specdog</title>
-7|<meta name="description" content="DAG-first AI agent harness. Entity→Target:verb(card). Reads .dag files. Rust router at 3ms.">
-8|<link rel="icon" type="image/svg+xml" href="/dotdog/assets/dog.svg">
-9|<style>
-10|  * { margin: 0; padding: 0; box-sizing: border-box; }
-11|  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fff; color: #1a1a2e; max-width: 720px; margin: 0 auto; padding: 40px 24px; line-height: 1.75; }
-12|  nav { display: flex; justify-content: center; gap: 24px; padding: 0 0 32px; }
-13|  nav a { color: #6b7280; text-decoration: none; font-size: .9em; font-weight: 500; }
-14|  nav a:hover { color: #d97706; }
-15|  h1 { font-size: 2.2em; margin-bottom: 8px; }
-16|  h2 { font-size: 1.35em; margin: 36px 0 12px; border-bottom: 1px solid #e5e7eb; padding-bottom: 6px; }
-17|  pre { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px 18px; font-size: .85em; overflow-x: auto; margin: 8px 0; }
-18|  table { width: 100%; border-collapse: collapse; margin: 16px 0; }
-19|  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid #e5e7eb; }
-20|  th { font-size: .85em; color: #6b7280; font-weight: 600; }
-21|  td { font-size: .9em; }
-22|  .badge-row { display: flex; gap: 12px; align-items: center; margin: 16px 0; flex-wrap: wrap; }
-23|  .tagline { font-size: 1.1em; color: #4b5563; margin-bottom: 16px; }
-24|  .explain { background: #fef3c7; border-left: 3px solid #f59e0b; padding: 12px 16px; border-radius: 4px; margin: 16px 0; font-size: .92em; }
-25|  .explain strong { color: #92400e; }
-26|  footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid #e5e7eb; text-align: center; font-size: .85em; color: #9ca3af; }
-27|  a { color: #d97706; }
-28|</style>
-29|</head>
-30|<body>
-31|<nav>
-32|  <a href="/">specdog</a>
-33|  <a href="/handbook">guide</a>
-34|  <a href="/agents">for agents</a>
-35|  <a href="/dogfood">dogfood</a>
-36|</nav>
-37|
-38|<h1>collar</h1>
-39|
-40|<p class="tagline">DAG-first AI agent harness — <code>Entity→Target:verb(card)</code>. Reads <code>.dag</code> files. Rust router at 3ms.</p>
-41|
-42|<div class="badge-row">
-43|  <img src="https://img.shields.io/badge/version-1.4.0-blue" alt="v1.4.0">
-44|  <img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT">
-45|  <img src="https://img.shields.io/badge/python-3.11%2B-blue" alt="Python 3.11+">
-46|  <img src="https://img.shields.io/badge/semver-2.0.0-green" alt="Semver 2.0.0">
-47|  <img src="https://github.com/specdog/collar/actions/workflows/dotdog-validate.yml/badge.svg" alt="dotdog validate">
-48|  <img src="https://github.com/specdog/collar/actions/workflows/semver-guard.yml/badge.svg" alt="semver guard">
-49|</div>
-50|
-51|<div class="explain">
-52|  <strong>.dog</strong> = human spec format &nbsp;·&nbsp; <strong>.dag</strong> = agent runtime format &nbsp;·&nbsp; <strong>.md</strong> = last resort
-53|</div>
-54|
-55|<p>Collar is forked from NousResearch/hermes-agent, rebuilt as a DAG-first harness. It reads <code>.dag</code> files as its behavioral ground truth. Skills auto-compile from <code>.dog</code> specs into <code>.dag</code> edges. No prose config, no baked-in prompts — just DAG paths.</p>
-56|
-57|<p>Created by <strong>Justin DiClemente</strong> (<a href="https://github.com/logohere">@logohere</a>).</p>
-58|
-59|<h2>Install</h2>
-60|<pre>git clone https://github.com/specdog/collar.git
-61|cd collar
-62|python3 -m venv .venv && source .venv/bin/activate
-63|pip install -e .
-64|npm install -g dotdog</pre>
-65|<p>Requires Python >= 3.11.</p>
-66|
-67|<h2>Quick Start</h2>
-68|<pre>collar              # interactive chat
-69|collar chat -q "..."  # single query
-70|collar setup          # first-time setup wizard</pre>
-71|
-72|<h2>No API key? Use OAuth</h2>
-73|<pre>collar auth add openai-codex   # ChatGPT Plus/Pro
-74|collar auth add xai-oauth      # xAI SuperGrok
-75|collar auth add qwen-oauth     # Qwen Plus/Pro
-76|collar auth add nous           # Nous Portal</pre>
-77|<p>Then <code>collar model</code> to pick your provider. Or set <code>OPENROUTER_API_KEY</code> in <code>~/.dag/.env</code> for pay-per-token access to 200+ models.</p>
-78|
-79|<h2>Architecture</h2>
-80|<table>
-81|  <tr><th>Layer</th><th>Source</th><th>Format</th><th>Loader</th></tr>
-82|  <tr><td>System prompt</td><td><code>dags/*.dag</code></td><td>DAG-path plain text</td><td><code>_load_dag_text()</code></td></tr>
-83|  <tr><td>Skills</td><td><code>skills/*/SKILL.dag</code></td><td>DAG-path plain text</td><td><code>skill_view()</code></td></tr>
-84|  <tr><td>Projects</td><td><code>*.dag</code></td><td>JSON v2/v3</td><td>MCP dotdog</td></tr>
-85|</table>
-86|
-87|<h2>Key Numbers</h2>
-88|<table>
-89|  <tr><td>95% compression</td><td>383k → 17k (skills)</td></tr>
-90|  <tr><td>74% compression</td><td>15k → 4k (system prompt)</td></tr>
-91|  <tr><td>0 legacy refs</td><td>6974+ renamed</td></tr>
-92|</table>
-93|
-94|<h2>Links</h2>
-95|<p>
-96|  <a href="https://github.com/specdog/collar">GitHub</a> ·
-97|  <a href="https://github.com/specdog/dotdog">dotdog</a> ·
-98|  <a href="https://github.com/specdog">specdog org</a>
-99|</p>
-100|
-101|<footer>specdog · MIT license · dogfoods its own .dag files</footer>
-102|</body>
-103|</html>
-104|
+1|1|<!DOCTYPE html>
+2|2|<html lang="en">
+3|3|<head>
+4|4|<meta charset="UTF-8">
+5|5|<meta name="viewport" content="width=device-width, initial-scale=1.0">
+6|6|<title>collar — DAG-first agent harness | specdog</title>
+7|7|<meta name="description" content="DAG-first AI agent harness. Entity→Target:verb(card). Reads .dag files. Rust router at 3ms.">
+8|8|<link rel="icon" type="image/svg+xml" href="/dotdog/assets/dog.svg">
+9|9|<style>
+10|10|  * { margin: 0; padding: 0; box-sizing: border-box; }
+11|11|  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fff; color: #1a1a2e; max-width: 720px; margin: 0 auto; padding: 40px 24px; line-height: 1.75; }
+12|12|  nav { display: flex; justify-content: center; gap: 24px; padding: 0 0 32px; }
+13|13|  nav a { color: #6b7280; text-decoration: none; font-size: .9em; font-weight: 500; }
+14|14|  nav a:hover { color: #d97706; }
+15|15|  h1 { font-size: 2.2em; margin-bottom: 8px; }
+16|16|  h2 { font-size: 1.35em; margin: 36px 0 12px; border-bottom: 1px solid #e5e7eb; padding-bottom: 6px; }
+17|17|  pre { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px 18px; font-size: .85em; overflow-x: auto; margin: 8px 0; }
+18|18|  table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+19|19|  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid #e5e7eb; }
+20|20|  th { font-size: .85em; color: #6b7280; font-weight: 600; }
+21|21|  td { font-size: .9em; }
+22|22|  .badge-row { display: flex; gap: 12px; align-items: center; margin: 16px 0; flex-wrap: wrap; }
+23|23|  .tagline { font-size: 1.1em; color: #4b5563; margin-bottom: 16px; }
+24|24|  .explain { background: #fef3c7; border-left: 3px solid #f59e0b; padding: 12px 16px; border-radius: 4px; margin: 16px 0; font-size: .92em; }
+25|25|  .explain strong { color: #92400e; }
+26|26|  footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid #e5e7eb; text-align: center; font-size: .85em; color: #9ca3af; }
+27|27|  a { color: #d97706; }
+28|28|</style>
+29|29|</head>
+30|30|<body>
+31|31|<nav>
+32|32|  <a href="/">specdog</a>
+33|33|  <a href="/handbook">guide</a>
+34|34|  <a href="/agents">for agents</a>
+35|35|  <a href="/dogfood">dogfood</a>
+36|36|</nav>
+37|37|
+38|38|<h1>collar</h1>
+39|39|
+40|40|<p class="tagline">DAG-first AI agent harness — <code>Entity→Target:verb(card)</code>. Reads <code>.dag</code> files. Rust router at 3ms.</p>
+41|41|
+42|42|<div class="badge-row">
+43|43|  <img src="https://img.shields.io/badge/version-1.4.0-blue" alt="v1.4.0">
+44|44|  <img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT">
+45|45|  <img src="https://img.shields.io/badge/python-3.11%2B-blue" alt="Python 3.11+">
+46|46|  <img src="https://img.shields.io/badge/semver-2.0.0-green" alt="Semver 2.0.0">
+47|47|  <img src="https://github.com/specdog/collar/actions/workflows/dotdog-validate.yml/badge.svg" alt="dotdog validate">
+48|48|  <img src="https://github.com/specdog/collar/actions/workflows/semver-guard.yml/badge.svg" alt="semver guard">
+49|49|</div>
+50|50|
+51|51|<div class="explain">
+52|52|  <strong>.dog</strong> = human spec format &nbsp;·&nbsp; <strong>.dag</strong> = agent runtime format &nbsp;·&nbsp; <strong>.md</strong> = last resort
+53|53|</div>
+54|54|
+55|55|<p>Collar is forked from NousResearch/hermes-agent, rebuilt as a DAG-first harness. It reads <code>.dag</code> files as its behavioral ground truth. Skills auto-compile from <code>.dog</code> specs into <code>.dag</code> edges. No prose config, no baked-in prompts — just DAG paths.</p>
+56|56|
+57|57|<p>Created by <strong>Justin DiClemente</strong> (<a href="https://github.com/logohere">@logohere</a>).</p>
+58|58|
+59|59|<h2>Install</h2>
+60|60|<pre>git clone https://github.com/specdog/collar.git
+61|61|cd collar
+62|62|python3 -m venv .venv && source .venv/bin/activate
+63|63|pip install -e .
+64|64|npm install -g dotdog</pre>
+65|65|<p>Requires Python >= 3.11.</p>
+66|66|
+67|67|<h2>Quick Start</h2>
+68|68|<pre>collar              # interactive chat
+69|69|collar chat -q "..."  # single query
+70|70|collar setup          # first-time setup wizard</pre>
+71|71|
+72|72|<h2>No API key? Use OAuth</h2>
+73|73|<pre>collar auth add openai-codex   # ChatGPT Plus/Pro
+74|74|collar auth add xai-oauth      # xAI SuperGrok
+75|75|collar auth add qwen-oauth     # Qwen Plus/Pro
+76|76|collar auth add nous           # Nous Portal</pre>
+77|77|<p>Then <code>collar model</code> to pick your provider. Or set <code>OPENROUTER_API_KEY</code> in <code>~/.dag/.env</code> for pay-per-token access to 200+ models.</p>
+78|78|
+79|79|<h2>Architecture</h2>
+80|80|<table>
+81|81|  <tr><th>Layer</th><th>Source</th><th>Format</th><th>Loader</th></tr>
+82|82|  <tr><td>System prompt</td><td><code>dags/*.dag</code></td><td>DAG-path plain text</td><td><code>_load_dag_text()</code></td></tr>
+83|83|  <tr><td>Skills</td><td><code>skills/*/SKILL.dag</code></td><td>DAG-path plain text</td><td><code>skill_view()</code></td></tr>
+84|84|  <tr><td>Projects</td><td><code>*.dag</code></td><td>JSON v2/v3</td><td>MCP dotdog</td></tr>
+85|85|</table>
+86|86|
+87|87|<h2>Key Numbers</h2>
+88|88|<table>
+89|89|  <tr><td>95% compression</td><td>383k → 17k (skills)</td></tr>
+90|90|  <tr><td>74% compression</td><td>15k → 4k (system prompt)</td></tr>
+91|91|  <tr><td>0 legacy refs</td><td>6974+ renamed</td></tr>
+92|92|</table>
+93|93|
+94|94|<h2>Links</h2>
+95|95|<p>
+96|96|  <a href="https://github.com/specdog/collar">GitHub</a> ·
+97|97|  <a href="https://github.com/specdog/dotdog">dotdog</a> ·
+98|98|  <a href="https://github.com/specdog">specdog org</a>
+99|99|</p>
+100|100|
+101|101|<footer>specdog · MIT license · dogfoods its own .dag files</footer>
+102|102|</body>
+103|103|</html>
+104|104|

@@ -1,144 +1,146 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>specdog — Feed the dog. Ship with specs.</title>
-<meta name="description" content="CLI tool for structured software specs. Validate .dog files, compile .dag graphs, query via MCP.">
-<link rel="llms-txt" href="/llms.txt">
-<link rel="icon" type="image/svg+xml" href="/dotdog/assets/dog.svg">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "specdog",
-  "url": "https://specdog.github.io",
-  "sameAs": ["https://github.com/specdog", "https://www.npmjs.com/package/dotdog"]
-}
-</script>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: #ffffff; color: #1a1a2e;
-    min-height: 100vh; padding: 24px;
-  }
-  nav { display: flex; justify-content: center; gap: 24px; padding: 8px 0 32px; }
-  nav a { color: #6b7280; text-decoration: none; font-size: .9em; font-weight: 500; }
-  nav a:hover { color: #d97706; }
-  nav a.active { color: #d97706; }
-  main { max-width: 520px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center; }
-  svg { width: 100px; height: 100px; transition: transform .15s; }
-  h1 { font-size: 2.4em; font-weight: 700; margin: 12px 0 4px; }
-  p.tagline { color: #6b7280; font-size: 1.1em; margin-bottom: 4px; }
-  p.desc { color: #4b5563; font-size: 0.92em; margin-bottom: 16px; line-height: 1.6; }
-  .dog-widget { display: inline-block; cursor: pointer; user-select: none; margin-bottom: 8px; }
-  #dog-status { font-size: .75em; color: #9ca3af; min-height: 18px; margin: 4px 0; }
-  .actions { display: flex; gap: 6px; justify-content: center; margin-bottom: 16px; flex-wrap: wrap; }
-  .actions button { padding: 4px 12px; border-radius: 14px; border: 1px solid #e5e7eb; background: #fff; color: #4b5563; font-size: .78em; cursor: pointer; font-family: inherit; }
-  .actions button:hover { background: #fef3c7; border-color: #f59e0b; color: #92400e; }
-  .install-wrap { position: relative; margin-bottom: 20px; width: 100%; }
-  pre { background: #1e293b; color: #e2e8f0; border-radius: 8px; padding: 16px 20px; text-align: left; font-size: .85em; margin: 0; overflow-x: auto; position: relative; }
-  pre code { color: #93c5fd; }
-  .copy-btn { position: absolute; top: 8px; right: 8px; background: none; border: none; color: #94a3b8; cursor: pointer; padding: 4px 6px; border-radius: 4px; line-height: 1; }
-  .copy-btn:hover { color: #e2e8f0; background: rgba(255,255,255,0.08); }
-  .copy-btn.copied { color: #4ade80; }
-  .copy-btn svg { width: 16px; height: 16px; }
-  .btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-  a.btn { display: inline-block; padding: 10px 22px; border-radius: 6px; font-size: .92em; font-weight: 600; text-decoration: none; }
-  a.primary { background: #f59e0b; color: #1a1a2e; }
-  a.primary:hover { background: #d97706; }
-  a.secondary { background: #f1f5f9; color: #1e293b; border: 1px solid #cbd5e1; }
-  a.secondary:hover { background: #e2e8f0; }
-  .line { transition: opacity .15s; }
-  .cmd { color: #93c5fd; }
-  .out { color: #86efac; }
-  footer { margin-top: 24px; color: #9ca3af; font-size: .8em; }
-  footer a { color: #9ca3af; }
-</style>
-</head>
-<body>
-<nav>
-  <a href="/" class="active">specdog</a>
-  <a href="/handbook">guide</a>
-  <a href="/agents">for agents</a>
-      <a href="/dogfood">dogfood</a>
-</nav>
-<main>
-  <div class="dog-widget" title="Feed the dog">
-    <svg id="dog-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
-      <ellipse cx="28" cy="28" rx="13" ry="17" fill="#d97706" transform="rotate(-15 28 28)"/>
-      <ellipse cx="92" cy="28" rx="13" ry="17" fill="#d97706" transform="rotate(15 92 28)"/>
-      <circle cx="60" cy="63" r="32" fill="#f59e0b"/>
-      <circle cx="46" cy="56" r="5" fill="#1a1a2e"/><circle cx="74" cy="56" r="5" fill="#1a1a2e"/>
-      <circle cx="48" cy="54" r="2" fill="#fff"/><circle cx="76" cy="54" r="2" fill="#fff"/>
-      <ellipse cx="60" cy="70" rx="7" ry="5" fill="#1a1a2e"/>
-      <path d="M52 78 Q60 86 68 78" fill="none" stroke="#1a1a2e" stroke-width="2" stroke-linecap="round"/>
-      <ellipse id="tongue" cx="60" cy="84" rx="5" ry="6" fill="#ef4444" opacity="0" style="transition:opacity .2s"/>
-      <g id="bone" opacity="0"><path d="M44 80 Q44 70 55 76 L65 76 Q76 70 76 80 Q76 90 65 86 L55 86 Q44 90 44 80 Z" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/></g>
-    </svg>
-  </div>
-  <div id="dog-status">🐕 Spec</div>
-  <div class="actions">
-    <button onclick="feed()">🦴 Feed</button>
-    <button onclick="pet()">✋ Pet</button>
-    <button onclick="fetchBall()">🎾 Fetch</button>
-  </div>
-
-  <h1>specdog</h1>
-  <p class="tagline">Specs that ship. Agents that don't hallucinate.</p>
-  <p class="desc">Write project specs in <code>.dog</code> files. Compile to <code>.dag</code> graphs — <strong>94% fewer tokens</strong> than prose. AI agents query exact entities instead of scanning docs. <strong>2,372 developers</strong> installed last month.</p>
-
-  <div class="why" style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:16px 0;">
-    <span style="background:#fef3c7;padding:4px 10px;border-radius:12px;font-size:.8em;">📉 94% token savings</span>
-    <span style="background:#dcfce7;padding:4px 10px;border-radius:12px;font-size:.8em;">🤖 7 MCP tools for agents</span>
-    <span style="background:#f3e8ff;padding:4px 10px;border-radius:12px;font-size:.8em;">📊 26/28 tests passing</span>
-    <span style="background:#fce7f3;padding:4px 10px;border-radius:12px;font-size:.8em;">📦 2,372 monthly installs</span>
-    <span style="background:#e7fcef;padding:4px 10px;border-radius:12px;font-size:.8em;">📝 16 blog posts</span>
-  </div>
-
-  <div class="install-wrap">
-    <pre><code>npm install -g dotdog
-dotdog init my-app
-dotdog validate</code></pre>
-    <button class="copy-btn" onclick="copyInstall(this)" title="Copy">
-      <svg id="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-    </button>
-  </div>
-
-  <div class="btns">
-    <a class="btn primary" href="/dotdog">Get Started</a>
-    <a class="btn secondary" href="https://www.npmjs.com/package/dotdog">npm</a>
-    <a class="btn secondary" href="https://github.com/specdog/dotdog">GitHub</a>
-  </div>
-
-  <p style="margin-top:24px;font-size:.85em;color:#6b7280;">
-    <a href="https://specdog.github.io/dogbench">dogbench</a> — token benchmark leaderboard for AI coding agents
-    <br>
-    <a href="/leash">leash</a> — Rust robotics harness, 27 entities, built with dotdog
-    <br>
-    <a href="https://github.com/specdog/collar">collar</a> — DAG-first agent harness
-  </p>
-  <footer>dotdog@<span id="version">0.5.0</span> · <a href="https://github.com/specdog/dotdog/blob/main/LICENSE">MIT</a></footer>
-</main>
-<script>
-const svg=document.getElementById('dog-svg'),st=document.getElementById('dog-status');
-const bone=document.getElementById('bone'),tongue=document.getElementById('tongue');
-function feed(){bone.setAttribute('opacity','1');st.innerHTML='🦴 Dog fed. Ship with specs!';setTimeout(()=>bone.setAttribute('opacity','0'),1500);}
-function pet(){tongue.setAttribute('opacity','1');svg.style.transform='rotate(-5deg)';st.innerHTML='✋ Good dog.';setTimeout(()=>{svg.style.transform='';tongue.setAttribute('opacity','0');},800);}
-function fetchBall(){svg.style.transform='translateX(20px)';st.innerHTML='🎾 Fetch!';setTimeout(()=>svg.style.transform='',400);}
-svg.parentElement.addEventListener('click',pet);
-document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;if(e.key==='v')feed();if(e.key==='c')fetchBall();if(e.key==='p')pet();});
-function copyInstall(btn){
-  const pre=btn.parentElement.querySelector('pre');
-  navigator.clipboard.writeText(pre.textContent).then(()=>{
-    btn.classList.add('copied');
-    btn.innerHTML='<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg>';
-    setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML='<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"9\" y=\"9\" width=\"13\" height=\"13\" rx=\"2\" ry=\"2\"/><path d=\"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\"/></svg>';},2000);
-  });
-}
-async function loadVersion(){try{const r=await fetch('https://registry.npmjs.org/dotdog/latest');const d=await r.json();document.getElementById('version').textContent=d.version;}catch(e){}}
-loadVersion();
-</script>
-</body>
-</html>
+1|<!DOCTYPE html>
+2|<html lang="en">
+3|<head>
+4|<meta charset="UTF-8">
+5|<meta name="viewport" content="width=device-width, initial-scale=1.0">
+6|<title>specdog — Feed the dog. Ship with specs.</title>
+7|<meta name="description" content="CLI tool for structured software specs. Validate .dog files, compile .dag graphs, query via MCP.">
+8|<link rel="llms-txt" href="/llms.txt">
+9|<link rel="icon" type="image/svg+xml" href="/dotdog/assets/dog.svg">
+10|<script type="application/ld+json">
+11|{
+12|  "@context": "https://schema.org",
+13|  "@type": "Organization",
+14|  "name": "specdog",
+15|  "url": "https://specdog.github.io",
+16|  "sameAs": ["https://github.com/specdog", "https://www.npmjs.com/package/dotdog"]
+17|}
+18|</script>
+19|<style>
+20|  * { margin: 0; padding: 0; box-sizing: border-box; }
+21|  body {
+22|    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+23|    background: #ffffff; color: #1a1a2e;
+24|    min-height: 100vh; padding: 24px;
+25|  }
+26|  nav { display: flex; justify-content: center; gap: 24px; padding: 8px 0 32px; }
+27|  nav a { color: #6b7280; text-decoration: none; font-size: .9em; font-weight: 500; }
+28|  nav a:hover { color: #d97706; }
+29|  nav a.active { color: #d97706; }
+30|  main { max-width: 520px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center; }
+31|  svg { width: 100px; height: 100px; transition: transform .15s; }
+32|  h1 { font-size: 2.4em; font-weight: 700; margin: 12px 0 4px; }
+33|  p.tagline { color: #6b7280; font-size: 1.1em; margin-bottom: 4px; }
+34|  p.desc { color: #4b5563; font-size: 0.92em; margin-bottom: 16px; line-height: 1.6; }
+35|  .dog-widget { display: inline-block; cursor: pointer; user-select: none; margin-bottom: 8px; }
+36|  #dog-status { font-size: .75em; color: #9ca3af; min-height: 18px; margin: 4px 0; }
+37|  .actions { display: flex; gap: 6px; justify-content: center; margin-bottom: 16px; flex-wrap: wrap; }
+38|  .actions button { padding: 4px 12px; border-radius: 14px; border: 1px solid #e5e7eb; background: #fff; color: #4b5563; font-size: .78em; cursor: pointer; font-family: inherit; }
+39|  .actions button:hover { background: #fef3c7; border-color: #f59e0b; color: #92400e; }
+40|  .install-wrap { position: relative; margin-bottom: 20px; width: 100%; }
+41|  pre { background: #1e293b; color: #e2e8f0; border-radius: 8px; padding: 16px 20px; text-align: left; font-size: .85em; margin: 0; overflow-x: auto; position: relative; }
+42|  pre code { color: #93c5fd; }
+43|  .copy-btn { position: absolute; top: 8px; right: 8px; background: none; border: none; color: #94a3b8; cursor: pointer; padding: 4px 6px; border-radius: 4px; line-height: 1; }
+44|  .copy-btn:hover { color: #e2e8f0; background: rgba(255,255,255,0.08); }
+45|  .copy-btn.copied { color: #4ade80; }
+46|  .copy-btn svg { width: 16px; height: 16px; }
+47|  .btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+48|  a.btn { display: inline-block; padding: 10px 22px; border-radius: 6px; font-size: .92em; font-weight: 600; text-decoration: none; }
+49|  a.primary { background: #f59e0b; color: #1a1a2e; }
+50|  a.primary:hover { background: #d97706; }
+51|  a.secondary { background: #f1f5f9; color: #1e293b; border: 1px solid #cbd5e1; }
+52|  a.secondary:hover { background: #e2e8f0; }
+53|  .line { transition: opacity .15s; }
+54|  .cmd { color: #93c5fd; }
+55|  .out { color: #86efac; }
+56|  footer { margin-top: 24px; color: #9ca3af; font-size: .8em; }
+57|  footer a { color: #9ca3af; }
+58|</style>
+59|</head>
+60|<body>
+61|<nav>
+62|  <a href="/" class="active">specdog</a>
+63|  <a href="/handbook">guide</a>
+64|  <a href="/agents">for agents</a>
+65|      <a href="/dogfood">dogfood</a>
+<a href="/collar">collar</a>
+66|</nav>
+67|<main>
+68|  <div class="dog-widget" title="Feed the dog">
+69|    <svg id="dog-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+70|      <ellipse cx="28" cy="28" rx="13" ry="17" fill="#d97706" transform="rotate(-15 28 28)"/>
+71|      <ellipse cx="92" cy="28" rx="13" ry="17" fill="#d97706" transform="rotate(15 92 28)"/>
+72|      <circle cx="60" cy="63" r="32" fill="#f59e0b"/>
+73|      <circle cx="46" cy="56" r="5" fill="#1a1a2e"/><circle cx="74" cy="56" r="5" fill="#1a1a2e"/>
+74|      <circle cx="48" cy="54" r="2" fill="#fff"/><circle cx="76" cy="54" r="2" fill="#fff"/>
+75|      <ellipse cx="60" cy="70" rx="7" ry="5" fill="#1a1a2e"/>
+76|      <path d="M52 78 Q60 86 68 78" fill="none" stroke="#1a1a2e" stroke-width="2" stroke-linecap="round"/>
+77|      <ellipse id="tongue" cx="60" cy="84" rx="5" ry="6" fill="#ef4444" opacity="0" style="transition:opacity .2s"/>
+78|      <g id="bone" opacity="0"><path d="M44 80 Q44 70 55 76 L65 76 Q76 70 76 80 Q76 90 65 86 L55 86 Q44 90 44 80 Z" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/></g>
+79|    </svg>
+80|  </div>
+81|  <div id="dog-status">🐕 Spec</div>
+82|  <div class="actions">
+83|    <button onclick="feed()">🦴 Feed</button>
+84|    <button onclick="pet()">✋ Pet</button>
+85|    <button onclick="fetchBall()">🎾 Fetch</button>
+86|  </div>
+87|
+88|  <h1>specdog</h1>
+89|  <p class="tagline">Specs that ship. Agents that don't hallucinate.</p>
+90|  <p class="desc">Write project specs in <code>.dog</code> files. Compile to <code>.dag</code> graphs — <strong>94% fewer tokens</strong> than prose. AI agents query exact entities instead of scanning docs. <strong>2,372 developers</strong> installed last month.</p>
+91|
+92|  <div class="why" style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:16px 0;">
+93|    <span style="background:#fef3c7;padding:4px 10px;border-radius:12px;font-size:.8em;">📉 94% token savings</span>
+94|    <span style="background:#dcfce7;padding:4px 10px;border-radius:12px;font-size:.8em;">🤖 7 MCP tools for agents</span>
+95|    <span style="background:#f3e8ff;padding:4px 10px;border-radius:12px;font-size:.8em;">📊 26/28 tests passing</span>
+96|    <span style="background:#fce7f3;padding:4px 10px;border-radius:12px;font-size:.8em;">📦 2,372 monthly installs</span>
+97|    <span style="background:#e7fcef;padding:4px 10px;border-radius:12px;font-size:.8em;">📝 16 blog posts</span>
+98|  </div>
+99|
+100|  <div class="install-wrap">
+101|    <pre><code>npm install -g dotdog
+102|dotdog init my-app
+103|dotdog validate</code></pre>
+104|    <button class="copy-btn" onclick="copyInstall(this)" title="Copy">
+105|      <svg id="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+106|    </button>
+107|  </div>
+108|
+109|  <div class="btns">
+110|    <a class="btn primary" href="/dotdog">Get Started</a>
+111|    <a class="btn secondary" href="https://www.npmjs.com/package/dotdog">npm</a>
+112|    <a class="btn secondary" href="https://github.com/specdog/dotdog">GitHub</a>
+113|  </div>
+114|
+115|  <p style="margin-top:24px;font-size:.85em;color:#6b7280;">
+116|    <a href="https://specdog.github.io/dogbench">dogbench</a> — token benchmark leaderboard for AI coding agents
+117|    <br>
+118|    <a href="/leash">leash</a> — Rust robotics harness, 27 entities, built with dotdog
+119|    <br>
+120|    <a href="https://github.com/specdog/collar">collar</a> — DAG-first agent harness
+121|  </p>
+122|  <footer>dotdog@<span id="version">0.5.0</span> · <a href="https://github.com/specdog/dotdog/blob/main/LICENSE">MIT</a></footer>
+123|</main>
+124|<script>
+125|const svg=document.getElementById('dog-svg'),st=document.getElementById('dog-status');
+126|const bone=document.getElementById('bone'),tongue=document.getElementById('tongue');
+127|function feed(){bone.setAttribute('opacity','1');st.innerHTML='🦴 Dog fed. Ship with specs!';setTimeout(()=>bone.setAttribute('opacity','0'),1500);}
+128|function pet(){tongue.setAttribute('opacity','1');svg.style.transform='rotate(-5deg)';st.innerHTML='✋ Good dog.';setTimeout(()=>{svg.style.transform='';tongue.setAttribute('opacity','0');},800);}
+129|function fetchBall(){svg.style.transform='translateX(20px)';st.innerHTML='🎾 Fetch!';setTimeout(()=>svg.style.transform='',400);}
+130|svg.parentElement.addEventListener('click',pet);
+131|document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;if(e.key==='v')feed();if(e.key==='c')fetchBall();if(e.key==='p')pet();});
+132|function copyInstall(btn){
+133|  const pre=btn.parentElement.querySelector('pre');
+134|  navigator.clipboard.writeText(pre.textContent).then(()=>{
+135|    btn.classList.add('copied');
+136|    btn.innerHTML='<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg>';
+137|    setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML='<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"9\" y=\"9\" width=\"13\" height=\"13\" rx=\"2\" ry=\"2\"/><path d=\"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\"/></svg>';},2000);
+138|  });
+139|}
+140|async function loadVersion(){try{const r=await fetch('https://registry.npmjs.org/dotdog/latest');const d=await r.json();document.getElementById('version').textContent=d.version;}catch(e){}}
+141|loadVersion();
+142|</script>
+143|</body>
+144|</html>
+145|

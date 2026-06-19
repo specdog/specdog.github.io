@@ -1,0 +1,79 @@
+name: Site Check
+
+on:
+  push:
+    branches: [docs/landing]
+  pull_request:
+    branches: [docs/landing]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for line number artifacts
+        run: |
+          echo "Checking for line number patterns in HTML..."
+          BAD=$(grep -rnP '^\d+\|' *.html || true)
+          if [ -n "$BAD" ]; then
+            echo "FAIL: Line number artifacts found:"
+            echo "$BAD"
+            exit 1
+          fi
+          echo "OK: No line number artifacts"
+
+      - name: Check nav integrity on all pages
+        run: |
+          echo "Checking nav bar on all HTML files..."
+          for f in *.html; do
+            if ! grep -q '<nav>' "$f"; then
+              echo "FAIL: $f — missing <nav>"
+              exit 1
+            fi
+            if ! grep -q '</nav>' "$f"; then
+              echo "FAIL: $f — missing </nav>"
+              exit 1
+            fi
+            # Check that nav has at least 3 links
+            COUNT=$(sed -n '/<nav>/,/<\/nav>/p' "$f" | grep -c '<a ' || true)
+            if [ "$COUNT" -lt 3 ]; then
+              echo "FAIL: $f — nav has fewer than 3 links ($COUNT)"
+              exit 1
+            fi
+            echo "OK: $f — nav has $COUNT links"
+          done
+
+      - name: Check HTML structure
+        run: |
+          for f in *.html; do
+            if ! grep -q '<!DOCTYPE html>' "$f"; then
+              echo "FAIL: $f — missing DOCTYPE"
+              exit 1
+            fi
+            if ! grep -q '<html' "$f"; then
+              echo "FAIL: $f — missing <html>"
+              exit 1
+            fi
+            if ! grep -q '</html>' "$f"; then
+              echo "FAIL: $f — missing </html>"
+              exit 1
+            fi
+            # Check no raw line number prefix on any content line
+            if grep -qP '^\d+\|\d+\|' "$f"; then
+              echo "FAIL: $f — double line number prefix found"
+              exit 1
+            fi
+            echo "OK: $f — structure valid"
+          done
+
+      - name: No deleted HTML files
+        run: |
+          # Ensure no .html files were deleted vs main baseline
+          BASE_REF=${{ github.event.pull_request.base.sha || 'HEAD~1' }}
+          DELETED=$(git diff --name-only --diff-filter=D "$BASE_REF" -- *.html || true)
+          if [ -n "$DELETED" ]; then
+            echo "WARNING: deleted HTML files detected:"
+            echo "$DELETED"
+          fi
+          echo "OK: file count check complete"

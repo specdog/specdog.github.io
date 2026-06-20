@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>specdog — agent discovery</title>
+<meta name="description" content="Agent discovery snippets for specdog: robots.txt, llms.txt, and catalog examples.">
+<link rel="icon" type="image/svg+xml" href="/dotdog/assets/dog.svg">
+<style>
+  *{box-sizing:border-box} body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;max-width:860px;margin:0 auto;padding:24px;color:#111827;background:#fff}
+  nav{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-bottom:28px}
+  nav a{color:#6b7280;text-decoration:none;font-weight:600}
+  nav a.active{color:#d97706}
+  h1{font-size:2rem;margin:0 0 8px}
+  p{line-height:1.6;color:#374151}
+  .card{border:1px solid #e5e7eb;border-radius:12px;padding:16px 18px;margin:16px 0;background:#fafafa}
+  pre{background:#111827;color:#e5e7eb;padding:14px;border-radius:10px;overflow:auto}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .muted{color:#6b7280;font-size:.92rem}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/">specdog</a>
+  <a href="/handbook">guide</a>
+  <a href="/agents">for agents</a>
+  <a href="/dogfood">dogfood</a>
+  <a href="/blog">blog</a>
+  <a href="/github" class="active">github</a>
+  <a href="/collar">collar</a>
+</nav>
+<main>
+  <h1>Agent discovery</h1>
+  <p>Paste these into the public site and repo surfaces so search and chat agents can find specdog cleanly.</p>
+
+  <div class="card">
+    <h2>robots.txt</h2>
+    <pre><code>User-agent: *
+Allow: /
+Sitemap: https://specdog.github.io/sitemap.xml</code></pre>
+  </div>
+
+  <div class="card">
+    <h2>llms.txt</h2>
+    <pre><code># specdog
+
+- https://specdog.github.io/ — org landing page
+- https://specdog.github.io/dotdog — dotdog docs
+- https://specdog.github.io/collar — collar docs
+- https://specdog.github.io/dogbench — dogbench benchmark
+- https://specdog.github.io/blog — blog index</code></pre>
+  </div>
+
+  <div class="card">
+    <h2>ai-catalog.json</h2>
+    <pre><code>{
+  "name": "specdog",
+  "capabilities": [
+    {"type": "website", "name": "Landing", "url": "https://specdog.github.io"},
+    {"type": "docs", "name": "dotdog", "url": "https://specdog.github.io/dotdog"},
+    {"type": "docs", "name": "collar", "url": "https://specdog.github.io/collar"},
+    {"type": "docs", "name": "dogbench", "url": "https://specdog.github.io/dogbench"},
+    {"type": "blog", "name": "specdog blog", "url": "https://specdog.github.io/blog"}
+  ]
+}</code></pre>
+  </div>
+
+  <p class="muted">Keep this page short. Use it as the canonical snippet source for discoverability.</p>
+</main>
+</body>
+</html>

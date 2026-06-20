@@ -1,14 +1,10 @@
 # specdog
 
-> CLI tool for structured software specs. Write .dog specs, compile to .dag graphs, query via MCP.
-
-## Docs
-
-- [dotdog docs](https://specdog.github.io/dotdog): Full documentation, install, commands, MCP API
-- [dotdog on GitHub](https://github.com/specdog/dotdog): Source, format specs, AGENTS.md
-- [dotdog on npm](https://www.npmjs.com/package/dotdog): npm install -g dotdog
-
-## Agent files
-
-- [AGENTS.md](https://github.com/specdog/dotdog/blob/main/AGENTS.md): Instructions for AI coding agents
-- [CLI source](https://github.com/specdog/dotdog/blob/main/packages/dotdog/src/cli.ts): 11 commands, typed parser, MCP server
+- https://specdog.github.io/ — landing page
+- https://specdog.github.io/about — about page
+- https://specdog.github.io/blog — blog index
+- https://specdog.github.io/github — agent discovery snippets
+- https://specdog.github.io/dotdog — dotdog docs
+- https://specdog.github.io/collar — collar docs
+- https://specdog.github.io/dogbench — dogbench benchmark
+- https://specdog.github.io/leash — leash project

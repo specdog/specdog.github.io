@@ -1,0 +1,13 @@
+name: drift
+on:
+  push:
+  pull_request:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: site
+        run: python3 scripts/check-site.py
+      - name: readmes
+        run: python3 scripts/check-readmes.py

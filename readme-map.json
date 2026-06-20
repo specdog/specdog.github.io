@@ -1,0 +1,20 @@
+{
+  "files": [
+    {
+      "path": "/Users/dico/collar/README.md",
+      "mustContain": ["https://github.com/specdog/dotdog", "https://github.com/specdog/dogbench", "https://github.com/specdog"]
+    },
+    {
+      "path": "/Users/dico/dotdog/README.md",
+      "mustContain": ["https://github.com/specdog/collar", "https://github.com/specdog/dogbench", "https://github.com/specdog"]
+    },
+    {
+      "path": "/Users/dico/dogbench/README.md",
+      "mustContain": ["specdog.github.io/dogbench", "Collar", "dotdog"]
+    },
+    {
+      "path": "/Users/dico/projects/leash/README.md",
+      "mustContain": ["specdog", "Collar", "dogbench", "dotdog"]
+    }
+  ]
+}

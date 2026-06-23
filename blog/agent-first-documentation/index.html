@@ -1,4 +1,17 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Agent-First Documentation — The New Standard | specdog</title><meta name="description" content="How documentation changes when AI agents are expected to read, navigate, and act on it."><link rel="canonical" href="https://specdog.github.io/blog/agent-first-documentation/"><link rel="icon" type="image/svg+xml" href="/dotdog/assets/dog.svg"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Agent-First Documentation — The New Standard","author":{"@type":"Organization","name":"specdog"}}</script><style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;max-width:820px;margin:0 auto;padding:32px 24px;color:#111827;line-height:1.75}nav{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-bottom:28px}nav a{color:#6b7280;text-decoration:none;font-weight:600}nav a.active{color:#d97706}h1{font-size:2.15rem;line-height:1.15}p{color:#374151}a{color:#d97706}.meta{color:#6b7280;font-size:.9rem}</style></head><body><nav>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent-First Documentation — The New Standard | specdog</title>
+<meta name="description" content="How documentation changes when AI agents are expected to read, navigate, and act on it.">
+<link rel="canonical" href="https://specdog.github.io/blog/agent-first-documentation/">
+<link rel="icon" type="image/svg+xml" href="/dotdog/assets/dog.svg">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Agent-First Documentation — The New Standard","description":"How documentation changes when AI agents are expected to read, navigate, and act on it.","author":{"@type":"Organization","name":"specdog"},"publisher":{"@type":"Organization","name":"specdog","url":"https://specdog.github.io"},"mainEntityOfPage":"https://specdog.github.io/blog/agent-first-documentation/"}</script>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;max-width:820px;margin:0 auto;padding:32px 24px;color:#111827;background:#fff;line-height:1.75}nav{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-bottom:28px}nav a{color:#6b7280;text-decoration:none;font-weight:600}nav a.active{color:#d97706}article{max-width:760px;margin:0 auto}.eyebrow{color:#d97706;font-size:.86rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}h1{font-size:2.25rem;line-height:1.12;margin:8px 0 12px}.dek{font-size:1.08rem;color:#4b5563;margin-bottom:24px}.meta{color:#6b7280;font-size:.9rem;margin-bottom:24px}h2{font-size:1.35rem;margin:34px 0 10px;border-bottom:1px solid #e5e7eb;padding-bottom:6px}p{color:#374151;margin:0 0 16px}ul{padding-left:22px;color:#374151}li{margin:8px 0}a{color:#d97706}.callout{background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;padding:14px 16px;margin:24px 0;color:#92400e}.back{margin-top:34px}</style>
+</head>
+<body>
+<nav>
   <a href="/">specdog</a>
   <a href="/about">about</a>
   <a href="/handbook">guide</a>
@@ -8,4 +21,15 @@
   <a href="/github">github</a>
   <a href="/leash">leash</a>
   <a href="/collar">collar</a>
-</nav><main><p class="meta">spec-driven development · specdog blog</p><h1>Agent-First Documentation — The New Standard</h1><p>Documentation is now runtime context for agents as well as a handoff between humans. It needs stable names, clear entry points, and links that make project intent easy to find.</p><p>Agent-first documentation keeps the readable explanation, but removes ambiguity around what exists and where it lives.</p><p>For specdog projects, that means the public site, guide, agent page, and product pages should agree on the same names and routes.</p><p><a href="/blog">← Back to blog</a></p></main></body></html>
+</nav>
+<article>
+<div class="eyebrow">spec-driven documentation</div>
+<h1>Agent-First Documentation — The New Standard</h1>
+<p class="dek">How documentation changes when AI agents are expected to read, navigate, and act on it.</p>
+<p class="meta">specdog blog</p>
+<p>Documentation is no longer just a handoff between humans. It is also the runtime context an AI agent uses before touching a codebase. If the documentation is vague, stale, or scattered, the agent burns tokens rediscovering basic facts and is more likely to make unsafe assumptions.</p><p>Agent-first documentation does not mean writing for machines instead of people. It means writing pages that are easy for humans to skim and easy for agents to resolve into exact names, routes, files, commands, and constraints.</p><h2>What changes</h2><p>The biggest change is structure. A useful agent page should name the canonical tools, describe their relationships, and link to stable entry points. It should avoid burying critical instructions inside long prose that must be reread every time.</p><p>For specdog, the public website should agree with the source specs, the handbook, the agent instructions, the sitemap, and llms.txt. When those surfaces disagree, both humans and agents lose trust in the map.</p><h2>The specdog pattern</h2><p>The pattern is simple: write intent in structured specs, validate it, compile a graph, and expose that graph through documentation and agent-readable indexes. The website becomes the front door, not a separate brochure.</p><p>That is why broken blog links, missing article pages, inconsistent navigation, or vague product descriptions matter. They are not cosmetic errors. They are discovery failures.</p>
+<div class="callout">For agents: start with <a href="/agents">/agents</a>, then use <a href="/handbook">/handbook</a>, <a href="/sitemap.xml">/sitemap.xml</a>, and <a href="/llms.txt">/llms.txt</a> to discover the project surface.</div>
+<p class="back"><a href="/blog">← Back to blog</a></p>
+</article>
+</body>
+</html>

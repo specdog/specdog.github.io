@@ -1,6 +1,7 @@
 {
   "pages": [
     {"path": "/", "title": "specdog"},
+    {"path": "/dotdog", "title": "dotdog"},
     {"path": "/about", "title": "About"},
     {"path": "/blog", "title": "Blog"},
     {"path": "/github", "title": "Discovery"},
@@ -11,6 +12,6 @@
     {"path": "/dogbench", "title": "dogbench"},
     {"path": "/leash", "title": "leash"}
   ],
-  "nav": ["/", "/about", "/blog", "/github", "/handbook", "/agents", "/dogfood", "/leash", "/collar"],
+  "nav": ["/", "/dotdog", "/about", "/blog", "/github", "/handbook", "/agents", "/dogfood", "/leash", "/collar"],
   "skip": ["blog.html", "about.html", "github.html", "dogbench.html", "leash.html"]
 }

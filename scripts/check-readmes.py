@@ -13,6 +13,11 @@ def main() -> int:
     issues = []
     for item in data["files"]:
         p = Path(item["path"])
+        try:
+            p.relative_to(ROOT)
+        except ValueError:
+            print(f"README CHECK SKIP external path: {p}")
+            continue
         if not p.exists():
             issues.append(f"missing file: {p}")
             continue

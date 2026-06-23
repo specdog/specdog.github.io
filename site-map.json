@@ -11,6 +11,6 @@
     {"path": "/dogbench", "title": "dogbench"},
     {"path": "/leash", "title": "leash"}
   ],
-  "nav": ["/", "/about", "/blog", "/github", "/handbook", "/agents", "/dogfood", "/collar"],
+  "nav": ["/", "/about", "/blog", "/github", "/handbook", "/agents", "/dogfood", "/leash", "/collar"],
   "skip": ["blog.html", "about.html", "github.html", "dogbench.html", "leash.html"]
 }

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 160" role="img" aria-labelledby="t d">
+<title id="t">Robot with a collar</title><desc id="d">Friendly orange robot with a simple dark collar and tag.</desc>
+<rect width="240" height="160" rx="24" fill="#fff7ed"/>
+<rect x="80" y="40" width="80" height="78" rx="18" fill="#f59e0b" stroke="#1a1a2e" stroke-width="4"/>
+<rect x="106" y="22" width="28" height="22" rx="8" fill="#fed7aa" stroke="#1a1a2e" stroke-width="4"/>
+<circle cx="104" cy="75" r="7" fill="#1a1a2e"/><circle cx="136" cy="75" r="7" fill="#1a1a2e"/>
+<path d="M109 92 Q120 101 132 92" fill="none" stroke="#1a1a2e" stroke-width="4" stroke-linecap="round"/>
+<path d="M86 108 H154 V123 H86 Z" fill="#1a1a2e"/>
+<circle cx="120" cy="126" r="12" fill="#fef3c7" stroke="#d97706" stroke-width="4"/>
+<circle cx="97" cy="135" r="10" fill="#1a1a2e"/><circle cx="143" cy="135" r="10" fill="#1a1a2e"/>
+</svg>

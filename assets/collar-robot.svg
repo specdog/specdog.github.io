@@ -1,14 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-labelledby="title desc">
-<title id="title">simple collar robot</title>
-<desc id="desc">A simple orange robot icon wearing a small collar.</desc>
-<rect x="34" y="30" width="52" height="48" rx="12" fill="#f59e0b" stroke="#1a1a2e" stroke-width="3"/>
-<rect x="52" y="18" width="16" height="12" rx="5" fill="#fef3c7" stroke="#1a1a2e" stroke-width="3"/>
-<circle cx="50" cy="50" r="4" fill="#1a1a2e"/>
-<circle cx="70" cy="50" r="4" fill="#1a1a2e"/>
-<path d="M52 64 Q60 70 68 64" fill="none" stroke="#1a1a2e" stroke-width="3" stroke-linecap="round"/>
-<path d="M34 55 L24 48" stroke="#1a1a2e" stroke-width="3" stroke-linecap="round"/>
-<path d="M86 55 L96 48" stroke="#1a1a2e" stroke-width="3" stroke-linecap="round"/>
-<circle cx="48" cy="90" r="7" fill="#1a1a2e"/>
-<circle cx="72" cy="90" r="7" fill="#1a1a2e"/>
-<path d="M40 74 H80 V82 H40 Z" fill="#1a1a2e"/><circle cx="60" cy="86" r="7" fill="#fef3c7" stroke="#d97706" stroke-width="3"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img"><circle cx="60" cy="60" r="34" fill="#f59e0b" /><rect x="48" y="22" width="24" height="12" rx="6" fill="#d97706" /><circle cx="48" cy="55" r="5" fill="#1a1a2e" /><circle cx="72" cy="55" r="5" fill="#1a1a2e" /><path d="M50 72 Q60 80 70 72" fill="none" stroke="#1a1a2e" stroke-width="4" stroke-linecap="round" /><path d="M38 87 H82" stroke="#1a1a2e" stroke-width="6" stroke-linecap="round" /><circle cx="60" cy="93" r="6" fill="#fef3c7" stroke="#d97706" stroke-width="3" /></svg>

@@ -8,3 +8,14 @@
 - https://specdog.github.io/collar — collar docs
 - https://specdog.github.io/dogbench — dogbench benchmark
 - https://specdog.github.io/leash — leash project
+
+
+## Blog posts
+- https://specdog.github.io/blog/agent-first-documentation/ — agent-first documentation
+- https://specdog.github.io/blog/google-ard-dotdog/ — agentic resource discovery
+- https://specdog.github.io/blog/karpathy-wiki-brain/ — project memory and entity graphs
+
+## Agent discovery
+- Use /agents for runtime instructions.
+- Use /handbook for the spec-driven development guide.
+- Use /sitemap.xml for crawlable routes.

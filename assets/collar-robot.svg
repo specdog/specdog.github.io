@@ -1,18 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-labelledby="title desc">
-<title id="title">robot wearing a specdog collar</title>
-<desc id="desc">A friendly orange robot wears a simple black collar with a round specdog tag.</desc>
-<rect x="35" y="28" width="50" height="48" rx="11" fill="#f59e0b" stroke="#1a1a2e" stroke-width="3"/>
-<rect x="52" y="17" width="16" height="11" rx="4" fill="#fef3c7" stroke="#1a1a2e" stroke-width="3"/>
-<circle cx="50" cy="49" r="4" fill="#1a1a2e"/>
-<circle cx="70" cy="49" r="4" fill="#1a1a2e"/>
-<path d="M52 61 Q60 68 68 61" fill="none" stroke="#1a1a2e" stroke-width="3" stroke-linecap="round"/>
-<path d="M40 73 H80 V83 H40 Z" fill="#1a1a2e"/>
-<circle cx="60" cy="87" r="9" fill="#fef3c7" stroke="#d97706" stroke-width="3"/>
-<path d="M55 87 H65" stroke="#d97706" stroke-width="3" stroke-linecap="round"/>
-<path d="M35 55 L24 48" stroke="#1a1a2e" stroke-width="3" stroke-linecap="round"/>
-<path d="M85 55 L96 48" stroke="#1a1a2e" stroke-width="3" stroke-linecap="round"/>
-<circle cx="48" cy="91" r="7" fill="#1a1a2e"/>
-<circle cx="72" cy="91" r="7" fill="#1a1a2e"/>
-<ellipse cx="27" cy="26" rx="9" ry="12" fill="#d97706" opacity=".28" transform="rotate(-18 27 26)"/>
-<ellipse cx="93" cy="26" rx="9" ry="12" fill="#d97706" opacity=".28" transform="rotate(18 93 26)"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img"><circle cx="60" cy="60" r="34" fill="#f59e0b" /><rect x="48" y="22" width="24" height="12" rx="6" fill="#d97706" /><circle cx="48" cy="55" r="5" fill="#1a1a2e" /><circle cx="72" cy="55" r="5" fill="#1a1a2e" /><path d="M50 72 Q60 80 70 72" fill="none" stroke="#1a1a2e" stroke-width="4" stroke-linecap="round" /><path d="M38 87 H82" stroke="#1a1a2e" stroke-width="6" stroke-linecap="round" /><circle cx="60" cy="93" r="6" fill="#fef3c7" stroke="#d97706" stroke-width="3" /></svg>

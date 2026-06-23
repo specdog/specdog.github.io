@@ -53,6 +53,10 @@
   .line { transition: opacity .15s; }
   .cmd { color: #93c5fd; }
   .out { color: #86efac; }
+  .product-grid { display:grid; grid-template-columns:1fr; gap:10px; width:100%; margin:18px 0 4px; text-align:left; }
+  .product-card { border:1px solid #e5e7eb; border-radius:10px; padding:12px 14px; background:#fafafa; }
+  .product-card a { color:#d97706; font-weight:700; text-decoration:none; }
+  .product-card p { margin:4px 0 0; color:#4b5563; font-size:.86em; line-height:1.45; }
   footer { margin-top: 24px; color: #9ca3af; font-size: .8em; }
   footer a { color: #9ca3af; }
 </style>
@@ -92,14 +96,13 @@
 
   <h1>specdog</h1>
   <p class="tagline">Specs that ship. Agents that don't hallucinate.</p>
-  <p class="desc">Write project specs in <code>.dog</code> files. Compile to <code>.dag</code> graphs — <strong>94% fewer tokens</strong> than prose. AI agents query exact entities instead of scanning docs. <strong>2,372 developers</strong> installed last month.</p>
+  <p class="desc">specdog is a small family of tools for spec-driven development: write structured specs, compile agent-readable graphs, benchmark token savings, and run agent harnesses from the same source of truth.</p>
 
-  <div class="why" style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:16px 0;">
-    <span style="background:#fef3c7;padding:4px 10px;border-radius:12px;font-size:.8em;">📉 94% token savings</span>
-    <span style="background:#dcfce7;padding:4px 10px;border-radius:12px;font-size:.8em;">🤖 7 MCP tools for agents</span>
-    <span style="background:#f3e8ff;padding:4px 10px;border-radius:12px;font-size:.8em;">📊 26/28 tests passing</span>
-    <span style="background:#fce7f3;padding:4px 10px;border-radius:12px;font-size:.8em;">📦 2,372 monthly installs</span>
-    <span style="background:#e7fcef;padding:4px 10px;border-radius:12px;font-size:.8em;">📝 3 current posts</span>
+  <div class="why" style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:16px 0;">
+    <span style="background:#fef3c7;padding:4px 10px;border-radius:12px;font-size:.8em;">specs</span>
+    <span style="background:#dcfce7;padding:4px 10px;border-radius:12px;font-size:.8em;">graphs</span>
+    <span style="background:#f3e8ff;padding:4px 10px;border-radius:12px;font-size:.8em;">agents</span>
+    <span style="background:#e7fcef;padding:4px 10px;border-radius:12px;font-size:.8em;">benchmarks</span>
   </div>
 
   <div class="install-wrap">
@@ -117,13 +120,12 @@ dotdog validate</code></pre>
     <a class="btn secondary" href="https://github.com/specdog/dotdog">GitHub</a>
   </div>
 
-  <p style="margin-top:24px;font-size:.85em;color:#6b7280;">
-    <a href="https://specdog.github.io/dogbench">dogbench</a> — token savings benchmark for Collar and dotdog
-    <br>
-    <a href="/leash">leash</a> — Rust robotics harness, 27 entities, built with dotdog
-    <br>
-    <a href="/collar">collar</a> — DAG-first agent harness
-  </p>
+  <section class="product-grid" aria-label="specdog products">
+    <div class="product-card"><a href="/dotdog">dotdog</a><p>CLI and MCP tooling for structured software specs.</p></div>
+    <div class="product-card"><a href="/collar">collar</a><p>DAG-first agent harness for loading graph-backed behavior.</p></div>
+    <div class="product-card"><a href="/leash">leash</a><p>Robotics harness for simulation-safe agent control.</p></div>
+    <div class="product-card"><a href="/dogbench">dogbench</a><p>Benchmark surface for token savings and agent-readability.</p></div>
+  </section>
   <footer>dotdog@<span id="version">0.5.0</span> · <a href="https://github.com/specdog/dotdog/blob/main/LICENSE">MIT</a></footer>
 </main>
 <script>

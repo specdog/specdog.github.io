@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>dotdog | specdog</title>
+<meta name="description" content="dotdog CLI and MCP server for .dog specs, .dag graphs, repo mapping, and multi-repo workspaces.">
+<link rel="icon" type="image/svg+xml" href="/dotdog/assets/dog.svg">
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; color:#1a1a2e; background:#fff; padding:24px; }
+  nav { display:flex; justify-content:center; gap:18px; padding:8px 0 32px; flex-wrap:wrap; }
+  nav a { color:#6b7280; text-decoration:none; font-size:.9em; font-weight:500; }
+  nav a:hover, nav a.active { color:#d97706; }
+  main { max-width:760px; margin:0 auto; }
+  .hero { text-align:center; margin:12px 0 32px; }
+  h1 { font-size:2.4rem; margin:0 0 8px; }
+  .tagline { color:#4b5563; font-size:1.08rem; line-height:1.6; margin:0 auto; max-width:680px; }
+  .panel { border:1px solid #e5e7eb; background:#fafafa; border-radius:12px; padding:18px; margin:16px 0; }
+  h2 { margin:0 0 10px; font-size:1.2rem; }
+  p, li { color:#4b5563; line-height:1.6; }
+  pre { background:#1e293b; color:#e2e8f0; border-radius:10px; padding:16px; overflow:auto; }
+  code { color:#2563eb; }
+  pre code { color:#93c5fd; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; }
+  .card { border:1px solid #e5e7eb; border-radius:10px; padding:14px; background:white; }
+  .btns { display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-top:20px; }
+  .btn { display:inline-block; padding:10px 18px; border-radius:8px; text-decoration:none; font-weight:700; }
+  .primary { background:#f59e0b; color:#1a1a2e; }
+  .secondary { background:#f1f5f9; color:#1e293b; border:1px solid #cbd5e1; }
+</style>
+</head>
+<body>
+<nav>
+  <a href="/">specdog</a>
+  <a class="active" href="/dotdog">dotdog</a>
+  <a href="/about">about</a>
+  <a href="/handbook">guide</a>
+  <a href="/agents">for agents</a>
+  <a href="/dogfood">dogfood</a>
+  <a href="/blog">blog</a>
+  <a href="/github">github</a>
+  <a href="/leash">leash</a>
+  <a href="/collar">collar</a>
+</nav>
+<main>
+  <section class="hero">
+    <h1>dotdog</h1>
+    <p class="tagline">CLI and MCP tooling for structured `.dog` specs, compiled `.dag` graphs, existing repo mapping, and multi-repo workspaces.</p>
+    <div class="btns">
+      <a class="btn primary" href="https://www.npmjs.com/package/dotdog">Install from npm</a>
+      <a class="btn secondary" href="https://github.com/specdog/dotdog">GitHub</a>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Quick start</h2>
+    <pre><code>npm install -g dotdog
+dotdog init my-project
+dotdog validate
+dotdog compile
+dotdog serve</code></pre>
+  </section>
+
+  <section class="panel">
+    <h2>Workspace bridge</h2>
+    <p>A Dotdog workspace is a product boundary. It can contain one repo, a monorepo, or N separate repositories described by <code>.doghouse/workspace.json</code>.</p>
+    <pre><code>dotdog workspace init --id example-product
+dotdog workspace add ../example-api --alias example-api --role api
+dotdog workspace add ../example-web --alias example-web --role web
+dotdog workspace validate
+dotdog workspace graph --json</code></pre>
+  </section>
+
+  <section class="grid">
+    <div class="card"><h2>Specs</h2><p>Write human-readable `.dog` specs with structured YAML blocks.</p></div>
+    <div class="card"><h2>Graphs</h2><p>Compile deterministic `.dag` graphs for exact agent queries.</p></div>
+    <div class="card"><h2>Repos</h2><p>Map existing code into graph-ready facts instead of starting from a blank spec.</p></div>
+    <div class="card"><h2>Workspaces</h2><p>Represent products made from multiple repos with repo-qualified graph facts.</p></div>
+  </section>
+
+  <section class="panel">
+    <h2>MCP tools</h2>
+    <p><code>dotdog serve</code> exposes graph queries to MCP-compatible agents. The workspace bridge adds <code>workspace.list</code>, a read-only structured tool that reports workspace repos and groups with <code>trustedAsInstruction: false</code>.</p>
+  </section>
+</main>
+</body>
+</html>

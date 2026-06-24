@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>specdog — Feed the dog. Ship with specs.</title>
-<meta name="description" content="CLI tool for structured software specs. Validate .dog files, compile .dag graphs, query via MCP.">
+<meta name="description" content="CLI and MCP tooling for structured software specs, repo graphs, and multi-repo Dotdog workspaces.">
 <link rel="llms-txt" href="/llms.txt">
 <link rel="icon" type="image/svg+xml" href="/dotdog/assets/dog.svg">
 <script type="application/ld+json">
@@ -96,7 +96,7 @@
 
   <h1>specdog</h1>
   <p class="tagline">Specs that ship. Agents that don't hallucinate.</p>
-  <p class="desc">specdog is a small family of tools for spec-driven development: write structured specs, compile agent-readable graphs, benchmark token savings, and run agent harnesses from the same source of truth.</p>
+  <p class="desc">specdog is a small family of tools for spec-driven development: write structured specs, map repos into agent-readable graphs, describe multi-repo workspaces, benchmark token savings, and run agent harnesses from the same source of truth.</p>
 
   <div class="why" style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:16px 0;">
     <span style="background:#fef3c7;padding:4px 10px;border-radius:12px;font-size:.8em;">specs</span>
@@ -107,8 +107,9 @@
 
   <div class="install-wrap">
     <pre><code>npm install -g dotdog
-dotdog init my-app
-dotdog validate</code></pre>
+dotdog workspace init --id example-product
+dotdog workspace validate
+dotdog workspace graph --json</code></pre>
     <button class="copy-btn" onclick="copyInstall(this)" title="Copy">
       <svg id="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
     </button>
@@ -121,7 +122,7 @@ dotdog validate</code></pre>
   </div>
 
   <section class="product-grid" aria-label="specdog products">
-    <div class="product-card"><a href="/dotdog">dotdog</a><p>CLI and MCP tooling for structured software specs.</p></div>
+    <div class="product-card"><a href="/dotdog">dotdog</a><p>CLI and MCP tooling for `.dog` specs, `.dag` graphs, repo mapping, and multi-repo workspace manifests.</p></div>
     <div class="product-card"><a href="/collar">collar</a><p>DAG-first agent harness for loading graph-backed behavior.</p></div>
     <div class="product-card"><a href="/leash">leash</a><p>Robotics harness for simulation-safe agent control.</p></div>
     <div class="product-card"><a href="/dogbench">dogbench</a><p>Benchmark surface for token savings and agent-readability.</p></div>

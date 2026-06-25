@@ -13,7 +13,7 @@
   nav a { color: #6b7280; text-decoration: none; font-size: .9em; font-weight: 500; }
   nav a:hover, nav a.active { color: #d97706; }
   h1 { font-size: 2.2em; margin-bottom: 8px; }
-  .hero-art { display: block; width: min(100%, 360px); margin: 0 auto 20px; }
+  .hero-art { display: block; width: 100px; height: 100px; margin: 0 auto 20px; }
   h2 { font-size: 1.35em; margin: 36px 0 12px; border-bottom: 1px solid #e5e7eb; padding-bottom: 6px; }
   pre { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px 18px; font-size: .85em; overflow-x: auto; margin: 8px 0; }
   table { width: 100%; border-collapse: collapse; margin: 16px 0; }
@@ -23,19 +23,41 @@
   .badge-row { display: flex; gap: 12px; align-items: center; margin: 16px 0; flex-wrap: wrap; }
   footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid #e5e7eb; text-align: center; font-size: .85em; color: #9ca3af; }
   a { color: #d97706; }
+
+
+  /* shared navigation */
+  body { padding-top: 24px; margin-top: 0; }
+  nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    width: min(calc(100vw - 48px), 960px);
+    margin: 0 auto 32px;
+    padding: 8px 0 0;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  nav a { color: #6b7280; text-decoration: none; font-size: .9em; font-weight: 500; line-height: 1.4; }
+  nav a:hover, nav a.active { color: #d97706; }
+  /* end shared navigation */
 </style>
+<link rel="canonical" href="https://specdog.github.io/leash">
 </head>
 <body>
 <nav>
   <a href="/">specdog</a>
+  <a href="/dotdog">dotdog</a>
   <a href="/about">about</a>
   <a href="/handbook">guide</a>
   <a href="/agents">for agents</a>
   <a href="/dogfood">dogfood</a>
   <a href="/blog">blog</a>
-  <a href="/github">github</a>
   <a href="/leash" class="active">leash</a>
   <a href="/collar">collar</a>
+  <a href="/dogbench">dogbench</a>
 </nav>
 
 <img class="hero-art" src="/assets/leash-robot.svg" alt="Friendly robot being walked on a leash by a specdog mascot">

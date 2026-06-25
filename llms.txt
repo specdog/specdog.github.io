@@ -1,21 +1,26 @@
 # specdog
 
-- https://specdog.github.io/ — landing page
-- https://specdog.github.io/about — about page
-- https://specdog.github.io/blog — blog index
-- https://specdog.github.io/github — agent discovery snippets
-- https://specdog.github.io/dotdog — dotdog docs
-- https://specdog.github.io/collar — collar docs
-- https://specdog.github.io/dogbench — dogbench benchmark
-- https://specdog.github.io/leash — leash project
+> spec-driven development tools for structured specs, agent-readable graphs, multi-repo workspaces, and agent harnesses.
 
+## Main pages
+- https://specdog.github.io/ — landing page
+- https://specdog.github.io/dotdog — dotdog CLI and MCP tooling
+- https://specdog.github.io/about — project overview
+- https://specdog.github.io/handbook — spec-driven development guide
+- https://specdog.github.io/agents — AI agent instructions
+- https://specdog.github.io/dogfood — dotdog self-validation dashboard
+- https://specdog.github.io/blog — blog index
+- https://specdog.github.io/collar — DAG-first agent harness
+- https://specdog.github.io/leash — robotics harness
+- https://specdog.github.io/dogbench — token and agent-readability benchmark
 
 ## Blog posts
+- https://specdog.github.io/blog/dotdog-workspace-bridge/ — Dotdog workspace manifests for multi-repo products
 - https://specdog.github.io/blog/agent-first-documentation/ — agent-first documentation
 - https://specdog.github.io/blog/google-ard-dotdog/ — agentic resource discovery
 - https://specdog.github.io/blog/karpathy-wiki-brain/ — project memory and entity graphs
 
-## Agent discovery
-- Use /agents for runtime instructions.
-- Use /handbook for the spec-driven development guide.
-- Use /sitemap.xml for crawlable routes.
+## Discovery files
+- https://specdog.github.io/sitemap.xml — search crawler sitemap
+- https://specdog.github.io/robots.txt — crawler access and sitemap declaration
+- https://specdog.github.io/llms.txt — this curated agent-readable index

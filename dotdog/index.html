@@ -28,20 +28,41 @@
   .btn { display:inline-block; padding:10px 18px; border-radius:8px; text-decoration:none; font-weight:700; }
   .primary { background:#f59e0b; color:#1a1a2e; }
   .secondary { background:#f1f5f9; color:#1e293b; border:1px solid #cbd5e1; }
+
+
+  /* shared navigation */
+  body { padding-top: 24px; margin-top: 0; }
+  nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    width: min(calc(100vw - 48px), 960px);
+    margin: 0 auto 32px;
+    padding: 8px 0 0;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  nav a { color: #6b7280; text-decoration: none; font-size: .9em; font-weight: 500; line-height: 1.4; }
+  nav a:hover, nav a.active { color: #d97706; }
+  /* end shared navigation */
 </style>
+<link rel="canonical" href="https://specdog.github.io/dotdog">
 </head>
 <body>
 <nav>
   <a href="/">specdog</a>
-  <a class="active" href="/dotdog">dotdog</a>
+  <a href="/dotdog" class="active">dotdog</a>
   <a href="/about">about</a>
   <a href="/handbook">guide</a>
   <a href="/agents">for agents</a>
   <a href="/dogfood">dogfood</a>
   <a href="/blog">blog</a>
-  <a href="/github">github</a>
   <a href="/leash">leash</a>
   <a href="/collar">collar</a>
+  <a href="/dogbench">dogbench</a>
 </nav>
 <main>
   <section class="hero">

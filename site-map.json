@@ -51,10 +51,6 @@
     {
       "path": "/leash",
       "title": "leash"
-    },
-    {
-      "path": "/dogbench",
-      "title": "dogbench"
     }
   ],
   "nav": [
@@ -66,8 +62,7 @@
     "/dogfood",
     "/blog",
     "/leash",
-    "/collar",
-    "/dogbench"
+    "/collar"
   ],
   "skip": [
     "blog.html",

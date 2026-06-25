@@ -18,6 +18,26 @@ article{max-width:760px;margin:0 auto}
 h1{font-size:2.25rem;line-height:1.12;margin:8px 0 12px}.dek{font-size:1.08rem;color:#4b5563;margin-bottom:24px}.meta{color:#6b7280;font-size:.9rem;margin-bottom:24px}
 h2{font-size:1.35rem;margin:34px 0 10px;border-bottom:1px solid #e5e7eb;padding-bottom:6px}p{color:#374151;margin:0 0 16px}ul{padding-left:22px;color:#374151}li{margin:8px 0}a{color:#d97706}code{color:#2563eb}
 pre{background:#1e293b;color:#e2e8f0;border-radius:10px;padding:16px;overflow:auto}pre code{color:#93c5fd}.callout{background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;padding:14px 16px;margin:24px 0;color:#92400e}.back{margin-top:34px}
+
+
+  /* shared navigation */
+  body { padding-top: 24px; margin-top: 0; }
+  nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    width: min(calc(100vw - 48px), 960px);
+    margin: 0 auto 32px;
+    padding: 8px 0 0;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  nav a { color: #6b7280; text-decoration: none; font-size: .9em; font-weight: 500; line-height: 1.4; }
+  nav a:hover, nav a.active { color: #d97706; }
+  /* end shared navigation */
 </style>
 </head>
 <body>
@@ -29,9 +49,9 @@ pre{background:#1e293b;color:#e2e8f0;border-radius:10px;padding:16px;overflow:au
   <a href="/agents">for agents</a>
   <a href="/dogfood">dogfood</a>
   <a href="/blog" class="active">blog</a>
-  <a href="/github">github</a>
   <a href="/leash">leash</a>
   <a href="/collar">collar</a>
+  <a href="/dogbench">dogbench</a>
 </nav>
 <article>
 <div class="eyebrow">dotdog update</div>

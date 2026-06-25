@@ -1,17 +1,79 @@
 {
   "pages": [
-    {"path": "/", "title": "specdog"},
-    {"path": "/dotdog", "title": "dotdog"},
-    {"path": "/about", "title": "About"},
-    {"path": "/blog", "title": "Blog"},
-    {"path": "/github", "title": "Discovery"},
-    {"path": "/handbook", "title": "Guide"},
-    {"path": "/agents", "title": "For Agents"},
-    {"path": "/dogfood", "title": "Dogfood"},
-    {"path": "/collar", "title": "collar"},
-    {"path": "/dogbench", "title": "dogbench"},
-    {"path": "/leash", "title": "leash"}
+    {
+      "path": "/",
+      "title": "specdog"
+    },
+    {
+      "path": "/dotdog",
+      "title": "dotdog"
+    },
+    {
+      "path": "/about",
+      "title": "About"
+    },
+    {
+      "path": "/handbook",
+      "title": "Guide"
+    },
+    {
+      "path": "/agents",
+      "title": "For Agents"
+    },
+    {
+      "path": "/dogfood",
+      "title": "Dogfood"
+    },
+    {
+      "path": "/blog",
+      "title": "Blog"
+    },
+    {
+      "path": "/blog/dotdog-workspace-bridge/",
+      "title": "Dotdog Workspaces"
+    },
+    {
+      "path": "/blog/agent-first-documentation/",
+      "title": "Agent-first documentation"
+    },
+    {
+      "path": "/blog/google-ard-dotdog/",
+      "title": "Agentic resource discovery"
+    },
+    {
+      "path": "/blog/karpathy-wiki-brain/",
+      "title": "Project memory"
+    },
+    {
+      "path": "/collar",
+      "title": "collar"
+    },
+    {
+      "path": "/leash",
+      "title": "leash"
+    },
+    {
+      "path": "/dogbench",
+      "title": "dogbench"
+    }
   ],
-  "nav": ["/", "/dotdog", "/about", "/blog", "/github", "/handbook", "/agents", "/dogfood", "/leash", "/collar"],
-  "skip": ["blog.html", "about.html", "github.html", "dogbench.html", "leash.html"]
+  "nav": [
+    "/",
+    "/dotdog",
+    "/about",
+    "/handbook",
+    "/agents",
+    "/dogfood",
+    "/blog",
+    "/leash",
+    "/collar",
+    "/dogbench"
+  ],
+  "skip": [
+    "blog.html",
+    "about.html",
+    "github.html",
+    "dogbench.html",
+    "leash.html"
+  ]
 }

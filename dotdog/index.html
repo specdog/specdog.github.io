@@ -113,8 +113,8 @@
   </div>
 
   <h1>dotdog</h1>
-  <p class="tagline">CLI and MCP tooling for specs, graphs, and workspaces.</p>
-  <p class="desc">dotdog turns .dog specs and existing repositories into deterministic .dag graphs that agents can query without guessing through the whole codebase.</p>
+  <p class="tagline">CLI tool for structured software specs.</p>
+  <p class="desc">Write `.dog` specs, compile to `.dag` graphs, query via MCP.</p>
 
   <div class="why" style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:16px 0;">
     <span style="background:#fef3c7;padding:4px 10px;border-radius:12px;font-size:.8em;">specs</span>
@@ -125,26 +125,20 @@
 
   <div class="install-wrap">
     <pre><code>npm install -g dotdog
-dotdog workspace init --id example-product
-dotdog workspace validate
-dotdog workspace graph --json</code></pre>
+dotdog init my-app
+dotdog validate</code></pre>
     <button class="copy-btn" onclick="copyInstall(this)" title="Copy">
       <svg id="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
     </button>
   </div>
 
   <div class="btns">
-    <a class="btn primary" href="https://www.npmjs.com/package/dotdog">Install from npm</a>
+    <a class="btn primary" href="https://www.npmjs.com/package/dotdog">Get Started</a>
     <a class="btn secondary" href="https://www.npmjs.com/package/dotdog">npm</a>
     <a class="btn secondary" href="https://github.com/specdog/dotdog">GitHub</a>
   </div>
 
-  <section class="product-grid" aria-label="dotdog capabilities">
-    <div class="product-card"><a href="https://github.com/specdog/dotdog">Specs</a><p>Write human-readable `.dog` specs with structured YAML blocks.</p></div>
-    <div class="product-card"><a href="https://github.com/specdog/dotdog">Graphs</a><p>Compile deterministic `.dag` graphs for exact agent queries.</p></div>
-    <div class="product-card"><a href="https://github.com/specdog/dotdog">Repo mapping</a><p>Map existing code into graph-ready facts instead of starting from a blank spec.</p></div>
-    <div class="product-card"><a href="https://github.com/specdog/dotdog">Workspace bridge</a><p>Represent products made from multiple repos with repo-qualified graph facts.</p></div>
-  </section>
+  
   <footer>dotdog@<span id="version">0.5.0</span> · <a href="https://github.com/specdog/dotdog/blob/main/LICENSE">MIT</a></footer>
 </main>
 <script>

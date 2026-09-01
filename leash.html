@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>leash — safety-gated robotics runtime | specdog</title>
-<meta name="description" content="Open-source Rust robotics runtime with CLI, HTTP, MCP, simulation, replay, bounded navigation, advisory CUDA compute, and explicit physical safety gates.">
+<meta name="description" content="Open-source Rust robotics runtime with CLI, HTTP, MCP, durable agent workflows, simulation, replay, bounded navigation, advisory CUDA compute, and physical safety gates.">
 <link rel="icon" type="image/svg+xml" href="/dotdog/assets/dog.svg">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -71,6 +71,7 @@
 
 <div class="grid">
   <div class="card"><strong>Safe local development</strong><span class="muted">Simulation, deterministic replay, record/replay JSONL, schemas, and no-hardware smoke tests.</span></div>
+  <div class="card"><strong>Durable agent runtime</strong><span class="muted">Persisted sessions, headless or browser runs, scoped capability calls, and supervised recurring tasks.</span></div>
   <div class="card"><strong>Bounded navigation</strong><span class="muted">Idempotent goal submission, status, cancellation, deadlines, pilot-lease requirements, and verified stop.</span></div>
   <div class="card"><strong>Advisory compute</strong><span class="muted">Authenticated async temporal-spatial jobs with CPU authority, qualified CUDA acceleration, parity checks, and fallback.</span></div>
   <div class="card"><strong>Physical boundary</strong><span class="muted">Feature-gated Waveshare UGV implementation; Leash remains the sole final device writer.</span></div>
@@ -79,6 +80,7 @@
 <table>
   <tr><th>Layer</th><th>State on main</th></tr>
   <tr><td>Interfaces</td><td>CLI, HTTP, MCP, SSE/WebSocket telemetry</td></tr>
+  <tr><td>Agents</td><td>Durable sessions, browser console, permission-scoped capabilities, supervised tasks</td></tr>
   <tr><td>Runtime</td><td>Typed capabilities, modules, replay, navigation, localization, safety policy</td></tr>
   <tr><td>Compute</td><td>CPU + guarded CUDA advisory spatial processing</td></tr>
   <tr><td>Hardware</td><td>Waveshare UGV implementation plus deployment/calibration evidence</td></tr>
@@ -106,6 +108,17 @@ leash mcp list-tools
 leash mcp call observe</code></pre>
 
 <p>These default paths do not touch physical hardware.</p>
+
+<h2>Agent workflows</h2>
+
+<p>Current <code>main</code> can persist model sessions, run a browser console, invoke typed capabilities with allow/deny rules, and supervise recurring capability tasks.</p>
+
+<pre><code>leash agent run "summarize current health" --session demo
+leash agent sessions list
+leash agent headful --no-open
+leash agent capability call health --allow health</code></pre>
+
+<p>Agent requests still pass through the same capability registry and safety policy as CLI, HTTP, and MCP requests.</p>
 
 <h2>Safety boundary</h2>
 
@@ -137,12 +150,6 @@ npx dotdog serve</code></pre>
 <p><code>specs/leash/leash.dag</code> is the agent graph. Current code, tests, schemas, and merged docs on <code>main</code> define implementation behavior. If graph and code disagree, agents report the drift instead of inventing structure.</p>
 
 <p><a href="https://github.com/specdog/leash/blob/main/AGENTS.md">Agent instructions</a> · <a href="https://github.com/specdog/leash/tree/main/.agents/skills">Agent skills</a></p>
-
-<h2>In development</h2>
-
-<p>Draft pull requests are not presented as shipped behavior. Current draft work includes durable agent workflows (#187), compact Qualia telemetry and gimbal/MCP integration (#188), and lossless applied-action evidence (#191). Older calibration/map/physical-navigation stacks (#179–#181) remain draft while physical acceptance evidence is incomplete.</p>
-
-<p>Those branches must be reconciled with current <code>main</code> and re-verified before merge.</p>
 
 <h2>Links</h2>
 

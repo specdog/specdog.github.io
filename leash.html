@@ -4,27 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>leash — safe robot control from CLI, HTTP, and MCP | specdog</title>
-<meta name="description" content="Leash is an open-source Rust runtime for safe robot control across CLI, HTTP, MCP, simulation, agents, ROS 2, and real hardware.">
+<meta name="description" content="Leash is an open-source Rust runtime for safe robot control across CLI, HTTP, MCP, simulation, agents, ROS 2, CUDA, and real hardware.">
 <link rel="icon" type="image/svg+xml" href="/dotdog/assets/dog.svg">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fff; color: #1a1a2e; max-width: 800px; margin: 0 auto; padding: 24px 24px 40px; line-height: 1.7; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fff; color: #1a1a2e; max-width: 780px; margin: 0 auto; padding: 24px 24px 40px; line-height: 1.7; }
   nav { display: flex; justify-content: center; align-items: center; gap: 18px; flex-wrap: wrap; width: min(calc(100vw - 48px), 960px); margin: 0 auto 32px; padding: 8px 0 0; position: relative; left: 50%; transform: translateX(-50%); }
   nav a { color: #6b7280; text-decoration: none; font-size: .9em; font-weight: 500; line-height: 1.4; }
   nav a:hover, nav a.active { color: #d97706; }
   h1 { font-size: 2.4em; margin-bottom: 8px; }
-  h2 { font-size: 1.35em; margin: 40px 0 12px; border-bottom: 1px solid #e5e7eb; padding-bottom: 6px; }
-  h3 { font-size: 1.05em; margin: 24px 0 8px; }
+  h2 { font-size: 1.35em; margin: 38px 0 12px; border-bottom: 1px solid #e5e7eb; padding-bottom: 6px; }
   p { margin: 10px 0; }
-  ul { margin: 10px 0 10px 22px; }
-  li { margin: 5px 0; }
   a { color: #d97706; }
   code { background: #f1f5f9; padding: 1px 5px; border-radius: 4px; font-size: .9em; }
   pre { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; font-size: .85em; overflow-x: auto; margin: 12px 0; }
   pre code { background: none; padding: 0; }
   .hero-art { display: block; width: 108px; height: 108px; margin: 0 auto 20px; }
   .lead { font-size: 1.12em; color: #374151; }
-  .sublead { color: #4b5563; max-width: 680px; }
+  .sublead { color: #4b5563; max-width: 650px; }
   .badge-row { display: flex; gap: 10px; align-items: center; margin: 18px 0; flex-wrap: wrap; }
   .actions { display: flex; gap: 10px; margin: 18px 0 28px; flex-wrap: wrap; }
   .button { display: inline-block; padding: 8px 13px; border: 1px solid #d97706; border-radius: 7px; text-decoration: none; font-weight: 600; }
@@ -34,8 +31,7 @@
   .card strong { display: block; margin-bottom: 5px; }
   .muted { color: #6b7280; font-size: .92em; }
   .callout { border: 1px solid #f59e0b; background: #fffbeb; border-radius: 10px; padding: 16px 18px; margin: 16px 0; }
-  .callout strong { display: block; margin-bottom: 4px; }
-  .flow { font-weight: 600; color: #374151; }
+  .links { display: flex; gap: 14px; flex-wrap: wrap; margin: 12px 0; }
   footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid #e5e7eb; text-align: center; font-size: .85em; color: #9ca3af; }
 </style>
 <link rel="canonical" href="https://specdog.github.io/leash">
@@ -57,7 +53,7 @@
 
 <h1>leash</h1>
 <p class="lead"><strong>Safe robot control from the CLI, HTTP, and MCP.</strong></p>
-<p class="sublead">Leash is an open-source Rust runtime for controlling robots from humans, apps, and AI agents. Start in simulation, replay real runs, then connect hardware behind the same safety boundary.</p>
+<p class="sublead">Open-source Rust runtime for simulation, replay, agents, navigation, ROS 2, CUDA, and real robots — with one safety boundary before motion.</p>
 
 <div class="actions">
   <a class="button primary" href="#quick-start">Get started</a>
@@ -75,84 +71,53 @@
 <h2 id="quick-start">Quick start</h2>
 <pre><code>cargo install leash-harness
 leash run sim-http</code></pre>
-<p>Then, in another terminal:</p>
 <pre><code>leash health --url http://127.0.0.1:8000
 curl -s http://127.0.0.1:8000/telemetry | jq</code></pre>
-<p>This is simulation only. It cannot move physical hardware.</p>
-<p>For MCP:</p>
-<pre><code>leash run sim-mcp</code></pre>
+<p>This runs entirely in simulation. No robot required.</p>
 
-<h2>What Leash gives you</h2>
+<h2>Features</h2>
 <div class="grid">
-  <div class="card"><strong>One control path</strong><span class="muted">CLI, HTTP, MCP, WebSocket, and SSE all reach the same runtime.</span></div>
-  <div class="card"><strong>Simulation + replay</strong><span class="muted">Build and debug without hardware, then replay recorded runs deterministically.</span></div>
-  <div class="card"><strong>Agent workflows</strong><span class="muted">Persistent sessions, a browser console, scoped capability calls, and supervised recurring tasks.</span></div>
-  <div class="card"><strong>Bounded navigation</strong><span class="muted">Submit goals, monitor status, cancel missions, patrol, and verify stop.</span></div>
-  <div class="card"><strong>Typed robot data</strong><span class="muted">Range scans, IMU, camera, localization, map, paths, and telemetry share explicit contracts.</span></div>
-  <div class="card"><strong>CPU + CUDA</strong><span class="muted">Run bounded sensor-processing jobs with CPU-authoritative GPU qualification and fallback.</span></div>
-  <div class="card"><strong>ROS 2 boundary</strong><span class="muted">Use ROS 2 for mapping, localization, and planning without giving it direct motor ownership.</span></div>
-  <div class="card"><strong>Real hardware</strong><span class="muted">Feature-gated adapters with a concrete Waveshare UGV implementation and rollout evidence.</span></div>
+  <div class="card"><strong>CLI, HTTP, and MCP</strong><span class="muted">One runtime across human, app, and agent clients.</span></div>
+  <div class="card"><strong>Simulation and replay</strong><span class="muted">Develop without hardware and replay recorded runs deterministically.</span></div>
+  <div class="card"><strong>Agent workflows</strong><span class="muted">Persistent sessions, browser console, scoped capabilities, and supervised tasks.</span></div>
+  <div class="card"><strong>Bounded navigation</strong><span class="muted">Goals, patrols, status, cancellation, deadlines, and verified stop.</span></div>
+  <div class="card"><strong>CPU and CUDA</strong><span class="muted">Bounded sensor processing with CPU-authoritative GPU qualification and fallback.</span></div>
+  <div class="card"><strong>ROS 2 and hardware</strong><span class="muted">Mapping and planning inputs plus feature-gated robot adapters; Waveshare UGV included.</span></div>
 </div>
 
-<h2>Demo: Geek on a Leash</h2>
+<h2>Demo</h2>
 <div class="callout">
-  <strong>See the runtime, CUDA path, ROS 2 boundary, and UGV demo together.</strong>
-  The repository includes the editable Rust Tuesdays deck, PDF, PowerPoint, speaker notes, preflight tooling, and a recorded fallback demo.
+  <strong>Geek on a Leash</strong><br>
+  A full Rust Tuesdays walkthrough of Leash: runtime, safety boundary, ROS 2, CUDA, and a bounded UGV demo. Includes editable deck source, PDF, PowerPoint, speaker notes, preflight tooling, and a recorded fallback.
 </div>
-<p><a href="https://github.com/specdog/leash/tree/main/talks/geek-on-a-leash">Open the full demo package →</a></p>
+<p><a href="https://github.com/specdog/leash/tree/main/talks/geek-on-a-leash">Open the demo package →</a></p>
 
-<h2>Agents are clients, not motor owners</h2>
-<p>Leash can keep agent sessions across runs and expose bounded robot capabilities through the same safety path used by other clients.</p>
-<pre><code>leash agent run "summarize current health" --session demo
-leash agent sessions list
-leash agent headful --no-open</code></pre>
-<p>The browser console is useful for observing sessions and invoking safe capabilities. Physical motion still has to pass the normal Leash checks.</p>
+<h2>Safety boundary</h2>
+<p><strong>Leash owns the final command sent to the robot.</strong> Agents, planners, ROS 2 nodes, CUDA jobs, and apps can request work or provide evidence; they do not become another motor writer.</p>
+<p>Physical motion is off by default and passes authorization, approval, freshness, deadman, collision, distance, Stop, and E-stop checks. Simulation and replay never actuate hardware.</p>
 
-<h2>From intent to motion</h2>
-<p class="flow">Human / app / agent → CLI / HTTP / MCP → Leash → safety checks → robot adapter</p>
-<p>Planners, models, ROS 2 nodes, CUDA jobs, and web apps can provide requests or evidence. Leash remains the final writer to the robot.</p>
-
-<h2>Navigation and compute</h2>
-<p>Goal-level navigation lets clients submit bounded missions without owning a motor refresh loop. The API supports goal submission, status, cancellation, and verified stop.</p>
-<p>Sensor-processing jobs can run asynchronously on CPU or qualified CUDA. GPU output is advisory; parity and fallback keep CPU behavior authoritative.</p>
-<p>
-  <a href="https://github.com/specdog/leash/blob/main/docs/NAVIGATION_API.md">Navigation API</a> ·
-  <a href="https://github.com/specdog/leash/blob/main/docs/COMPUTE_API.md">Compute API</a>
-</p>
-
-<h2>Safety</h2>
-<p><strong>Leash owns the final command sent to the robot.</strong></p>
-<p>Physical motion is off by default. Depending on the operation, Leash checks caller authorization, pilot ownership, approval, deadman state, sensor freshness, localization quality, collision clearance, speed and distance limits, Stop, and the latching E-stop.</p>
-<p>If a required condition disappears during motion, the operation is cancelled and zero output is commanded. Simulation and replay never actuate hardware.</p>
-
-<h2>Real hardware and ROS 2</h2>
-<p>The current hardware implementation is the <a href="https://github.com/specdog/leash/tree/main/implementations/waveshare-ugv">Waveshare UGV stack</a>. Robot-specific adapters, calibration, deployment, rollback, field proof, and physical-navigation tooling stay outside the reusable core crates.</p>
-<p>ROS 2 can supply mapping, localization, and planning data through a provider boundary. Leash keeps final actuation authority.</p>
+<h2>Explore</h2>
+<div class="grid">
+  <div class="card"><strong>Agents</strong><span class="muted">Run durable sessions and bounded capability calls.</span><br><a href="https://github.com/specdog/leash/blob/main/README.md#agent-workflows">Agent workflows →</a></div>
+  <div class="card"><strong>Navigation</strong><span class="muted">Submit and supervise bounded goals.</span><br><a href="https://github.com/specdog/leash/blob/main/docs/NAVIGATION_API.md">Navigation API →</a></div>
+  <div class="card"><strong>Compute</strong><span class="muted">Use authenticated CPU/CUDA spatial jobs.</span><br><a href="https://github.com/specdog/leash/blob/main/docs/COMPUTE_API.md">Compute API →</a></div>
+  <div class="card"><strong>Hardware</strong><span class="muted">Waveshare UGV, calibration, ROS 2, deployment, and field proof.</span><br><a href="https://github.com/specdog/leash/tree/main/implementations/waveshare-ugv">Waveshare stack →</a></div>
+</div>
 
 <h2>Open source</h2>
-<h3>Contributors</h3>
 <pre><code>git clone https://github.com/specdog/leash.git
 cd leash
 npm ci
 cargo build
 cargo run -- run sim-http</code></pre>
-<p>Work from current <code>main</code> on a branch. Keep hardware changes feature-gated and use simulation for normal development.</p>
-<p><a href="https://github.com/specdog/leash/blob/main/CONTRIBUTING.md">Contributing guide</a></p>
+<p>MIT licensed. Human contributors start with <a href="https://github.com/specdog/leash/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a>; coding agents start with <a href="https://github.com/specdog/leash/blob/main/AGENTS.md">AGENTS.md</a>.</p>
 
-<h3>Coding agents</h3>
-<p>Start with <a href="https://github.com/specdog/leash/blob/main/AGENTS.md">AGENTS.md</a>. Project structure is available through the compiled DotDog graph:</p>
-<pre><code>npm ci
-npx dotdog serve</code></pre>
-<p>Agents query <code>specs/leash/leash.dag</code>. Humans own the <code>.dog</code> source.</p>
-
-<h2>Learn more</h2>
-<p>
-  <a href="https://github.com/specdog/leash">GitHub</a> ·
-  <a href="https://github.com/specdog/leash/blob/main/README.md">README</a> ·
-  <a href="https://github.com/specdog/leash/tree/main/talks/geek-on-a-leash">Demo</a> ·
-  <a href="https://github.com/specdog/leash/tree/main/docs">Docs</a> ·
+<div class="links">
+  <a href="https://github.com/specdog/leash">GitHub</a>
+  <a href="https://github.com/specdog/leash/blob/main/README.md">README</a>
+  <a href="https://github.com/specdog/leash/tree/main/docs">Docs</a>
   <a href="https://github.com/specdog/leash/issues">Issues</a>
-</p>
+</div>
 
 <footer>
   <a href="https://github.com/specdog">specdog</a> · MIT

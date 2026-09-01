@@ -3,46 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>leash — Rust robotics harness | specdog</title>
-<meta name="description" content="Composable local-LLM and robotics harness. Rust-first, MCP-first, simulation-safe.">
+<title>leash — safety-gated robotics runtime | specdog</title>
+<meta name="description" content="Open-source Rust robotics runtime with CLI, HTTP, MCP, simulation, replay, bounded navigation, advisory CUDA compute, and explicit physical safety gates.">
 <link rel="icon" type="image/svg+xml" href="/dotdog/assets/dog.svg">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fff; color: #1a1a2e; max-width: 720px; margin: 0 auto; padding: 40px 24px; line-height: 1.75; }
-  nav { display: flex; justify-content: center; gap: 18px; padding: 0 0 32px; flex-wrap: wrap; }
-  nav a { color: #6b7280; text-decoration: none; font-size: .9em; font-weight: 500; }
-  nav a:hover, nav a.active { color: #d97706; }
-  h1 { font-size: 2.2em; margin-bottom: 8px; }
-  .hero-art { display: block; width: 100px; height: 100px; margin: 0 auto 20px; }
-  h2 { font-size: 1.35em; margin: 36px 0 12px; border-bottom: 1px solid #e5e7eb; padding-bottom: 6px; }
-  pre { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px 18px; font-size: .85em; overflow-x: auto; margin: 8px 0; }
-  table { width: 100%; border-collapse: collapse; margin: 16px 0; }
-  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid #e5e7eb; }
-  th { font-size: .85em; color: #6b7280; font-weight: 600; }
-  td { font-size: .9em; }
-  .badge-row { display: flex; gap: 12px; align-items: center; margin: 16px 0; flex-wrap: wrap; }
-  footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid #e5e7eb; text-align: center; font-size: .85em; color: #9ca3af; }
-  a { color: #d97706; }
-
-
-  /* shared navigation */
-  body { padding-top: 24px; margin-top: 0; }
-  nav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 18px;
-    flex-wrap: wrap;
-    width: min(calc(100vw - 48px), 960px);
-    margin: 0 auto 32px;
-    padding: 8px 0 0;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-  }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fff; color: #1a1a2e; max-width: 760px; margin: 0 auto; padding: 24px 24px 40px; line-height: 1.7; }
+  nav { display: flex; justify-content: center; align-items: center; gap: 18px; flex-wrap: wrap; width: min(calc(100vw - 48px), 960px); margin: 0 auto 32px; padding: 8px 0 0; position: relative; left: 50%; transform: translateX(-50%); }
   nav a { color: #6b7280; text-decoration: none; font-size: .9em; font-weight: 500; line-height: 1.4; }
   nav a:hover, nav a.active { color: #d97706; }
-  /* end shared navigation */
+  h1 { font-size: 2.35em; margin-bottom: 8px; }
+  h2 { font-size: 1.35em; margin: 38px 0 12px; border-bottom: 1px solid #e5e7eb; padding-bottom: 6px; }
+  h3 { font-size: 1.05em; margin: 24px 0 8px; }
+  p { margin: 10px 0; }
+  ul { margin: 10px 0 10px 22px; }
+  li { margin: 5px 0; }
+  a { color: #d97706; }
+  code { background: #f1f5f9; padding: 1px 5px; border-radius: 4px; font-size: .9em; }
+  pre { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; font-size: .85em; overflow-x: auto; margin: 12px 0; }
+  pre code { background: none; padding: 0; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+  th, td { text-align: left; vertical-align: top; padding: 9px 10px; border-bottom: 1px solid #e5e7eb; }
+  th { font-size: .85em; color: #6b7280; font-weight: 600; }
+  td { font-size: .92em; }
+  .hero-art { display: block; width: 108px; height: 108px; margin: 0 auto 20px; }
+  .lead { font-size: 1.08em; color: #374151; }
+  .rule { margin: 16px 0; padding: 12px 14px; border-left: 4px solid #d97706; background: #fffbeb; }
+  .badge-row { display: flex; gap: 10px; align-items: center; margin: 18px 0; flex-wrap: wrap; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin: 16px 0; }
+  .card { border: 1px solid #e5e7eb; border-radius: 8px; padding: 14px; }
+  .card strong { display: block; margin-bottom: 5px; }
+  .muted { color: #6b7280; font-size: .92em; }
+  footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid #e5e7eb; text-align: center; font-size: .85em; color: #9ca3af; }
 </style>
 <link rel="canonical" href="https://specdog.github.io/leash">
 </head>
@@ -59,43 +51,106 @@
   <a href="/collar">collar</a>
 </nav>
 
-<img class="hero-art" src="/assets/leash-robot.svg" alt="Friendly robot being walked on a leash by a specdog mascot">
+<img class="hero-art" src="/assets/leash-robot.svg" alt="Robot being walked on a leash by the specdog mascot">
 
 <h1>leash</h1>
-
-<p>Composable local-LLM and robotics harness. Rust-first, MCP-first, simulation-safe.</p>
+<p class="lead">Open-source, safety-gated Rust runtime for robots, operators, and AI agents.</p>
 
 <div class="badge-row">
-  <img src="https://img.shields.io/badge/Rust-1.83+-orange" alt="Rust">
-  <img src="https://img.shields.io/badge/MCP-stdio-blue" alt="MCP">
-  <img src="https://img.shields.io/badge/sim--safe-yes-green" alt="Sim-safe">
-  <a href="https://github.com/specdog/leash"><img src="https://img.shields.io/github/stars/specdog/leash" alt="Stars"></a>
+  <img src="https://img.shields.io/badge/Rust-workspace-orange" alt="Rust workspace">
+  <img src="https://img.shields.io/badge/MCP-stdio%20%2B%20HTTP-blue" alt="MCP stdio and HTTP">
+  <img src="https://img.shields.io/badge/default-simulation--safe-green" alt="Simulation safe by default">
+  <a href="https://github.com/specdog/leash"><img src="https://img.shields.io/github/stars/specdog/leash" alt="GitHub stars"></a>
 </div>
 
-<h2>What it does</h2>
+<div class="rule"><strong>Core rule:</strong> an agent or operator can request motion; Leash decides whether motion is allowed.</div>
 
-<p>Leash lets LLM agents control robots through typed modules, safety gates, and a shared capability registry. Run in simulation with zero hardware, or connect physical robots behind explicit actuation gates.</p>
+<h2>Current main</h2>
 
-<pre>cargo install leash-harness
-leash serve mcp          # MCP stdio for LLM agents
-leash serve http         # localhost HTTP + WebSocket</pre>
+<p>Leash is now a multi-crate robotics workspace with one shared capability and safety boundary across CLI, HTTP, WebSocket/SSE telemetry, MCP stdio, and MCP Streamable HTTP.</p>
 
-<h2>Spec</h2>
+<div class="grid">
+  <div class="card"><strong>Safe local development</strong><span class="muted">Simulation, deterministic replay, record/replay JSONL, schemas, and no-hardware smoke tests.</span></div>
+  <div class="card"><strong>Bounded navigation</strong><span class="muted">Idempotent goal submission, status, cancellation, deadlines, pilot-lease requirements, and verified stop.</span></div>
+  <div class="card"><strong>Advisory compute</strong><span class="muted">Authenticated async temporal-spatial jobs with CPU authority, qualified CUDA acceleration, parity checks, and fallback.</span></div>
+  <div class="card"><strong>Physical boundary</strong><span class="muted">Feature-gated Waveshare UGV implementation; Leash remains the sole final device writer.</span></div>
+</div>
 
 <table>
-  <tr><th>Entities</th><td>27</td></tr>
-  <tr><th>Relationships</th><td>42</td></tr>
-  <tr><th>Token savings</th><td>72%</td></tr>
-  <tr><th>Spec files</th><td>3 .dog files, 100% complete</td></tr>
+  <tr><th>Layer</th><th>State on main</th></tr>
+  <tr><td>Interfaces</td><td>CLI, HTTP, MCP, SSE/WebSocket telemetry</td></tr>
+  <tr><td>Runtime</td><td>Typed capabilities, modules, replay, navigation, localization, safety policy</td></tr>
+  <tr><td>Compute</td><td>CPU + guarded CUDA advisory spatial processing</td></tr>
+  <tr><td>Hardware</td><td>Waveshare UGV implementation plus deployment/calibration evidence</td></tr>
+  <tr><td>ROS 2</td><td>Provider/proposal boundary; never a second motor owner</td></tr>
 </table>
 
-<p>Fully <a href="https://github.com/specdog/dotdog">dotdog</a>-specified. Entity graph compiled to .dag for agent consumption.</p>
+<h2>Try it safely</h2>
+
+<pre><code>cargo install leash-harness
+leash run sim-http</code></pre>
+
+<p>In another terminal:</p>
+
+<pre><code>leash health --url http://127.0.0.1:8000
+curl -s http://127.0.0.1:8000/telemetry | jq
+leash agent-send "inspect the battery"</code></pre>
+
+<p>Or expose the simulation runtime through MCP:</p>
+
+<pre><code>leash run sim-mcp
+
+# or localhost MCP HTTP
+leash serve mcp-http --listen 127.0.0.1:9990
+leash mcp list-tools
+leash mcp call observe</code></pre>
+
+<p>These default paths do not touch physical hardware.</p>
+
+<h2>Safety boundary</h2>
+
+<p>Physical motion is fail-closed. Mapping, localization, planning, ROS 2, CUDA, model providers, and external agents can supply requests or evidence, but they do not bypass Leash's final command policy.</p>
+
+<p>Physical paths remain subordinate to explicit compile/runtime gates plus authorization, approval, sensor/provider freshness, deadman, collision checks, soft odometry limits, Stop, and E-Stop.</p>
+
+<h2>Open source</h2>
+
+<h3>Humans</h3>
+<p>Clone the repository, work from current <code>main</code> on a branch, and use simulation first:</p>
+
+<pre><code>git clone https://github.com/specdog/leash.git
+cd leash
+npm ci
+cargo build
+cargo run -- run sim-http</code></pre>
+
+<p>Before merge, contributors run formatting, workspace Clippy/tests, Node tests, schema checks, packaging, and the aggregate smoke suite. Hardware changes must stay feature-gated and require real evidence for physical claims.</p>
+
+<p><a href="https://github.com/specdog/leash/blob/main/CONTRIBUTING.md">Human contribution guide</a></p>
+
+<h3>Agents</h3>
+<p>Coding agents start at the repository-root <code>AGENTS.md</code>. For project/spec structure, agents query the compiled DotDog graph rather than reading human <code>.dog</code> source:</p>
+
+<pre><code>npm ci
+npx dotdog serve</code></pre>
+
+<p><code>specs/leash/leash.dag</code> is the agent graph. Current code, tests, schemas, and merged docs on <code>main</code> define implementation behavior. If graph and code disagree, agents report the drift instead of inventing structure.</p>
+
+<p><a href="https://github.com/specdog/leash/blob/main/AGENTS.md">Agent instructions</a> · <a href="https://github.com/specdog/leash/tree/main/.agents/skills">Agent skills</a></p>
+
+<h2>In development</h2>
+
+<p>Draft pull requests are not presented as shipped behavior. Current draft work includes durable agent workflows (#187), compact Qualia telemetry and gimbal/MCP integration (#188), and lossless applied-action evidence (#191). Older calibration/map/physical-navigation stacks (#179–#181) remain draft while physical acceptance evidence is incomplete.</p>
+
+<p>Those branches must be reconciled with current <code>main</code> and re-verified before merge.</p>
 
 <h2>Links</h2>
 
 <p>
   <a href="https://github.com/specdog/leash">GitHub</a> ·
-  <a href="https://github.com/specdog/leash/issues">Roadmap</a> ·
+  <a href="https://github.com/specdog/leash/blob/main/README.md">README</a> ·
+  <a href="https://github.com/specdog/leash/blob/main/CONTRIBUTING.md">Contributing</a> ·
+  <a href="https://github.com/specdog/leash/issues">Issues</a> ·
   Built with <a href="https://github.com/specdog/dotdog">dotdog</a>
 </p>
 

@@ -123,6 +123,10 @@ cat projects/spec-platform/spec-platform.dag</code></pre>
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
 </button>
 
+<h2>Type-driven design</h2>
+<p>Use the <a href="/handbook#type-driven-design">type-driven design workflow</a> when implementing modeled entities and lifecycles. Define domain types, state-specific data, and operation signatures before function bodies. Use explicit failure types and exhaustive handling where the language supports them.</p>
+<p>Parse external data into checked domain values; do not treat a type assertion as validation. Run the project's type checker, compile-failure checks for forbidden usage, and runtime tests. Spec completeness and graph compilation do not prove application type safety or runtime correctness.</p>
+
 <h2>Commands reference</h2>
 <table>
 <tr><th>Command</th><th>When to use</th></tr>

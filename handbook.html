@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Spec-Driven Development | specdog</title>
-<meta name="description" content="Spec-Driven Development: write specs first, compile to a graph AI agents can query, eliminate hallucination.">
+<meta name="description" content="Combine spec-driven development with type-driven design: model domain rules, valid states, typed transitions, and runtime boundaries before implementation.">
 <link rel="icon" type="image/svg+xml" href="/dotdog/assets/dog.svg">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -92,11 +92,45 @@
 <h2>The practice</h2>
 <ol>
 <li><strong>Specify</strong> — write <code>.dog</code> files: entities with properties, states, lifecycles, and relationships</li>
+<li><strong>Design with types</strong> — translate domain rules into types and operation signatures before implementation. <a href="#type-driven-design">Model valid states and explicit failures.</a></li>
 <li><strong>Validate</strong> — score completeness before every commit. The score must not decrease.</li>
 <li><strong>Compile</strong> — build a <code>.dag</code> graph. 94% smaller than source. Token-efficient.</li>
 <li><strong>Expose</strong> — MCP server for AI agents. Six tools: <code>getEntity</code>, <code>traverse</code>, <code>search</code>, <code>schema</code>, <code>summary</code>, <code>listProjects</code>.</li>
 <li><strong>Verify</strong> — detect drift between spec and code. <code>dotdog verify --init</code> auto-maps entities to code files.</li>
 </ol>
+
+<h2 id="type-driven-design">Type-driven design</h2>
+<p>These are three distinct practices: <strong>spec-driven design</strong> defines intended behavior and constraints; <strong>type-driven design</strong> shapes implementation through types; <strong>graph mapping</strong> records entities and relationships for navigation and traceability. A graph can connect the artifacts, but is not a type system.</p>
+<p>Specs describe the intended behavior. Type-driven design turns the rules a language can express into types and function signatures, then uses the type checker to guide implementation. This complements spec-driven development and test-driven development; it does not replace either. <a href="https://idris-lang.org/">Idris describes this types-first approach</a>, including dependent types that can express relationships between values.</p>
+<ol>
+<li><strong>Name domain values</strong> — distinguish identifiers, units, and validated values where mixing them would be an error. Use opaque types or controlled constructors when a plain alias provides no protection.</li>
+<li><strong>Model alternatives</strong> — use unions or enums for distinct states, with each state's required data. Avoid independent flags and optional fields that permit invalid combinations. See <a href="https://fsharpforfunandprofit.com/posts/designing-with-types-making-illegal-states-unrepresentable/">Scott Wlaschin's domain-modeling example</a>.</li>
+<li><strong>Define operations first</strong> — specify accepted states, returned states, and failure cases before writing function bodies. For ownership-sensitive workflows, <a href="https://doc.rust-lang.org/embedded-book/static-guarantees/typestate-programming.html">Rust typestate</a> can consume an old state when producing the next.</li>
+<li><strong>Parse at boundaries</strong> — check external data and return a domain value or an explicit error. Preserve what the check established in the returned type instead of discarding that information. This is <a href="https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/">Alexis King's “Parse, don't validate” principle</a>.</li>
+<li><strong>Verify both layers</strong> — type-check valid usage and examples that must fail to compile. Test runtime parsing, business behavior, and integration failures separately.</li>
+</ol>
+
+<h3>Example: state-specific data</h3>
+<p>Suppose the spec requires a receipt for a paid order and a tracking reference for a shipped order. A TypeScript discriminated union keeps those fields with their states:</p>
+<pre><code>type Draft = { state: "draft"; id: string };
+type Paid = { state: "paid"; id: string; receipt: string };
+type Shipped = {
+  state: "shipped";
+  id: string;
+  receipt: string;
+  tracking: string;
+};
+type Order = Draft | Paid | Shipped;
+
+function markShipped(order: Paid, tracking: string): Shipped {
+  return { ...order, state: "shipped", tracking };
+}</code></pre>
+<p>A typed caller cannot pass a <code>Draft</code> to <code>markShipped</code>, and a <code>Shipped</code> value requires tracking data. Use <a href="https://www.typescriptlang.org/docs/handbook/2/narrowing.html#exhaustiveness-checking"><code>never</code> exhaustiveness checks</a> when handling all order variants. This function only records a transition; it does not arrange delivery or prove payment occurred.</p>
+<p>TypeScript does not consume the original order, so this signature does not prevent repeated calls. Strings also do not prove that receipt or tracking references are genuine or nonempty. Boundary parsing and runtime business checks remain necessary; <a href="https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#type-assertions">a type assertion performs no runtime checking</a>.</p>
+
+<h3>Use it with dotdog</h3>
+<p>Record domain rules in <code>SPEC.dog</code>, properties and lifecycle rules in <code>data-model.dog</code>, and implementation and verification tasks in <code>plan.dog</code>. Compile the specs so agents can query the model, then implement the corresponding types in the project's language. Review spec and type changes together.</p>
+<p><code>dotdog validate</code> checks spec completeness; <code>dotdog compile</code> produces the graph. Neither command type-checks application code or proves that lifecycle rules are enforced. Run the project's own type checker and tests as separate checks.</p>
 
 <h2>The loop</h2>
 <pre><code>npm install -g dotdog       # install

@@ -1,0 +1,134 @@
+{
+  "scope": "Small local compiler probes; not a Dotdog integration or agent benchmark",
+  "typescript": {
+    "compiler": "6.0.3",
+    "options": {
+      "strict": true,
+      "noEmit": true,
+      "types": [],
+      "skipLibCheck": true,
+      "target": "ES2022"
+    },
+    "results": [
+      {
+        "name": "valid transition",
+        "accepted": true,
+        "diagnostics": [],
+        "source": "type Draft = { state: 'draft'; id: string };\ntype Paid = { state: 'paid'; id: string; receipt: string };\ntype Shipped = { state: 'shipped'; id: string; receipt: string; tracking: string };\ntype Order = Draft | Paid | Shipped;\nfunction ship(order: Paid, tracking: string): Shipped { return { ...order, state: 'shipped', tracking }; }\nconst paid: Paid = { state: 'paid', id: '1', receipt: 'receipt' };\nship(paid, 'tracking');"
+      },
+      {
+        "name": "draft transition",
+        "accepted": false,
+        "diagnostics": [
+          2322
+        ],
+        "source": "type Draft = { state: 'draft'; id: string };\ntype Paid = { state: 'paid'; id: string; receipt: string };\ntype Shipped = { state: 'shipped'; id: string; receipt: string; tracking: string };\ntype Order = Draft | Paid | Shipped;\nfunction ship(order: Paid, tracking: string): Shipped { return { ...order, state: 'shipped', tracking }; }\nconst paid: Paid = { state: 'paid', id: '1', receipt: 'receipt' };\nship({ state: 'draft', id: '1' }, 'tracking');"
+      },
+      {
+        "name": "missing tracking",
+        "accepted": false,
+        "diagnostics": [
+          2741
+        ],
+        "source": "type Draft = { state: 'draft'; id: string };\ntype Paid = { state: 'paid'; id: string; receipt: string };\ntype Shipped = { state: 'shipped'; id: string; receipt: string; tracking: string };\ntype Order = Draft | Paid | Shipped;\nfunction ship(order: Paid, tracking: string): Shipped { return { ...order, state: 'shipped', tracking }; }\nconst paid: Paid = { state: 'paid', id: '1', receipt: 'receipt' };\nconst shipped: Shipped = { state: 'shipped', id: '1', receipt: 'receipt' };"
+      },
+      {
+        "name": "missing union branch",
+        "accepted": false,
+        "diagnostics": [
+          2322
+        ],
+        "source": "type Draft = { state: 'draft'; id: string };\ntype Paid = { state: 'paid'; id: string; receipt: string };\ntype Shipped = { state: 'shipped'; id: string; receipt: string; tracking: string };\ntype Order = Draft | Paid | Shipped;\nfunction ship(order: Paid, tracking: string): Shipped { return { ...order, state: 'shipped', tracking }; }\nconst paid: Paid = { state: 'paid', id: '1', receipt: 'receipt' };\nfunction label(order: Order): string { switch(order.state) { case 'draft': return 'draft'; case 'paid': return 'paid'; default: const exhaustive: never = order; return exhaustive; } }"
+      },
+      {
+        "name": "plain ID aliases can mix",
+        "accepted": true,
+        "diagnostics": [],
+        "source": "type Draft = { state: 'draft'; id: string };\ntype Paid = { state: 'paid'; id: string; receipt: string };\ntype Shipped = { state: 'shipped'; id: string; receipt: string; tracking: string };\ntype Order = Draft | Paid | Shipped;\nfunction ship(order: Paid, tracking: string): Shipped { return { ...order, state: 'shipped', tracking }; }\nconst paid: Paid = { state: 'paid', id: '1', receipt: 'receipt' };\ntype UserId = string; type OrderId = string; const user: UserId = 'user'; const order: OrderId = user;"
+      },
+      {
+        "name": "distinct ID brands cannot mix",
+        "accepted": false,
+        "diagnostics": [
+          2322
+        ],
+        "source": "type Draft = { state: 'draft'; id: string };\ntype Paid = { state: 'paid'; id: string; receipt: string };\ntype Shipped = { state: 'shipped'; id: string; receipt: string; tracking: string };\ntype Order = Draft | Paid | Shipped;\nfunction ship(order: Paid, tracking: string): Shipped { return { ...order, state: 'shipped', tracking }; }\nconst paid: Paid = { state: 'paid', id: '1', receipt: 'receipt' };\ndeclare const brand: unique symbol; type UserId = string & { readonly [brand]: 'UserId' }; type OrderId = string & { readonly [brand]: 'OrderId' }; declare const user: UserId; const order: OrderId = user;"
+      },
+      {
+        "name": "unchecked assertion bypasses shape",
+        "accepted": true,
+        "diagnostics": [],
+        "source": "type Draft = { state: 'draft'; id: string };\ntype Paid = { state: 'paid'; id: string; receipt: string };\ntype Shipped = { state: 'shipped'; id: string; receipt: string; tracking: string };\ntype Order = Draft | Paid | Shipped;\nfunction ship(order: Paid, tracking: string): Shipped { return { ...order, state: 'shipped', tracking }; }\nconst paid: Paid = { state: 'paid', id: '1', receipt: 'receipt' };\nconst order = {} as Paid; ship(order, 'tracking');"
+      },
+      {
+        "name": "repeat transition remains allowed",
+        "accepted": true,
+        "diagnostics": [],
+        "source": "type Draft = { state: 'draft'; id: string };\ntype Paid = { state: 'paid'; id: string; receipt: string };\ntype Shipped = { state: 'shipped'; id: string; receipt: string; tracking: string };\ntype Order = Draft | Paid | Shipped;\nfunction ship(order: Paid, tracking: string): Shipped { return { ...order, state: 'shipped', tracking }; }\nconst paid: Paid = { state: 'paid', id: '1', receipt: 'receipt' };\nship(paid, 'first'); ship(paid, 'second');"
+      },
+      {
+        "name": "empty tracking remains allowed",
+        "accepted": true,
+        "diagnostics": [],
+        "source": "type Draft = { state: 'draft'; id: string };\ntype Paid = { state: 'paid'; id: string; receipt: string };\ntype Shipped = { state: 'shipped'; id: string; receipt: string; tracking: string };\ntype Order = Draft | Paid | Shipped;\nfunction ship(order: Paid, tracking: string): Shipped { return { ...order, state: 'shipped', tracking }; }\nconst paid: Paid = { state: 'paid', id: '1', receipt: 'receipt' };\nship(paid, '');"
+      }
+    ]
+  },
+  "rust": {
+    "compiler": "rustc 1.96.0 (ac68faa20 2026-05-25)",
+    "edition": "2024",
+    "results": [
+      {
+        "name": "valid_transition",
+        "accepted": true,
+        "diagnostics": [],
+        "source": "struct Draft;\nstruct Paid;\nstruct Shipped;\nimpl Paid { fn ship(self) -> Shipped { Shipped } }\nfn main() { let paid = Paid; let _shipped = paid.ship(); }\n"
+      },
+      {
+        "name": "draft_transition",
+        "accepted": false,
+        "diagnostics": [
+          "E0599"
+        ],
+        "source": "struct Draft;\nstruct Paid;\nstruct Shipped;\nimpl Paid { fn ship(self) -> Shipped { Shipped } }\nfn main() { let draft = Draft; let _shipped = draft.ship(); }\n"
+      },
+      {
+        "name": "reuse_consumed_state",
+        "accepted": false,
+        "diagnostics": [
+          "E0382"
+        ],
+        "source": "struct Draft;\nstruct Paid;\nstruct Shipped;\nimpl Paid { fn ship(self) -> Shipped { Shipped } }\nfn main() { let paid = Paid; let _first = paid.ship(); let _second = paid.ship(); }\n"
+      },
+      {
+        "name": "separate_values_same_state",
+        "accepted": true,
+        "diagnostics": [],
+        "source": "struct Draft;\nstruct Paid;\nstruct Shipped;\nimpl Paid { fn ship(self) -> Shipped { Shipped } }\nfn main() { let first = Paid; let second = Paid; let _a = first.ship(); let _b = second.ship(); }\n"
+      }
+    ]
+  },
+  "semanticContext": {
+    "importedName": "dispatch",
+    "resolvedName": "ship",
+    "file": "domain.ts",
+    "line": 3,
+    "signature": "(order: Paid, tracking: string): Shipped",
+    "parameters": [
+      {
+        "name": "order",
+        "type": "Paid"
+      },
+      {
+        "name": "tracking",
+        "type": "string"
+      }
+    ],
+    "returnType": "Shipped",
+    "sources": {
+      "app.ts": "import { dispatch } from './index';\nexport const deliver = dispatch;\n",
+      "domain.ts": "export type Paid = { state: 'paid'; receipt: string };\nexport type Shipped = { state: 'shipped'; receipt: string; tracking: string };\nexport function ship(order: Paid, tracking: string): Shipped { return { ...order, state: 'shipped', tracking }; }\n",
+      "index.ts": "export { ship as dispatch } from './domain';\n"
+    }
+  }
+}

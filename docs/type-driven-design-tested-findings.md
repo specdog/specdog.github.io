@@ -6,7 +6,7 @@ The later [technical thesis](dotdog-type-driven-design-thesis.md) adds real-life
 
 ## Decision after testing
 
-Keep this as a separable research module inside the Specdog project for now. Prioritize checked boundary values and selected-symbol type context. Do not market it as a universal type-design tool, full semantic indexer, or type-safe coding agent.
+Keep the work inside Dotdog rather than creating a separate tool. The research remains distinct from the bounded, unmerged 1.0 implementation described below. Prioritize checked boundary values and selected-symbol type context. Do not market it as a universal type-design tool, full semantic indexer, or type-safe coding agent.
 
 The tests establish narrow engineering feasibility and expose production and prototype gaps. They do not establish user demand, better agent output, or token savings.
 
@@ -86,7 +86,7 @@ The initial Dotdog corpus experiment also produced TS2835 under inappropriate No
 
 ## What remains before a product claim
 
-1. Implement the selected-symbol adapter against one explicitly supported compiler interface/configuration before promising broader support. If adopting the Zod prototype, resolve its optional-field incompatibility; the existing manual production parser does not require that prototype. A beta native API is not mandatory.
+1. Complete current-head compatibility and release review of the bounded candidate adapter before promising broader support. If adopting the Zod prototype, resolve its optional-field incompatibility; the existing manual production parser does not require that prototype. A beta native API is not mandatory.
 2. Add actual rule-to-symbol/test links, with reviewed intent and evidence provenance; names alone do not prove enforcement.
 3. Run a controlled coding-task comparison with ordinary repository context, spec/graph context, and added type context. Measure behavioral success, repair iterations, actual tokens, time, and failures under the same conditions.
 4. Validate whether users want this workflow independently of Dotdog before splitting it into a standalone tool.
@@ -103,7 +103,7 @@ The same review found that the installed REA 6.8.0 call-graph body omits travers
 dotdog graph import native-calls.json --format rea-callgraph --project native --artifact-sha256 <binary-sha256> --rea-direction forward
 ```
 
-Use `backward` for caller traversal exports. The declaration is recorded, not independently verified from the directionless body. Existing graph traversal/context/impact remain the query engine; there is no new Ghidra provider or semantic-indexing framework. Candidate fixes also preserve graph coverage/node provenance, disclose bounded negative searches, enforce token limits on empty/error responses, and apply repository boundaries to path reads. Real forward/backward Ghidra fixture checks and 116 local candidate tests passed; that is not a release authorization or a claim that the type-driven module is integrated. No simulator or cloud service is required.
+Use `backward` for caller traversal exports. The declaration is recorded, not independently verified from the directionless body. Existing graph traversal/context/impact remain the query engine; there is no new Ghidra provider or semantic-indexing framework. Candidate fixes also preserve graph coverage/node provenance, disclose bounded negative searches, enforce token limits on empty/error responses, and apply repository boundaries to path reads. Real forward/backward Ghidra fixture checks and 116 local candidate tests passed at that checkpoint, before the type module implementation below. No simulator or cloud service is required.
 
 The original 47-test and 61-check result files and thesis remain historical checkpoints. This follow-up does not replace their measurements with new productivity or token-saving claims.
 
@@ -119,3 +119,13 @@ A separate declaration-enabled TypeScript 7.0.2 CLI fixture exposed two requirem
 - [`stripInternal`](https://www.typescriptlang.org/tsconfig/#stripInternal) can remove a contract still referenced by an emitted public signature. Successful emit is not proof of complete dependency context; retain the contract through an explicit inspection policy or report the omission.
 
 The probe reproduced both cases and checked contained/full declaration output with explicit inspection settings. This supports a bounded CLI-adapter investigation, not a production integration claim or a new compiler framework. Saved diagnostics/maps also need repository-relative paths and untrusted-path handling; no automatic URL fetching or raw absolute-path evidence export is planned.
+
+## Bounded 1.0 implementation
+
+[Draft PR #339](https://github.com/specdog/dotdog/pull/339), revision `b5c9d77`, implements selected contract inspection using the actual TypeScript **7.0.2** `unstable/sync` snapshot/checker API. This is separate from the historical 5/6 extractor and 7.1 beta experiments. A trusted project-installed compiler runs in a bounded Node worker; no compiler is auto-installed and no beta, service or mandatory runtime npm dependency is added. Other compiler versions and project-reference/composite/noCheck configurations fail explicitly.
+
+The original project configuration and diagnostics are preserved without declaration emit, configuration edits or build output. The adapter resolves supported aliases/re-exports, retains full selected signatures and bounded declared-type references, and imports them through existing graph workflows. Compiler/config/input evidence survives graph import and MCP retrieval. Coverage remains partial; recorded-input audits do not discover new files, authenticate a compiler or prove runtime behavior. See the [candidate contract and limits](https://github.com/specdog/dotdog/blob/feat/v1-types/docs/type-contracts.md).
+
+Local candidate checks passed **130 tests, 2,080 assertions and one snapshot**, including real valid → TS2322 → repaired code, changed-input audit, overloads/unions, inherited JSONC configuration/path aliases, Unicode signatures, no emit/build metadata, timeout/process-tree cleanup and output/input limits. Clean-consumer package checks passed Node 22.12.0, 24.22.1 and 26.8.1 with Bun entry points. Current-head cross-platform CI and remaining release gates are tracked in the PR; these local checks are not a release authorization or a coding-agent productivity study.
+
+Sharing existing parser chunks reduced the development archive from 1,313,355 to 1,219,546 bytes, including the type module. A narrow warm-cache Node `--version` comparison measured median 114.10 → 60.23 ms over 30 alternating samples after ten warmups. This does not establish general command, cold-cache or agent speedups. [Measured optimization scope](https://github.com/specdog/dotdog/blob/feat/v1-types/docs/path-performance.md) also preserves the separate path-search comparison and its unchanged-result checks.

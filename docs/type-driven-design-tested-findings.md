@@ -58,11 +58,13 @@ The 16 KB output cap was respected. These are UTF-8 bytes, not model tokens or d
 
 ## Concrete defects and limits found
 
-### Production boundary defects reproduced, not fixed
+### Original boundary defects and the unmerged candidate repair
 
-Dotdog's current `validateWorkspaceConfig(unknown)` throws a `TypeError` for `repos: [null]` and for a non-array `groups` value. It also reports an incomplete group with no `repos` array as valid. The research tests reproduce those behaviors against the actual checkout.
+At the pinned `773dc26` research baseline, `validateWorkspaceConfig(unknown)` throws a `TypeError` for `repos: [null]` and for a non-array `groups` value. It also reports an incomplete group with no `repos` array as valid. The historical research tests retain those reproductions against that checkout; they are not tests of the later repaired 1.0 candidate.
 
 The parser prototype performs shape parsing before calling the existing semantic validator. It returns a discriminated success/error result with typed data and retains duplicate-alias and unknown-edge checks. It is not deployed, and it is not a complete production fix.
+
+The later, unmerged [1.0 candidate](https://github.com/specdog/dotdog/pull/332) instead repairs the existing validator with manual shape checks and a typed success/error parser result, without adding Zod as a runtime dependency. Its real compiler regression uses `strict` and `exactOptionalPropertyTypes`, accepts validated success data as `WorkspaceConfig`, and checks that accessing failure-result data produces TS2339. This avoids adopting the prototype's optional-field incompatibility; it does not claim that the separate Zod prototype has been fixed.
 
 ### Prototype compatibility gap retained
 
@@ -90,3 +92,17 @@ The initial Dotdog corpus experiment also produced TS2835 under inappropriate No
 4. Validate whether users want this workflow independently of Dotdog before splitting it into a standalone tool.
 
 No coding-agent A/B study, model-weight training, whole-repository verification, or production rollout was performed in this experiment.
+
+## Scoped 1.0 gap review
+
+The combined research suite now passes **62 checks with zero failures or skips**, including a second native TypeScript 7.1 beta test. It resolves `dispatch` through a re-export to `ship`, obtains the original declaration path and `(order: Paid) => Paid` signature, then changes the imported contract and observes TS2322 in the new snapshot while the old one stays valid. This uses explicit virtual files/compiler options. Full project configuration, reference builds and selected-dependency extraction still need an adapter; the 5/6 extractor is not silently treated as compatible with 7.0 or 7.1.
+
+The same review found that the installed REA 6.8.0 call-graph body omits traversal direction even though the producer accepts forward/backward requests. Treating every returned neighbor as a callee can therefore reverse call meaning. The candidate import now requires the declared producer direction:
+
+```sh
+dotdog graph import native-calls.json --format rea-callgraph --project native --artifact-sha256 <binary-sha256> --rea-direction forward
+```
+
+Use `backward` for caller traversal exports. The declaration is recorded, not independently verified from the directionless body. Existing graph traversal/context/impact remain the query engine; there is no new Ghidra provider or semantic-indexing framework. Candidate fixes also preserve graph coverage/node provenance, disclose bounded negative searches, enforce token limits on empty/error responses, and apply repository boundaries to path reads. Real forward/backward Ghidra fixture checks and 116 local candidate tests passed; that is not a release authorization or a claim that the type-driven module is integrated. No simulator or cloud service is required.
+
+The original 47-test and 61-check result files and thesis remain historical checkpoints. This follow-up does not replace their measurements with new productivity or token-saving claims.

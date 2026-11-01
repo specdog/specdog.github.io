@@ -1,6 +1,6 @@
 # Type-driven design: tested findings
 
-This extends the [initial research](type-driven-design-research.md) with a runnable [research harness](../research/type-driven-design/README.md). No production Dotdog source was changed.
+This extends the [initial research](type-driven-design-research.md) with a runnable [research harness](../research/type-driven-design/README.md). The initial harness did not modify production Dotdog source; later candidate repairs are tracked separately below.
 
 The later [technical thesis](dotdog-type-driven-design-thesis.md) adds real-life use cases, a deeper traceability/tooling review, and fourteen synthetic graph-evidence cases. Its combined 61-check record is preserved separately from the original experiment below.
 
@@ -86,7 +86,7 @@ The initial Dotdog corpus experiment also produced TS2835 under inappropriate No
 
 ## What remains before a product claim
 
-1. Resolve the optional-field policy and port the selected-symbol adapter to the native API before promising broad configuration/version support.
+1. Implement the selected-symbol adapter against one explicitly supported compiler interface/configuration before promising broader support. If adopting the Zod prototype, resolve its optional-field incompatibility; the existing manual production parser does not require that prototype. A beta native API is not mandatory.
 2. Add actual rule-to-symbol/test links, with reviewed intent and evidence provenance; names alone do not prove enforcement.
 3. Run a controlled coding-task comparison with ordinary repository context, spec/graph context, and added type context. Measure behavioral success, repair iterations, actual tokens, time, and failures under the same conditions.
 4. Validate whether users want this workflow independently of Dotdog before splitting it into a standalone tool.
@@ -106,3 +106,16 @@ dotdog graph import native-calls.json --format rea-callgraph --project native --
 Use `backward` for caller traversal exports. The declaration is recorded, not independently verified from the directionless body. Existing graph traversal/context/impact remain the query engine; there is no new Ghidra provider or semantic-indexing framework. Candidate fixes also preserve graph coverage/node provenance, disclose bounded negative searches, enforce token limits on empty/error responses, and apply repository boundaries to path reads. Real forward/backward Ghidra fixture checks and 116 local candidate tests passed; that is not a release authorization or a claim that the type-driven module is integrated. No simulator or cloud service is required.
 
 The original 47-test and 61-check result files and thesis remain historical checkpoints. This follow-up does not replace their measurements with new productivity or token-saving claims.
+
+## Additional boundary review
+
+The focused [candidate follow-up, PR #337](https://github.com/specdog/dotdog/pull/337), found and repaired two more spec-check gaps: direct graph reads bypassed the shared input-size guard, and explicit reference mappings accepted ambiguous entity labels. It reuses the existing reader, prioritizes exact IDs and adds no dependency or framework. Both regressions failed before repair; 118 local candidate tests passed afterward. An internal built-CLI fixture also checked failure exits, exact-ID acceptance and unchanged plan bytes. The broader audit remains open in [#334](https://github.com/specdog/dotdog/issues/334).
+
+Documentation now distinguishes freshness inspection from lexical diagnostics: scenario/reference checks do not independently establish graph freshness. Compile-time byte estimates are also distinct from context budgets using the declared tokenizer. Neither kind of token figure proves billing savings.
+
+A separate declaration-enabled TypeScript 7.0.2 CLI fixture exposed two requirements for the pending [type adapter](https://github.com/specdog/dotdog/issues/333):
+
+- An inherited or explicit [`declarationDir`](https://www.typescriptlang.org/tsconfig/#declarationDir) can direct declarations outside an `outDir`-only temporary destination. Contain every output explicitly and record inspection-only overrides.
+- [`stripInternal`](https://www.typescriptlang.org/tsconfig/#stripInternal) can remove a contract still referenced by an emitted public signature. Successful emit is not proof of complete dependency context; retain the contract through an explicit inspection policy or report the omission.
+
+The probe reproduced both cases and checked contained/full declaration output with explicit inspection settings. This supports a bounded CLI-adapter investigation, not a production integration claim or a new compiler framework. Saved diagnostics/maps also need repository-relative paths and untrusted-path handling; no automatic URL fetching or raw absolute-path evidence export is planned.

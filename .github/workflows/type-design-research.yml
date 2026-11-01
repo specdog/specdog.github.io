@@ -1,0 +1,44 @@
+name: Type design research
+
+on:
+  pull_request:
+    paths:
+      - research/type-driven-design/**
+      - .github/workflows/type-design-research.yml
+  push:
+    branches: [docs/type-driven-design]
+    paths:
+      - research/type-driven-design/**
+      - .github/workflows/type-design-research.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  research-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26
+      - uses: actions/checkout@v4
+        with:
+          repository: specdog/dotdog
+          ref: 773dc265ecc30f1ec3cb417d1eb051719ea78ba9
+          path: _research/dotdog
+      - uses: actions/checkout@v4
+        with:
+          repository: sindresorhus/type-fest
+          ref: c3e825ffc1e687dd13a0003b771802d95964aaf9
+          path: _research/type-fest
+      - run: npm install --omit=dev --ignore-scripts --no-audit --no-fund --package-lock=false
+        working-directory: _research/type-fest
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+        working-directory: research/type-driven-design
+      - run: npm test
+        working-directory: research/type-driven-design
+        env:
+          DOTDOG_RESEARCH_ROOT: ${{ github.workspace }}/_research/dotdog
+          TYPE_FEST_RESEARCH_ROOT: ${{ github.workspace }}/_research/type-fest

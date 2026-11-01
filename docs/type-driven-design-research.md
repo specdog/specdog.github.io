@@ -2,6 +2,8 @@
 
 Research date: 2026-10-31. This is a proposal, not a shipped capability or a market-validation result.
 
+Follow-up: [tested findings and reproducible prototype](type-driven-design-tested-findings.md). That report includes real-code corpus checks, runtime properties, mutation-style contract checks, and updated compiler-API research.
+
 ## Recommendation
 
 Start with a distinct type-first design workflow in Dotdog. Prototype a small, read-only TypeScript adapter that supplies relevant type context and collects compiler evidence. Do not build a new type system, universal code generator, or token-level decoder.
@@ -33,7 +35,7 @@ Type-driven design is not merely annotating existing code or generating interfac
 
 [Zod's JSON Schema documentation](https://zod.dev/json-schema) identifies representations that cannot be exported faithfully, including transforms and custom schemas. Therefore a graph or JSON Schema export must not be treated as a lossless replacement for the source type/parser system.
 
-The TypeScript Compiler API documentation currently warns that its examples target 6.0 and earlier and that 7.1 will use a different API. Support and test explicit compiler versions; report unsupported versions instead of silently falling back to syntactic guesses.
+The older TypeScript Compiler API documentation targets 6.0 and earlier. [TypeScript 7.1 beta now documents the replacement API](https://devblogs.microsoft.com/typescript/announcing-typescript-7-1-beta/); a separate native-API smoke test is included in the follow-up. Support and test explicit compiler versions; report unsupported versions instead of silently falling back to syntactic guesses.
 
 ## Research on type-guided AI coding
 

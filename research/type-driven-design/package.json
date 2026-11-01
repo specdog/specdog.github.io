@@ -1,0 +1,15 @@
+{
+  "name": "specdog-type-design-research",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  },
+  "devDependencies": {
+    "fast-check": "4.10.2",
+    "typescript59": "npm:typescript@5.9.3",
+    "typescript60": "npm:typescript@6.0.3",
+    "typescript71": "npm:typescript@7.1.0-beta",
+    "zod": "4.6.7"
+  }
+}

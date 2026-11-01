@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REA and Ghidra graphs with Dotdog | specdog</title>
+<meta name="description" content="Import reviewed native-call exports, query paths and impact, and preserve artifact identity and coverage.">
+<link rel="canonical" href="https://specdog.github.io/guides/rea-graphs/">
+<link rel="icon" type="image/svg+xml" href="/assets/dog.svg">
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/assets/site.js" defer></script>
+
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+<nav>
+  <a href="/" class="brand"><img src="/assets/dog.svg" width="28" height="28" alt="">specdog</a>
+  <a href="/dotdog">dotdog</a>
+  <a href="/about">about</a>
+  <a href="/handbook" class="active" aria-current="page">guide</a>
+  <a href="/agents">for agents</a>
+  <a href="/blog">blog</a>
+  <a href="/leash">leash</a>
+  <a href="/collar">collar</a>
+</nav>
+</header>
+<main id="main" class="page">
+<p class="eyebrow">Field guide / Practical workflows</p>
+<h1>REA and Ghidra graphs with Dotdog</h1>
+
+<p class="lead">Use Dotdog to navigate saved native call relationships. SolidState/REA owns Ghidra analysis; Dotdog imports the evidence and answers bounded graph questions.</p>
+<div class="reading-links"><a href="#fixture">Try the public fixture</a><a href="#query">Query a path</a><a href="#own-binary">Use your own analysis</a><a href="#coverage">Interpret coverage</a></div>
+<h2>What each tool does</h2>
+<table><tr><th>Tool</th><th>Responsibility</th></tr><tr><td>Ghidra through SolidState/REA</td><td>Select the target, analyze functions, produce native-call evidence and manage the analysis session.</td></tr><tr><td>Dotdog</td><td>Import a saved NativeCallGraph body, preserve provenance and query paths, context and impact.</td></tr><tr><td>You</td><td>Choose the correct artifact and producer direction, review coverage and decide which conclusions the evidence supports.</td></tr></table>
+<p>Dotdog is not another decompiler and never launches the analyzed binary. Importing a saved graph does not require a running Ghidra session.</p>
+<h2 id="fixture">1. Download a versioned, public export</h2>
+<p>The release fixture records a resolved call from <code>_dotdog_validate</code> to <code>_dotdog_scale</code>. Its original static-analysis check preserved the binary digest and did not execute it.</p>
+<pre><code>mkdir rea-guide
+cd rea-guide
+curl -fsSL https://raw.githubusercontent.com/specdog/dotdog/v1.0.0/examples/native/callgraph-ghidra.json -o native-calls.json
+shasum -a 256 native-calls.json</code></pre>
+<p>The export SHA-256 must be <code>5fc1e4c996fa5608b4ea4fedb000c6be5b9afc0fe78bf79749e9553b863c7ad2</code>. That identifies the JSON export, not the binary. The separate binary digest below belongs to the recorded build.</p>
+<h2>2. Import with explicit direction and identity</h2>
+<pre><code>npx dotdog@1.0.0 graph import native-calls.json --format rea-callgraph --project native --rea-direction forward --artifact-sha256 472ee07be89864cb67ded8c7cd1de7f211bfdc34bb04968f417d4801c5e1b201</code></pre>
+<p>Expect two imported nodes and one edge in <code>.doghouse/imported/native.dag</code>. Use <code>--rea-direction backward</code> only for a backward producer request. The bare export does not encode direction, and guessing can reverse call meaning.</p>
+<h2 id="query">3. Ask a bounded graph question</h2>
+<pre><code>npx dotdog@1.0.0 path &#x27;0x100000340&#x27; &#x27;0x100000328&#x27; --dag .doghouse/imported/native.dag --json
+npx dotdog@1.0.0 context &#x27;0x100000340&#x27; --dag .doghouse/imported/native.dag --json
+npx dotdog@1.0.0 impact &#x27;0x100000328&#x27; --dag .doghouse/imported/native.dag --json</code></pre>
+<p>The path is one caller → callee hop. Addresses and identities refer to this exact build, not every recompilation. Imported projects are also available through the existing <code>dotdog serve</code> stdio MCP server.</p>
+<h2 id="own-binary">4. Bring your own saved REA analysis</h2>
+<ol><li>Select a binary you are authorized to analyze and record its SHA-256.</li><li>Use your configured <code>solidstate reverse</code> workflow for Ghidra analysis. Select a function, direction and depth; save the returned <strong>NativeCallGraph body</strong> and the request settings.</li><li>Keep raw provider responses private until reviewed: they can contain local paths and unrelated evidence. An arbitrary REA Evidence envelope is not a supported import body.</li><li>Import the reviewed body with its actual direction and binary digest. If no binary digest is available, Dotdog scopes identities to export bytes and reports binary identity as unknown.</li><li>Check identifiers, coverage, unresolved/external calls and truncation before drawing conclusions. Re-import new evidence after changing the target or analysis.</li></ol>
+<p>For the configured-host Ghidra reproduction and recorded evidence, see the <a href="https://github.com/specdog/dotdog/tree/v1.0.0/examples/native">public native fixture</a>. This guide does not install a provider or create a second REA integration.</p>
+<h2 id="coverage">What the graph does not prove</h2>
+<p>Ghidra exposes <a href="https://ghidra.re/ghidra_docs/api/ghidra/program/model/listing/Function.html">function and call-reference APIs</a>, but the export's resolved references are not complete runtime behavior. Indirect calls, unresolved functions, thunks and external targets need explicit interpretation.</p>
+<p>A bounded <code>no_path</code> means no connection was found in the supplied graph within the search bounds. It does not prove two procedures are independent. Preserve <code>maxHops</code>, <code>truncated</code>, coverage and limitations in any report.</p>
+<p>There is no automatic source-to-binary join or requirement proof. Use explicit reviewed mappings if you connect native evidence to specs, source code or tests.</p>
+</main>
+<footer>
+  <p>specdog · Feed the dog. Ship with specs.</p>
+  <p>Created by <a href="/about#justin-diclemente">Justin DiClemente</a> · <a href="https://github.com/specdog">GitHub</a></p>
+</footer>
+</body>
+</html>

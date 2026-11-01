@@ -21,10 +21,6 @@
       "title": "For Agents"
     },
     {
-      "path": "/dogfood",
-      "title": "Dogfood"
-    },
-    {
       "path": "/blog",
       "title": "Blog"
     },
@@ -37,20 +33,44 @@
       "title": "Agent-first documentation"
     },
     {
-      "path": "/blog/google-ard-dotdog/",
-      "title": "Agentic resource discovery"
-    },
-    {
-      "path": "/blog/karpathy-wiki-brain/",
-      "title": "Project memory"
-    },
-    {
       "path": "/collar",
       "title": "collar"
     },
     {
       "path": "/leash",
       "title": "leash"
+    },
+    {
+      "path": "/guides/type-driven-development/",
+      "title": "Type-driven development"
+    },
+    {
+      "path": "/guides/rea-graphs/",
+      "title": "REA/Ghidra guide"
+    },
+    {
+      "path": "/blog/dotdog-1-research/",
+      "title": "Dotdog research"
+    },
+    {
+      "path": "/blog/collar-graph-backed-agents/",
+      "title": "Collar context"
+    },
+    {
+      "path": "/blog/leash-control-boundaries/",
+      "title": "Leash boundaries"
+    },
+    {
+      "path": "/blog/dogbench-measurement/",
+      "title": "Dogbench measurement"
+    },
+    {
+      "path": "/homebrew",
+      "title": "Homebrew"
+    },
+    {
+      "path": "/dogbench",
+      "title": "Dogbench"
     }
   ],
   "nav": [
@@ -59,16 +79,9 @@
     "/about",
     "/handbook",
     "/agents",
-    "/dogfood",
     "/blog",
     "/leash",
     "/collar"
   ],
-  "skip": [
-    "blog.html",
-    "about.html",
-    "github.html",
-    "dogbench.html",
-    "leash.html"
-  ]
+  "skip": []
 }

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dogbench: measure runs, not promises | specdog</title>
+<meta name="description" content="How to evaluate token and timing comparisons without turning samples into unsupported savings claims.">
+<link rel="canonical" href="https://specdog.github.io/blog/dogbench-measurement/">
+<link rel="icon" type="image/svg+xml" href="/assets/dog.svg">
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/assets/site.js" defer></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Dogbench: measure runs, not promises", "datePublished": "2026-11-01", "author": {"@type": "Person", "name": "Justin DiClemente", "url": "https://github.com/logohere"}, "mainEntityOfPage": "https://specdog.github.io/blog/dogbench-measurement/"}</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+<nav>
+  <a href="/" class="brand"><img src="/assets/dog.svg" width="28" height="28" alt="">specdog</a>
+  <a href="/dotdog">dotdog</a>
+  <a href="/about">about</a>
+  <a href="/handbook">guide</a>
+  <a href="/agents">for agents</a>
+  <a href="/blog" class="active" aria-current="page">blog</a>
+  <a href="/leash">leash</a>
+  <a href="/collar">collar</a>
+</nav>
+</header>
+<main id="main" class="page">
+<p class="eyebrow">From the pack / Product notes</p>
+<h1>Dogbench: measure runs, not promises</h1>
+<p class="meta"><time datetime="2026-11-01">November 1, 2026</time> · By <a href="/about#justin-diclemente">Justin DiClemente</a></p>
+<p class="lead">A smaller prompt is an observation. A cheaper or better development workflow is a separate claim. Dogbench exists to explore those measurements.</p>
+<h2>Compare complete runs</h2>
+<p>The <a href="https://github.com/specdog/dogbench">Dogbench repository</a> describes a local harness for collecting usage from available agent clients and comparing tasks. Treat it as experimental tooling, not a public leaderboard or proof that one harness always wins.</p>
+<p>For a useful comparison, pin the task and input revision, model/provider, runtime, permissions and cache state. Include retries, tool traffic and output tokens rather than reporting only the initial context. Mark unavailable usage as unavailable; do not turn it into a zero.</p>
+<h2>Correctness comes before a savings percentage</h2>
+<p>A fast result that omits the relevant relationship or fails the task is not an improvement. Check the returned facts or task outcome, repeat runs and retain the variance. Do not mix tokenizer counts, byte-based estimates and provider billing units.</p>
+<p>The <a href="/dotdog/path-performance">Dotdog release comparison</a> follows a narrower method: same-source builds, stated warm-cache conditions, repeated workflow timings and unchanged-result checks. It does not establish coding-agent productivity or general cloud cost savings.</p>
+<h2>No synthetic scoreboards</h2>
+<p>We are not publishing sample dollar amounts as live customer results. Dogbench's older README examples are illustrative and are not used as evidence for website claims. Its full current comparison/provider surface has not been independently reproduced by this website update.</p>
+<p>Before sharing a run, review outputs for prompts, local paths, account identifiers and credentials. Prefer a sanitized report with the exact scope over raw session logs.</p>
+<div class="reading-links"><a href="/dogbench">Dogbench overview</a><a href="https://github.com/specdog/dogbench">Source</a><a href="/blog/dotdog-1-research/">Research and evidence boundaries</a></div>
+</main>
+<footer>
+  <p>specdog · Feed the dog. Ship with specs.</p>
+  <p>Created by <a href="/about#justin-diclemente">Justin DiClemente</a> · <a href="https://github.com/specdog">GitHub</a></p>
+</footer>
+</body>
+</html>

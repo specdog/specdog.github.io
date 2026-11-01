@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Collar: graph-backed context is not the whole agent | specdog</title>
+<meta name="description" content="Where Collar fits beside Dotdog, what an agent harness owns, and which performance claims still need evidence.">
+<link rel="canonical" href="https://specdog.github.io/blog/collar-graph-backed-agents/">
+<link rel="icon" type="image/svg+xml" href="/assets/dog.svg">
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/assets/site.js" defer></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Collar: graph-backed context is not the whole agent", "datePublished": "2026-11-01", "author": {"@type": "Person", "name": "Justin DiClemente", "url": "https://github.com/logohere"}, "mainEntityOfPage": "https://specdog.github.io/blog/collar-graph-backed-agents/"}</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+<nav>
+  <a href="/" class="brand"><img src="/assets/dog.svg" width="28" height="28" alt="">specdog</a>
+  <a href="/dotdog">dotdog</a>
+  <a href="/about">about</a>
+  <a href="/handbook">guide</a>
+  <a href="/agents">for agents</a>
+  <a href="/blog" class="active" aria-current="page">blog</a>
+  <a href="/leash">leash</a>
+  <a href="/collar">collar</a>
+</nav>
+</header>
+<main id="main" class="page">
+<p class="eyebrow">From the pack / Product notes</p>
+<h1>Collar: graph-backed context is not the whole agent</h1>
+<p class="meta"><time datetime="2026-11-01">November 1, 2026</time> · By <a href="/about#justin-diclemente">Justin DiClemente</a></p>
+<p class="lead">Dotdog prepares queryable project context. Collar is a separate agent harness that consumes graph-backed guidance while coordinating model and tool interactions.</p>
+<h2>The problem is context assembly</h2>
+<p>A coding agent needs more than a long system prompt. It needs the right project rules, current artifacts and tool results for the task at hand. Collar organizes behavioral guidance around <code>.dag</code> representations rather than treating every document as undifferentiated prose.</p>
+<p>The <a href="https://github.com/specdog/collar/blob/main/README.md">current project README</a> describes graph-backed system/skill loading, model routing and persistent session state. These are the project's documented capabilities; this article is not an independent reproduction of its model-provider behavior.</p>
+<h2>How it differs from Dotdog</h2>
+<table><tr><th>Dotdog</th><th>Collar</th></tr><tr><td>Compile/import/query specs and code evidence.</td><td>Run the agent conversation and tool workflow.</td></tr><tr><td>CLI plus local stdio MCP.</td><td>Interactive/headless harness with configured model providers.</td></tr><tr><td>No model account needed for local graph operations.</td><td>Provider setup and authorization depend on the chosen backend.</td></tr></table>
+<p>Use Dotdog with your existing agent host when graph context is all you need. Evaluate Collar when you specifically want its harness behavior. Neither requires turning the other into a hosted platform.</p>
+<h2>Read the graph, verify the action</h2>
+<p>A compact representation can reduce an input payload on a particular task, but that does not establish better answers or lower total cost. Model choice, retries, tool calls and output length all affect a run. We are not carrying old compression figures or router timings onto the website without a reproducible, scoped comparison.</p>
+<p>Graph text is also data, not blanket execution authority. Follow repository instructions, inspect evidence freshness and keep independent application tests in the loop.</p>
+<h2>Start with the actual project</h2>
+<p>Review Collar's <a href="https://github.com/specdog/collar#install">installation instructions</a>, supported providers and security guidance before connecting accounts or tools. Keep credentials out of graph exports and published benchmark logs.</p>
+<h2>Credits</h2>
+<p>Collar is a specdog project by Justin DiClemente. It is forked from <a href="https://github.com/NousResearch/hermes-agent">NousResearch/hermes-agent</a>; the upstream work and license attribution remain part of the project.</p>
+<div class="reading-links"><a href="/collar">Collar overview</a><a href="/agents">Dotdog agent setup</a><a href="https://github.com/specdog/collar">Source and issues</a></div>
+</main>
+<footer>
+  <p>specdog · Feed the dog. Ship with specs.</p>
+  <p>Created by <a href="/about#justin-diclemente">Justin DiClemente</a> · <a href="https://github.com/specdog">GitHub</a></p>
+</footer>
+</body>
+</html>

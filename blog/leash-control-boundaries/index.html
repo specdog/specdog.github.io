@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leash: keep the agent separate from device authority | specdog</title>
+<meta name="description" content="A source-backed look at Leash, simulation-first development and explicit runtime control boundaries.">
+<link rel="canonical" href="https://specdog.github.io/blog/leash-control-boundaries/">
+<link rel="icon" type="image/svg+xml" href="/assets/dog.svg">
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/assets/site.js" defer></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Leash: keep the agent separate from device authority", "datePublished": "2026-11-01", "author": {"@type": "Person", "name": "Justin DiClemente", "url": "https://github.com/logohere"}, "mainEntityOfPage": "https://specdog.github.io/blog/leash-control-boundaries/"}</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+<nav>
+  <a href="/" class="brand"><img src="/assets/dog.svg" width="28" height="28" alt="">specdog</a>
+  <a href="/dotdog">dotdog</a>
+  <a href="/about">about</a>
+  <a href="/handbook">guide</a>
+  <a href="/agents">for agents</a>
+  <a href="/blog" class="active" aria-current="page">blog</a>
+  <a href="/leash">leash</a>
+  <a href="/collar">collar</a>
+</nav>
+</header>
+<main id="main" class="page">
+<p class="eyebrow">From the pack / Product notes</p>
+<h1>Leash: keep the agent separate from device authority</h1>
+<p class="meta"><time datetime="2026-11-01">November 1, 2026</time> · By <a href="/about#justin-diclemente">Justin DiClemente</a></p>
+<p class="lead">A language model can propose an action. A robotics runtime must decide whether that action is allowed to reach a device. Leash keeps that boundary explicit.</p>
+<h2>A different product, a different responsibility</h2>
+<p>Leash is a Rust robotics runtime with CLI, HTTP and MCP interfaces. Its <a href="https://github.com/specdog/leash/blob/main/README.md">current documentation</a> describes simulation/replay, typed telemetry, bounded navigation, scoped agent capabilities and feature-gated hardware adapters.</p>
+<p>This is separate from Dotdog's spec/code graph tooling. Dotdog's optional type and REA workflows do not require robotics, a simulator, sensors or a provisioned cloud account.</p>
+<h2>One control boundary</h2>
+<p>Leash's documented architecture routes requests through the runtime before a robot adapter receives a command. Planners, ROS 2 providers, model outputs and CUDA results supply requests or evidence; they do not become an additional motor writer.</p>
+<p>Depending on the physical operation, the documented checks include authorization, approval, ownership, freshness, deadman state, collision/distance limits, Stop and E-stop. Those are implementation boundaries to inspect and test, not a blanket certification that a robot is safe in every environment.</p>
+<h2>Start without hardware</h2>
+<p>The project's simulation entry points let a developer inspect command/telemetry behavior without actuating a physical robot. Follow the <a href="https://github.com/specdog/leash#quick-start">current quickstart</a> and distinguish a simulation result from hardware evidence.</p>
+<p>Record the runtime revision, configuration, inputs and observed stop behavior when evaluating a workflow. A replay that matches a recorded run is useful evidence about that case, not proof of every future physical condition.</p>
+<h2>Types help connect the pieces</h2>
+<p>Typed control and sensor contracts make units, states and expected fields explicit. Runtime checks are still required for stale observations, authorization and device faults. This is the same separation used in type-driven software development: representable states, runtime input checks and behavioral evidence each do different work.</p>
+<h2>What this article does not claim</h2>
+<p>This is a source-backed product overview, not a new hardware trial, field certification or reproduction of every ROS/CUDA configuration. Consult the repository's actual adapter-specific evidence before making a physical-deployment decision.</p>
+<div class="reading-links"><a href="/leash">Leash overview</a><a href="https://github.com/specdog/leash/tree/main/docs">Runtime documentation</a><a href="https://github.com/specdog/leash/blob/main/CONTRIBUTING.md">Contribute</a></div>
+</main>
+<footer>
+  <p>specdog · Feed the dog. Ship with specs.</p>
+  <p>Created by <a href="/about#justin-diclemente">Justin DiClemente</a> · <a href="https://github.com/specdog">GitHub</a></p>
+</footer>
+</body>
+</html>

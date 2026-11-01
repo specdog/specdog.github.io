@@ -4,84 +4,114 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>specdog — Feed the dog. Ship with specs.</title>
-<meta name="description" content="CLI and MCP tooling for structured software specs, repo graphs, and multi-repo Dotdog workspaces.">
+<meta name="description" content="Dotdog 1.0: local-first spec and code graphs, saved REA/Ghidra call-graph traversal, and optional TypeScript contract inspection for coding agents.">
 <link rel="llms-txt" href="/llms.txt">
 <link rel="icon" type="image/svg+xml" href="/dotdog/assets/dog.svg">
+<link rel="canonical" href="https://specdog.github.io/">
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "specdog",
-  "url": "https://specdog.github.io",
-  "sameAs": ["https://github.com/specdog", "https://www.npmjs.com/package/dotdog"]
-}
+{"@context":"https://schema.org","@type":"Organization","name":"specdog","url":"https://specdog.github.io","sameAs":["https://github.com/specdog","https://www.npmjs.com/package/dotdog"]}
 </script>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: #ffffff; color: #1a1a2e;
-    min-height: 100vh; padding: 24px;
+  :root { color-scheme: light; --ink: #1a1a2e; --muted: #5b6170; --amber: #f59e0b; --line: #e8e5dd; }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #fffdf8; color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; }
+  a { color: #925006; text-underline-offset: 4px; }
+  a:hover { color: #6f3c00; }
+  button { font: inherit; cursor: pointer; }
+  a:focus-visible, button:focus-visible { outline: 3px solid #b45309; outline-offset: 5px; }
+  .skip-link { position: absolute; top: -80px; left: 20px; padding: 10px 16px; background: white; z-index: 2; }
+  .skip-link:focus { top: 12px; }
+  .site-header, main, footer { width: min(1080px, calc(100% - 64px)); margin: auto; }
+  .site-header { border-bottom: 1px solid var(--line); }
+  nav { display: flex; align-items: center; gap: 23px; padding: 23px 0; flex-wrap: wrap; }
+  nav a { text-decoration: none; color: var(--muted); font-size: 14px; font-weight: 500; }
+  nav .active { margin-right: auto; font-size: 23px; font-weight: 750; letter-spacing: -.8px; color: var(--ink); }
+  .hero { display: grid; grid-template-columns: 1.4fr 1fr; gap: 72px; align-items: center; padding: 76px 0 60px; }
+  .release-link { display: inline-flex; gap: 12px; align-items: center; font-size: 13px; font-weight: 600; text-decoration: none; }
+  .release-link span { padding: 3px 10px; background: #fef0cd; border: 1px solid #eddaaa; border-radius: 99px; white-space: nowrap; }
+  h1 { font-size: clamp(44px, 5.7vw, 68px); line-height: 1.06; letter-spacing: -3px; margin: 23px 0; font-weight: 750; }
+  h1 span { color: #a65a00; }
+  .hero-copy > p { font-size: 18px; line-height: 1.65; color: var(--muted); max-width: 550px; margin: 0 0 27px; }
+  .btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn { display: inline-block; padding: 11px 20px; border-radius: 7px; font-size: 14px; font-weight: 650; text-decoration: none; border: 1px solid var(--line); background: #fff; color: var(--ink); }
+  .btn.primary { background: var(--amber); border-color: var(--amber); }
+  .btn:hover { background: #fef0cd; color: var(--ink); }
+  .btn.primary:hover { background: #e99400; }
+  .hero-copy .byline { margin: 17px 0 0; font-size: 12px; color: var(--muted); }
+  .dog-panel { text-align: center; padding: 27px 20px 22px; background: #fff8e9; border: 1px solid #eedfbd; border-radius: 16px; }
+  .eyebrow { font-size: 11px; letter-spacing: 1.8px; font-weight: 700; text-transform: uppercase; color: #78623c; margin: 0; }
+  .dog-widget { display: block; width: 166px; height: 166px; margin: 17px auto 0; border: 0; background: transparent; border-radius: 50%; }
+  #dog-svg { width: 150px; height: 150px; transition: transform .15s; }
+  #dog-status { min-height: 26px; font-size: 13px; color: #78623c; margin: 7px 0 17px; }
+  .actions { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
+  .actions button { background: #fffdf8; border: 1px solid #e7d7b4; color: #6f511f; padding: 5px 12px; border-radius: 99px; font-size: 12px; }
+  .actions button:hover { background: #fef0cd; }
+  .install { display: grid; grid-template-columns: 1fr 1.5fr; gap: 48px; align-items: start; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 32px 0; }
+  h2 { font-size: 27px; line-height: 1.25; letter-spacing: -.7px; margin: 0 0 10px; }
+  .section-copy { margin: 0; color: var(--muted); font-size: 14px; }
+  .terminal { background: #1e293b; color: #e2e8f0; border: 1px solid #334155; border-radius: 10px; overflow: hidden; }
+  .terminal-bar { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border-bottom: 1px solid #334155; }
+  [role="tablist"] { display: flex; gap: 4px; }
+  [role="tab"] { border: 0; border-radius: 5px; padding: 4px 12px; color: #b6c3d5; background: transparent; font-size: 12px; }
+  [role="tab"][aria-selected="true"] { color: #fff; background: #3b485c; }
+  .copy-btn { border: 1px solid #526178; border-radius: 5px; padding: 3px 10px; color: #e2e8f0; background: transparent; font-size: 12px; }
+  .copy-btn:hover { background: #3b485c; }
+  .terminal pre { margin: 0; padding: 21px 20px; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 13px; color: #93c5fd; }
+  .requirements { color: var(--muted); font-size: 12px; margin: 12px 0 0; }
+  .copy-status { font-size: 12px; color: #fcd38a; padding: 0 20px; }
+  .copy-status:empty { display: none; }
+  .features { padding: 56px 0; }
+  .section-heading { margin-bottom: 24px; }
+  .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .feature { border-top: 2px solid #e5c785; padding-top: 18px; }
+  .feature .eyebrow { color: #925006; }
+  h3 { font-size: 19px; letter-spacing: -.35px; margin: 9px 0; }
+  .feature p:not(.eyebrow) { font-size: 14px; color: var(--muted); margin: 0 0 13px; }
+  .feature a { font-size: 13px; font-weight: 600; }
+  .resource-strip { display: flex; justify-content: space-between; align-items: center; gap: 25px; padding: 24px; background: #f6f4ee; border: 1px solid var(--line); border-radius: 10px; }
+  .resource-strip h2 { font-size: 20px; margin-bottom: 6px; }
+  .resource-links { display: flex; gap: 20px; flex-wrap: wrap; font-size: 13px; font-weight: 600; }
+  .family { padding: 48px 0; }
+  .family-heading { font-size: 12px; color: var(--muted); margin: 0 0 15px; }
+  .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+  .product-card a { font-size: 16px; font-weight: 700; text-decoration: none; }
+  .product-card p { margin: 5px 0 0; font-size: 13px; color: var(--muted); }
+  footer { display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; padding: 22px 0 30px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); }
+  footer p { margin: 0; }
+  footer a { color: var(--muted); }
+  @media (max-width: 800px) {
+    nav { gap: 15px; }
+    nav .active { flex-basis: 100%; margin: 0; }
+    .hero { gap: 30px; padding: 44px 0; }
+    h1 { font-size: 48px; letter-spacing: -2px; }
+    .hero-copy > p { font-size: 16px; }
+    .install { grid-template-columns: 1fr; gap: 20px; }
+    .feature-grid { gap: 20px; }
+    .resource-strip { align-items: flex-start; flex-direction: column; }
   }
-  nav { display: flex; justify-content: center; gap: 18px; padding: 8px 0 32px; flex-wrap: wrap; }
-  nav a { color: #6b7280; text-decoration: none; font-size: .9em; font-weight: 500; }
-  nav a:hover { color: #d97706; }
-  nav a.active { color: #d97706; }
-  main { max-width: 520px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center; }
-  svg { width: 100px; height: 100px; transition: transform .15s; }
-  h1 { font-size: 2.4em; font-weight: 700; margin: 12px 0 4px; }
-  p.tagline { color: #6b7280; font-size: 1.1em; margin-bottom: 4px; }
-  p.desc { color: #4b5563; font-size: 0.92em; margin-bottom: 16px; line-height: 1.6; }
-  .dog-widget { display: inline-block; cursor: pointer; user-select: none; margin-bottom: 8px; }
-  #dog-status { font-size: .75em; color: #9ca3af; min-height: 18px; margin: 4px 0; }
-  .actions { display: flex; gap: 6px; justify-content: center; margin-bottom: 16px; flex-wrap: wrap; }
-  .actions button { padding: 4px 12px; border-radius: 14px; border: 1px solid #e5e7eb; background: #fff; color: #4b5563; font-size: .78em; cursor: pointer; font-family: inherit; }
-  .actions button:hover { background: #fef3c7; border-color: #f59e0b; color: #92400e; }
-  .install-wrap { position: relative; margin-bottom: 20px; width: 100%; }
-  pre { background: #1e293b; color: #e2e8f0; border-radius: 8px; padding: 16px 20px; text-align: left; font-size: .85em; margin: 0; overflow-x: auto; position: relative; }
-  pre code { color: #93c5fd; }
-  .copy-btn { position: absolute; top: 8px; right: 8px; background: none; border: none; color: #94a3b8; cursor: pointer; padding: 4px 6px; border-radius: 4px; line-height: 1; }
-  .copy-btn:hover { color: #e2e8f0; background: rgba(255,255,255,0.08); }
-  .copy-btn.copied { color: #4ade80; }
-  .copy-btn svg { width: 16px; height: 16px; }
-  .btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-  a.btn { display: inline-block; padding: 10px 22px; border-radius: 6px; font-size: .92em; font-weight: 600; text-decoration: none; }
-  a.primary { background: #f59e0b; color: #1a1a2e; }
-  a.primary:hover { background: #d97706; }
-  a.secondary { background: #f1f5f9; color: #1e293b; border: 1px solid #cbd5e1; }
-  a.secondary:hover { background: #e2e8f0; }
-  .line { transition: opacity .15s; }
-  .cmd { color: #93c5fd; }
-  .out { color: #86efac; }
-  .product-grid { display:grid; grid-template-columns:1fr; gap:10px; width:100%; margin:18px 0 4px; text-align:left; }
-  .product-card { border:1px solid #e5e7eb; border-radius:10px; padding:12px 14px; background:#fafafa; }
-  .product-card a { color:#d97706; font-weight:700; text-decoration:none; }
-  .product-card p { margin:4px 0 0; color:#4b5563; font-size:.86em; line-height:1.45; }
-  footer { margin-top: 24px; color: #9ca3af; font-size: .8em; }
-  footer a { color: #9ca3af; }
-
-
-  /* shared navigation */
-  body { padding-top: 24px; margin-top: 0; }
-  nav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 18px;
-    flex-wrap: wrap;
-    width: min(calc(100vw - 48px), 960px);
-    margin: 0 auto 32px;
-    padding: 8px 0 0;
+  @media (max-width: 560px) {
+    .site-header, main, footer { width: calc(100% - 40px); }
+    nav { gap: 10px 18px; padding: 18px 0; }
+    nav a { font-size: 12px; }
+    .hero { grid-template-columns: 1fr; gap: 28px; padding: 34px 0; }
+    h1 { font-size: 48px; }
+    .dog-panel { padding: 18px; }
+    .dog-widget { margin-top: 5px; height: 140px; }
+    #dog-svg { height: 130px; }
+    .feature-grid, .product-grid { grid-template-columns: 1fr; gap: 25px; }
+    .features { padding: 36px 0; }
+    .family { padding: 34px 0; }
+    .release-link { gap: 8px; font-size: 12px; }
   }
-  nav a { color: #6b7280; text-decoration: none; font-size: .9em; font-weight: 500; line-height: 1.4; }
-  nav a:hover, nav a.active { color: #d97706; }
-  /* end shared navigation */
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } #dog-svg { transition: none; } }
 </style>
-<link rel="canonical" href="https://specdog.github.io/">
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
 <nav>
-  <a href="/" class="active">specdog</a>
+  <a href="/" class="active" aria-current="page">specdog</a>
   <a href="/dotdog">dotdog</a>
   <a href="/about">about</a>
   <a href="/handbook">guide</a>
@@ -91,9 +121,22 @@
   <a href="/leash">leash</a>
   <a href="/collar">collar</a>
 </nav>
-<main>
-  <div class="dog-widget" title="Feed the dog">
-    <svg id="dog-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+</header>
+<main id="main">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <a class="release-link" href="https://github.com/specdog/dotdog/releases/tag/v1.0.0"><span>Dotdog 1.0</span> Available now · Read the release notes</a>
+      <h1 id="hero-title">Good specs.<br><span>Less guesswork.</span></h1>
+      <p>Local-first specs, code graphs, and type contracts for coding agents. Keep what you intend separate from what the code shows — and give your agent the context to work with both.</p>
+      <div class="btns">
+        <a class="btn primary" href="/dotdog">Get started</a>
+        <a class="btn" href="https://github.com/specdog/dotdog">View on GitHub</a>
+      </div>
+      <p class="byline">Open source · MIT licensed · npm + Bun</p>
+    </div>
+    <div class="dog-panel">
+      <p class="eyebrow">Feed the dog. Ship with specs.</p>
+      <button class="dog-widget" onclick="pet()" aria-label="Pet Spec the dog"><svg id="dog-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
       <ellipse cx="28" cy="28" rx="13" ry="17" fill="#d97706" transform="rotate(-15 28 28)"/>
       <ellipse cx="92" cy="28" rx="13" ry="17" fill="#d97706" transform="rotate(15 92 28)"/>
       <circle cx="60" cy="63" r="32" fill="#f59e0b"/>
@@ -103,66 +146,125 @@
       <path d="M52 78 Q60 86 68 78" fill="none" stroke="#1a1a2e" stroke-width="2" stroke-linecap="round"/>
       <ellipse id="tongue" cx="60" cy="84" rx="5" ry="6" fill="#ef4444" opacity="0" style="transition:opacity .2s"/>
       <g id="bone" opacity="0"><path d="M44 80 Q44 70 55 76 L65 76 Q76 70 76 80 Q76 90 65 86 L55 86 Q44 90 44 80 Z" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/></g>
-    </svg>
-  </div>
-  <div id="dog-status">🐕 Spec</div>
-  <div class="actions">
-    <button onclick="feed()">🦴 Feed</button>
-    <button onclick="pet()">✋ Pet</button>
-    <button onclick="fetchBall()">🎾 Fetch</button>
-  </div>
-
-  <h1>specdog</h1>
-  <p class="tagline">Specs that ship. Agents that don't hallucinate.</p>
-  <p class="desc">specdog is a small family of tools for spec-driven development: write structured specs, map repos into agent-readable graphs, describe multi-repo workspaces, benchmark token savings, and run agent harnesses from the same source of truth. Pair the specs with <a href="/handbook#type-driven-design">type-driven design</a> to model valid states and operation contracts before implementation.</p>
-
-  <div class="why" style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:16px 0;">
-    <span style="background:#fef3c7;padding:4px 10px;border-radius:12px;font-size:.8em;">specs</span>
-    <span style="background:#dcfce7;padding:4px 10px;border-radius:12px;font-size:.8em;">graphs</span>
-    <span style="background:#f3e8ff;padding:4px 10px;border-radius:12px;font-size:.8em;">agents</span>
-    <span style="background:#e7fcef;padding:4px 10px;border-radius:12px;font-size:.8em;">benchmarks</span>
-  </div>
-
-  <div class="install-wrap">
-    <pre><code>npm install -g dotdog
-dotdog workspace init --id example-product
-dotdog workspace validate
-dotdog workspace graph --json</code></pre>
-    <button class="copy-btn" onclick="copyInstall(this)" title="Copy">
-      <svg id="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-    </button>
-  </div>
-
-  <div class="btns">
-    <a class="btn primary" href="/dotdog">Get Started</a>
-    <a class="btn secondary" href="https://www.npmjs.com/package/dotdog">npm</a>
-    <a class="btn secondary" href="https://github.com/specdog/dotdog">GitHub</a>
-  </div>
-
-  <section class="product-grid" aria-label="specdog products">
-    <div class="product-card"><a href="/dotdog">dotdog</a><p>CLI and MCP tooling for `.dog` specs, `.dag` graphs, repo mapping, and multi-repo workspace manifests.</p></div>
-    <div class="product-card"><a href="/collar">collar</a><p>DAG-first agent harness for loading graph-backed behavior.</p></div>
-    <div class="product-card"><a href="/leash">leash</a><p>Robotics harness for simulation-safe agent control.</p></div>
+    </svg></button>
+      <p id="dog-status" role="status" aria-live="polite">Spec is on the case.</p>
+      <div class="actions">
+        <button onclick="feed()">🦴 Feed</button>
+        <button onclick="pet()">✋ Pet</button>
+        <button onclick="fetchBall()">🎾 Fetch</button>
+      </div>
+    </div>
   </section>
-  <footer>dotdog@<span id="version">0.5.0</span> · <a href="https://github.com/specdog/dotdog/blob/main/LICENSE">MIT</a></footer>
+
+  <section class="install" aria-labelledby="install-title">
+    <div>
+      <h2 id="install-title">Start in your repository.</h2>
+      <p class="section-copy">Refresh the local graph, then ask focused questions about context, impact, and paths.</p>
+    </div>
+    <div>
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div role="tablist" aria-label="Package runner">
+            <button id="npm-tab" role="tab" aria-selected="true" aria-controls="install-panel" onclick="setInstaller('npm')">npm</button>
+            <button id="bun-tab" role="tab" aria-selected="false" aria-controls="install-panel" tabindex="-1" onclick="setInstaller('bun')">Bun</button>
+          </div>
+          <button class="copy-btn" onclick="copyInstall(this)" aria-label="Copy install command">Copy</button>
+        </div>
+        <pre id="install-panel" role="tabpanel" aria-labelledby="npm-tab" tabindex="0"><code id="install-command">npx dotdog@1.0.0 refresh --json</code></pre>
+        <p class="copy-status" role="status" aria-live="polite"></p>
+      </div>
+      <p class="requirements">Node.js 22.12+ or Bun 1.3+. Optional type inspection also requires Node and a trusted project-installed TypeScript 7.0.2 compiler.</p>
+    </div>
+  </section>
+
+  <section class="features" aria-labelledby="features-title">
+    <div class="section-heading">
+      <h2 id="features-title">Three perspectives. One workflow.</h2>
+      <p class="section-copy">Intent, implementation, and evidence stay connected — not confused.</p>
+    </div>
+    <div class="feature-grid">
+      <article class="feature">
+        <p class="eyebrow">01 / Specs</p>
+        <h3>Make intent queryable.</h3>
+        <p>Write structured specs, check completeness, and keep human-owned rules separate from generated code observations.</p>
+        <a href="/handbook">Explore spec-driven design</a>
+      </article>
+      <article class="feature">
+        <p class="eyebrow">02 / Graphs</p>
+        <h3>Follow the evidence.</h3>
+        <p>Query context, impact, and paths. Import saved REA/Ghidra call graphs with artifact identity, coverage, and limits intact.</p>
+        <a href="/dotdog#rea--ghidra-evidence">Explore graph workflows</a>
+      </article>
+      <article class="feature">
+        <p class="eyebrow">03 / Types</p>
+        <h3>Shape valid states.</h3>
+        <p>Pair <a href="/handbook#type-driven-design">type-driven design</a> with optional selected-contract inspection, compiler diagnostics, and bounded type-reference graphs.</p>
+        <a href="/dotdog/type-contracts">Explore type contracts</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="resource-strip" aria-labelledby="release-title">
+    <div>
+      <h2 id="release-title">New to 1.0? Start here.</h2>
+      <p class="section-copy">What's changed, how to upgrade, and what the tools actually check.</p>
+    </div>
+    <div class="resource-links">
+      <a href="https://github.com/specdog/dotdog/releases/tag/v1.0.0">Release notes</a>
+      <a href="/dotdog/v1-migration">Upgrade guide</a>
+      <a href="/agents">Agent setup</a>
+    </div>
+  </section>
+
+  <section class="family" aria-label="More specdog projects">
+    <p class="family-heading">More from the pack</p>
+    <div class="product-grid">
+      <div class="product-card"><a href="/collar">collar</a><p>An agent harness for graph-backed behavior.</p></div>
+      <div class="product-card"><a href="/leash">leash</a><p>A separate robotics harness for simulation-first agent control.</p></div>
+      <div class="product-card"><a href="/dogbench">dogbench</a><p>Retrieval and token-cost benchmarks for the tooling.</p></div>
+    </div>
+  </section>
 </main>
+<footer>
+  <p>specdog · Feed the dog. Ship with specs.</p>
+  <p>dotdog@<span id="version">1.0.0</span> · <a href="https://www.npmjs.com/package/dotdog">npm</a> · <a href="https://github.com/specdog/dotdog/blob/main/LICENSE">MIT</a></p>
+</footer>
 <script>
-const svg=document.getElementById('dog-svg'),st=document.getElementById('dog-status');
-const bone=document.getElementById('bone'),tongue=document.getElementById('tongue');
-function feed(){bone.setAttribute('opacity','1');st.innerHTML='🦴 Dog fed. Ship with specs!';setTimeout(()=>bone.setAttribute('opacity','0'),1500);}
-function pet(){tongue.setAttribute('opacity','1');svg.style.transform='rotate(-5deg)';st.innerHTML='✋ Good dog.';setTimeout(()=>{svg.style.transform='';tongue.setAttribute('opacity','0');},800);}
-function fetchBall(){svg.style.transform='translateX(20px)';st.innerHTML='🎾 Fetch!';setTimeout(()=>svg.style.transform='',400);}
-svg.parentElement.addEventListener('click',pet);
-document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;if(e.key==='v')feed();if(e.key==='c')fetchBall();if(e.key==='p')pet();});
-function copyInstall(btn){
-  const pre=btn.parentElement.querySelector('pre');
-  navigator.clipboard.writeText(pre.textContent).then(()=>{
-    btn.classList.add('copied');
-    btn.innerHTML='<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg>';
-    setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML='<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"9\" y=\"9\" width=\"13\" height=\"13\" rx=\"2\" ry=\"2\"/><path d=\"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\"/></svg>';},2000);
-  });
+const svg = document.getElementById('dog-svg'), st = document.getElementById('dog-status');
+const bone = document.getElementById('bone'), tongue = document.getElementById('tongue');
+function feed() { bone.setAttribute('opacity', '1'); st.textContent = 'Dog fed. Ship with specs!'; setTimeout(() => bone.setAttribute('opacity', '0'), 1500); }
+function pet() { tongue.setAttribute('opacity', '1'); svg.style.transform = 'rotate(-5deg)'; st.textContent = 'Good dog.'; setTimeout(() => { svg.style.transform = ''; tongue.setAttribute('opacity', '0'); }, 800); }
+function fetchBall() { svg.style.transform = 'translateX(20px)'; st.textContent = 'Fetch!'; setTimeout(() => svg.style.transform = '', 400); }
+document.addEventListener('keydown', e => { if (e.ctrlKey || e.metaKey || e.altKey || e.target.isContentEditable || ['INPUT', 'TEXTAREA', 'BUTTON'].includes(e.target.tagName)) return; if (e.key === 'v') feed(); if (e.key === 'c') fetchBall(); if (e.key === 'p') pet(); });
+const commands = { npm: 'npx dotdog@1.0.0 refresh --json', bun: 'bunx --bun dotdog@1.0.0 refresh --json' };
+function setInstaller(installer) {
+  for (const name of Object.keys(commands)) {
+    const tab = document.getElementById(name + '-tab');
+    tab.setAttribute('aria-selected', String(name === installer));
+    tab.tabIndex = name === installer ? 0 : -1;
+  }
+  document.getElementById('install-command').textContent = commands[installer];
+  document.getElementById('install-panel').setAttribute('aria-labelledby', installer + '-tab');
+  document.querySelector('.copy-status').textContent = '';
 }
-async function loadVersion(){try{const r=await fetch('https://registry.npmjs.org/dotdog/latest');const d=await r.json();document.getElementById('version').textContent=d.version;}catch(e){}}
+document.querySelector('[role="tablist"]').addEventListener('keydown', e => {
+  if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
+  e.preventDefault();
+  const installer = e.key === 'Home' ? 'npm' : e.key === 'End' ? 'bun' : document.getElementById('npm-tab').getAttribute('aria-selected') === 'true' ? 'bun' : 'npm';
+  setInstaller(installer);
+  document.getElementById(installer + '-tab').focus();
+});
+async function copyInstall(btn) {
+  try {
+    await navigator.clipboard.writeText(document.getElementById('install-command').textContent);
+    btn.textContent = 'Copied';
+    document.querySelector('.copy-status').textContent = 'Command copied.';
+  } catch {
+    document.querySelector('.copy-status').textContent = 'Clipboard unavailable. Select and copy the command above.';
+  }
+  setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+}
+async function loadVersion() { try { const response = await fetch('https://registry.npmjs.org/dotdog/latest'); if (!response.ok) return; const data = await response.json(); if (typeof data.version === 'string') document.getElementById('version').textContent = data.version; } catch {} }
 loadVersion();
 </script>
 </body>

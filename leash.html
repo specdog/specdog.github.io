@@ -5,52 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>leash — safe robot control from CLI, HTTP, and MCP | specdog</title>
 <meta name="description" content="Leash is an open-source Rust runtime for safe robot control across CLI, HTTP, MCP, simulation, agents, ROS 2, CUDA, and real hardware.">
-<link rel="icon" type="image/svg+xml" href="/dotdog/assets/dog.svg">
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fff; color: #1a1a2e; max-width: 780px; margin: 0 auto; padding: 24px 24px 40px; line-height: 1.7; }
-  nav { display: flex; justify-content: center; align-items: center; gap: 18px; flex-wrap: wrap; width: min(calc(100vw - 48px), 960px); margin: 0 auto 32px; padding: 8px 0 0; position: relative; left: 50%; transform: translateX(-50%); }
-  nav a { color: #6b7280; text-decoration: none; font-size: .9em; font-weight: 500; line-height: 1.4; }
-  nav a:hover, nav a.active { color: #d97706; }
-  h1 { font-size: 2.4em; margin-bottom: 8px; }
-  h2 { font-size: 1.35em; margin: 38px 0 12px; border-bottom: 1px solid #e5e7eb; padding-bottom: 6px; }
-  p { margin: 10px 0; }
-  a { color: #d97706; }
-  code { background: #f1f5f9; padding: 1px 5px; border-radius: 4px; font-size: .9em; }
-  pre { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; font-size: .85em; overflow-x: auto; margin: 12px 0; }
-  pre code { background: none; padding: 0; }
-  .hero-art { display: block; width: 108px; height: 108px; margin: 0 auto 20px; }
-  .lead { font-size: 1.12em; color: #374151; }
-  .sublead { color: #4b5563; max-width: 650px; }
-  .badge-row { display: flex; gap: 10px; align-items: center; margin: 18px 0; flex-wrap: wrap; }
-  .actions { display: flex; gap: 10px; margin: 18px 0 28px; flex-wrap: wrap; }
-  .button { display: inline-block; padding: 8px 13px; border: 1px solid #d97706; border-radius: 7px; text-decoration: none; font-weight: 600; }
-  .button.primary { background: #d97706; color: white; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin: 16px 0; }
-  .card { border: 1px solid #e5e7eb; border-radius: 8px; padding: 14px; }
-  .card strong { display: block; margin-bottom: 5px; }
-  .muted { color: #6b7280; font-size: .92em; }
-  .callout { border: 1px solid #f59e0b; background: #fffbeb; border-radius: 10px; padding: 16px 18px; margin: 16px 0; }
-  .demo-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 14px; }
-  .demo-actions .secondary { font-size: .92em; }
-  .links { display: flex; gap: 14px; flex-wrap: wrap; margin: 12px 0; }
-  footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid #e5e7eb; text-align: center; font-size: .85em; color: #9ca3af; }
-</style>
+<link rel="icon" type="image/svg+xml" href="/assets/dog.svg">
+
 <link rel="canonical" href="https://specdog.github.io/leash">
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/assets/site.js" defer></script>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
 <nav>
-  <a href="/">specdog</a>
+  <a href="/" class="brand"><img src="/assets/dog.svg" width="28" height="28" alt="">specdog</a>
   <a href="/dotdog">dotdog</a>
   <a href="/about">about</a>
   <a href="/handbook">guide</a>
   <a href="/agents">for agents</a>
-  <a href="/dogfood">dogfood</a>
   <a href="/blog">blog</a>
-  <a href="/leash" class="active">leash</a>
+  <a href="/leash" class="active" aria-current="page">leash</a>
   <a href="/collar">collar</a>
 </nav>
-
+</header>
+<main id="main" class="page">
 <img class="hero-art" src="/assets/leash-robot.svg" alt="Robot being walked on a leash by the specdog mascot">
 
 <h1>leash</h1>
@@ -100,6 +75,7 @@ curl -s http://127.0.0.1:8000/telemetry | jq</code></pre>
 <p><strong>Leash owns the final command sent to the robot.</strong> Agents, planners, ROS 2 nodes, CUDA jobs, and apps can request work or provide evidence; they do not become another motor writer.</p>
 <p>Physical motion is off by default and passes authorization, approval, freshness, deadman, collision, distance, Stop, and E-stop checks. Simulation and replay never actuate hardware.</p>
 
+<p><a href="/blog/leash-control-boundaries/">Read the Leash product notes</a> for a source-backed overview of the control boundary.</p>
 <h2>Explore</h2>
 <div class="grid">
   <div class="card"><strong>Agents</strong><span class="muted">Run durable sessions and bounded capability calls.</span><br><a href="https://github.com/specdog/leash/blob/main/README.md#agent-workflows">Agent workflows →</a></div>
@@ -122,9 +98,11 @@ cargo run -- run sim-http</code></pre>
   <a href="https://github.com/specdog/leash/tree/main/docs">Docs</a>
   <a href="https://github.com/specdog/leash/issues">Issues</a>
 </div>
-
+</main>
 <footer>
-  <a href="https://github.com/specdog">specdog</a> · MIT
+  <p>specdog · Feed the dog. Ship with specs.</p>
+  <p>Created by <a href="/about#justin-diclemente">Justin DiClemente</a> · <a href="https://github.com/specdog">GitHub</a></p>
 </footer>
+
 </body>
 </html>

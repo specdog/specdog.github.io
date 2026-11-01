@@ -9,3 +9,7 @@
 Run from your repository with npm: `npx dotdog@1.0.0 refresh --json`, or Bun: `bunx --bun dotdog@1.0.0 refresh --json`. Node.js 22.12+ or Bun 1.3+; the optional type adapter additionally requires Node and a trusted project-installed TypeScript 7.0.2 compiler.
 
 **[dogbench](https://specdog.github.io/dogbench)** — token-savings benchmark for Collar and dotdog. [GitHub](https://github.com/specdog/dogbench)
+
+## Author
+
+A specdog project by **[Justin DiClemente](https://github.com/logohere)**. [Short bio](https://specdog.github.io/about#justin-diclemente).

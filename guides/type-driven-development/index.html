@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Type-driven development with Dotdog | specdog</title>
+<meta name="description" content="A practical types-first workflow: model states, inspect TypeScript contracts, query graph evidence, and check invalid usage.">
+<link rel="canonical" href="https://specdog.github.io/guides/type-driven-development/">
+<link rel="icon" type="image/svg+xml" href="/assets/dog.svg">
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/assets/site.js" defer></script>
+
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+<nav>
+  <a href="/" class="brand"><img src="/assets/dog.svg" width="28" height="28" alt="">specdog</a>
+  <a href="/dotdog">dotdog</a>
+  <a href="/about">about</a>
+  <a href="/handbook" class="active" aria-current="page">guide</a>
+  <a href="/agents">for agents</a>
+  <a href="/blog">blog</a>
+  <a href="/leash">leash</a>
+  <a href="/collar">collar</a>
+</nav>
+</header>
+<main id="main" class="page">
+<p class="eyebrow">Field guide / Practical workflows</p>
+<h1>Type-driven development with Dotdog</h1>
+
+<p class="lead">Start with the states and operations your domain permits. Use the compiler to reject invalid combinations, then keep the resulting contracts connected to spec and test evidence.</p>
+<div class="reading-links"><a href="#model">Model the domain</a><a href="#inspect">Inspect and query</a><a href="#negative-case">Try an invalid call</a><a href="#limits">Know the limits</a></div>
+<h2>What type-driven development means here</h2>
+<p>Specs describe the intended rule. Types express the parts your language can enforce. Graphs connect those artifacts for navigation. Test-driven development is a separate practice; spelling out “type-driven” avoids confusing the two uses of TDD.</p>
+<p>This walkthrough uses a small order workflow. A shipped order needs tracking data, and only a paid order can be passed to the shipping operation. It does not arrange delivery or prove a payment happened.</p>
+<h2>1. Use a compatible project</h2>
+<p>Dotdog's optional adapter requires Node.js 22.12+ and a trusted project-installed TypeScript <strong>7.0.2</strong>. Core Dotdog does not require a compiler. If your application uses another version, use a separate scratch project rather than changing its compiler for this guide.</p>
+<pre><code>mkdir type-guide
+cd type-guide
+npm init -y
+npm install --save-dev typescript@7.0.2
+mkdir src</code></pre><p>Create <code>tsconfig.json</code> with:</p><pre><code>{
+  &quot;compilerOptions&quot;: {
+    &quot;strict&quot;: true,
+    &quot;noEmit&quot;: true,
+    &quot;target&quot;: &quot;ES2022&quot;,
+    &quot;module&quot;: &quot;NodeNext&quot;
+  },
+  &quot;include&quot;: [&quot;src/**/*.ts&quot;]
+}</code></pre>
+<h2 id="model">2. Model valid states before implementation</h2>
+<p>Create <code>src/order.ts</code>:</p><pre><code>export type Draft = { state: &quot;draft&quot;; id: string };
+export type Paid = { state: &quot;paid&quot;; id: string; receipt: string };
+export type Shipped = {
+  state: &quot;shipped&quot;;
+  id: string;
+  receipt: string;
+  tracking: string;
+};
+export type Order = Draft | Paid | Shipped;
+
+export function ship(order: Paid, tracking: string): Shipped {
+  return { ...order, state: &quot;shipped&quot;, tracking };
+}</code></pre>
+<p>The discriminant keeps receipt and tracking fields with the states that require them. A collection of unrelated booleans and optional fields would permit more invalid combinations. See <a href="https://www.typescriptlang.org/docs/handbook/2/narrowing.html#discriminated-unions">TypeScript's discriminated-union documentation</a>.</p>
+<h2 id="inspect">3. Inspect, save, and query a selected contract</h2>
+<pre><code>npx dotdog@1.0.0 types inspect Order --file src/order.ts --project tsconfig.json --json &gt; order-contract.json &amp;&amp;
+npx dotdog@1.0.0 graph import order-contract.json --project types
+npx dotdog@1.0.0 context &#x27;src/order.ts#Paid&#x27; --dag .doghouse/imported/types.dag --json
+npx dotdog@1.0.0 impact &#x27;src/order.ts#Paid&#x27; --dag .doghouse/imported/types.dag --json
+npx dotdog@1.0.0 graph audit --dag .doghouse/imported/types.dag --profile evidence --json</code></pre>
+<p>Only import a successful inspection: the shell's <code>&amp;&amp;</code> prevents importing failed compiler output. Expect an <code>ok: true</code> inspection, an imported graph, and explicit partial coverage. Impact describes references in this selected graph, not every call site in your application.</p>
+<p>Saved node evidence retains compiler/configuration/input identities. After changing source, configuration, compiler or dependencies, inspect again and replace the saved graph. A freshness audit checks recorded inputs; it cannot discover every new or unloaded file.</p>
+<h2 id="negative-case">4. Try a call the compiler must reject</h2>
+<p>Create <code>src/invalid.ts</code>:</p>
+<pre><code>import { ship, type Draft } from &quot;./order.js&quot;;
+
+const draft: Draft = { state: &quot;draft&quot;, id: &quot;order-1&quot; };
+ship(draft, &quot;TRACK-1&quot;);</code></pre><pre><code>npx dotdog@1.0.0 types inspect Order --file src/order.ts --project tsconfig.json --json</code></pre>
+<p>The configured project now fails checking and Dotdog exits nonzero. Repair the example by passing a <code>Paid</code> value with a receipt, then repeat inspection. Keep negative compile checks alongside runtime and integration tests in real applications.</p>
+<h2 id="limits">5. Keep the boundaries honest</h2>
+<ul><li>Parse untrusted input before treating it as a domain value. Type assertions do not perform runtime validation.</li><li>The signature does not consume the old order or prevent repeated calls. Receipt strings do not prove payment; runtime business rules still apply.</li><li>Inspection is read-only with respect to project configuration and compiler output. The shell redirection above deliberately creates the saved JSON file.</li><li>Dotdog 1.0 supports this exact compiler interface, not every TypeScript version. Project-reference/composite/noCheck configurations fail explicitly.</li><li>Keep spec-to-type/test mappings explicit. Matching names are not proof that a requirement is implemented.</li></ul>
+<p>For supported aliases, processing bounds and evidence limitations, read the <a href="/dotdog/type-contracts">full type-contract reference</a>. For the design rationale and newer compiler research, read <a href="/blog/dotdog-1-research/">the research notes</a>.</p>
+</main>
+<footer>
+  <p>specdog · Feed the dog. Ship with specs.</p>
+  <p>Created by <a href="/about#justin-diclemente">Justin DiClemente</a> · <a href="https://github.com/specdog">GitHub</a></p>
+</footer>
+</body>
+</html>

@@ -5,56 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>About specdog</title>
 <meta name="description" content="About specdog: spec-driven development tools for structured specs, agent-readable graphs, robotics harnesses, and benchmarks.">
-<link rel="icon" type="image/svg+xml" href="/dotdog/assets/dog.svg">
-<style>
-  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;max-width:840px;margin:0 auto;padding:32px 24px;line-height:1.7;color:#111827;background:#fff}
-  nav{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-bottom:28px}
-  nav a{color:#6b7280;text-decoration:none;font-weight:600}
-  nav a.active{color:#d97706}
-  h1{font-size:2.2rem;margin:0 0 8px}
-  h2{font-size:1.25rem;margin:30px 0 10px;border-bottom:1px solid #e5e7eb;padding-bottom:6px}
-  p{color:#374151;margin:0 0 12px}
-  a{color:#d97706}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:16px 0}
-  .card{border:1px solid #e5e7eb;border-radius:12px;padding:14px 16px;background:#fafafa}
-  .card a{font-weight:700;text-decoration:none}
-  .card p{font-size:.92rem;margin-top:4px}
+<link rel="icon" type="image/svg+xml" href="/assets/dog.svg">
 
-
-  /* shared navigation */
-  body { padding-top: 24px; margin-top: 0; }
-  nav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 18px;
-    flex-wrap: wrap;
-    width: min(calc(100vw - 48px), 960px);
-    margin: 0 auto 32px;
-    padding: 8px 0 0;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  nav a { color: #6b7280; text-decoration: none; font-size: .9em; font-weight: 500; line-height: 1.4; }
-  nav a:hover, nav a.active { color: #d97706; }
-  /* end shared navigation */
-</style>
 <link rel="canonical" href="https://specdog.github.io/about">
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/assets/site.js" defer></script>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
 <nav>
-  <a href="/">specdog</a>
+  <a href="/" class="brand"><img src="/assets/dog.svg" width="28" height="28" alt="">specdog</a>
   <a href="/dotdog">dotdog</a>
-  <a href="/about" class="active">about</a>
+  <a href="/about" class="active" aria-current="page">about</a>
   <a href="/handbook">guide</a>
   <a href="/agents">for agents</a>
-  <a href="/dogfood">dogfood</a>
   <a href="/blog">blog</a>
   <a href="/leash">leash</a>
   <a href="/collar">collar</a>
 </nav>
-<main>
+</header>
+<main id="main" class="page">
 <h1>About specdog</h1>
 <p>specdog is a toolkit for making software specs easier for both humans and AI agents to read. The goal is simple: keep intent, implementation rules, and agent instructions in structured files that can be validated and queried.</p>
 <p>The project focuses on spec-driven development, agent discovery, and small runtime surfaces that reduce guesswork when an agent enters a codebase.</p>
@@ -67,11 +38,19 @@
   <div class="card"><a href="/leash">leash</a><p>A robotics-oriented harness for simulation-first agent control and capability gating.</p></div>
 </div>
 
+<h2 id="justin-diclemente">About Justin DiClemente</h2>
+<p>Justin DiClemente builds open-source tools for software development and agent workflows. His specdog projects explore structured specifications, graph-based code context, type-driven design, and Rust-based robotics tooling.</p>
+<p>He is the creator of specdog, including Dotdog, Collar, Leash and Dogbench. <a href="https://github.com/logohere">Find Justin on GitHub</a>.</p>
 <h2>Why it exists</h2>
 <p>AI agents work better when they can find exact names, relationships, states, and constraints without scanning long prose. specdog tools make that structure explicit while still keeping the source material readable.</p>
 
 <h2>Where to start</h2>
 <p>Start with <a href="/handbook">the guide</a> for the workflow, <a href="/agents">for agents</a> for runtime instructions, or <a href="/blog">the blog</a> for background writing.</p>
 </main>
+<footer>
+  <p>specdog · Feed the dog. Ship with specs.</p>
+  <p>Created by <a href="/about#justin-diclemente">Justin DiClemente</a> · <a href="https://github.com/specdog">GitHub</a></p>
+</footer>
+
 </body>
 </html>

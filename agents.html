@@ -5,71 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>For AI Agents | specdog</title>
 <meta name="description" content="Instructions for AI coding agents working with dotdog spec-driven projects.">
-<link rel="icon" type="image/svg+xml" href="/dotdog/assets/dog.svg">
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fff; color: #1a1a2e; max-width: 720px; margin: 0 auto; padding: 40px 24px; line-height: 1.75; }
-  nav { display: flex; justify-content: center; gap: 24px; padding: 0 0 32px; }
-  nav a { color: #6b7280; text-decoration: none; font-size: .9em; font-weight: 500; }
-  nav a:hover { color: #d97706; }
-  nav a.active { color: #d97706; }
-  h1 { font-size: 2.2em; margin-bottom: 8px; }
-  h2 { font-size: 1.35em; margin: 36px 0 12px; border-bottom: 1px solid #e5e7eb; padding-bottom: 6px; }
-  h3 { font-size: 1.08em; margin: 24px 0 8px; }
-  p { margin-bottom: 12px; color: #374151; }
-  pre { background: #1e293b; color: #e2e8f0; padding: 14px 18px; border-radius: 8px; font-size: .85em; overflow-x: auto; margin-bottom: 16px; position: relative; }
-  code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: .9em; }
-  pre code { background: none; padding: 0; color: #e2e8f0; }
-  a { color: #d97706; text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  ol, ul { margin: 0 0 16px 26px; color: #374151; }
-  li { margin-bottom: 6px; }
-  .code-wrap { position: relative; }
-  .copy-btn { position: absolute; top: 8px; right: 8px; background: none; border: none; color: #94a3b8; cursor: pointer; padding: 4px 6px; border-radius: 4px; line-height: 1; }
-  .copy-btn:hover { color: #e2e8f0; background: rgba(255,255,255,0.08); }
-  .copy-btn.copied { color: #4ade80; }
-  .copy-btn svg { width: 16px; height: 16px; }
-  table { width: 100%; border-collapse: collapse; margin: 16px 0; }
-  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid #e5e7eb; font-size: .9em; overflow-wrap: anywhere; }
-  th { font-weight: 600; color: #1a1a2e; }
-  td { color: #374151; }
-  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #9ca3af; font-size: .8em; }
+<link rel="icon" type="image/svg+xml" href="/assets/dog.svg">
 
-
-  /* shared navigation */
-  body { padding-top: 24px; margin-top: 0; }
-  nav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 18px;
-    flex-wrap: wrap;
-    width: min(calc(100vw - 48px), 960px);
-    margin: 0 auto 32px;
-    padding: 8px 0 0;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  nav a { color: #6b7280; text-decoration: none; font-size: .9em; font-weight: 500; line-height: 1.4; }
-  nav a:hover, nav a.active { color: #d97706; }
-  /* end shared navigation */
-</style>
 <link rel="canonical" href="https://specdog.github.io/agents">
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/assets/site.js" defer></script>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
 <nav>
-  <a href="/">specdog</a>
+  <a href="/" class="brand"><img src="/assets/dog.svg" width="28" height="28" alt="">specdog</a>
   <a href="/dotdog">dotdog</a>
   <a href="/about">about</a>
   <a href="/handbook">guide</a>
-  <a href="/agents" class="active">for agents</a>
-  <a href="/dogfood">dogfood</a>
+  <a href="/agents" class="active" aria-current="page">for agents</a>
   <a href="/blog">blog</a>
   <a href="/leash">leash</a>
   <a href="/collar">collar</a>
 </nav>
-
+</header>
+<main id="main" class="page">
 <h1>For AI Agents</h1>
 <p>If you are an AI coding agent reading this page: follow these rules and you will not hallucinate on dotdog projects.</p>
 
@@ -132,6 +88,7 @@ npx dotdog@1.0.0 query "authentication"</code></pre>
 <p>Use the <a href="/handbook#type-driven-design">type-driven design workflow</a> when implementing modeled entities and lifecycles. Define domain types, state-specific data, and operation signatures before function bodies. Use explicit failure types and exhaustive handling where the language supports them.</p>
 <p>Parse external data into checked domain values; do not treat a type assertion as validation. Run the project's type checker, compile-failure checks for forbidden usage, and runtime tests. Spec completeness and graph compilation do not prove application type safety or runtime correctness.</p>
 
+<div class="reading-links"><a href="/guides/type-driven-development/">Type-driven development guide</a><a href="/guides/rea-graphs/">REA/Ghidra guide</a></div>
 <h2>Commands reference</h2>
 <table>
 <tr><th>Command</th><th>When to use</th></tr>
@@ -160,12 +117,12 @@ npx dotdog@1.0.0 query "authentication"</code></pre>
 <li>Optional removable hooks, with independent pinned CLI checks in CI</li>
 <li>Application-specific compiler, runtime and integration tests</li>
 </ul>
-
-<footer>dotdog@<span id="version">1.0.0</span> . <a href="https://github.com/specdog/dotdog/blob/main/LICENSE">MIT</a></footer>
+</main>
+<footer>
+  <p>specdog · Feed the dog. Ship with specs.</p>
+  <p>Created by <a href="/about#justin-diclemente">Justin DiClemente</a> · <a href="https://github.com/specdog">GitHub</a></p>
+</footer>
 <script>
-async function loadVersion(){try{const r=await fetch('https://registry.npmjs.org/dotdog/latest');if(!r.ok)return;const d=await r.json();if(typeof d.version==='string')document.getElementById('version').textContent=d.version;}catch{}}
-loadVersion();
-async function copyBlock(btn){try{await navigator.clipboard.writeText(btn.previousElementSibling.textContent);btn.title='Copied';setTimeout(()=>{btn.title='Copy';},2000);}catch{btn.title='Clipboard unavailable';}}
 </script>
 </body>
 </html>

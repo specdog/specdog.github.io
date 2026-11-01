@@ -4,69 +4,34 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>dotdog — Homebrew</title>
-<link rel="icon" type="image/svg+xml" href="/dotdog/assets/dog.svg">
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: #ffffff; color: #1a1a2e;
-    min-height: 100vh; padding: 24px;
-    max-width: 520px; margin: 80px auto;
-  }
-  h1 { font-size: 2.2em; font-weight: 700; margin-bottom: 4px; }
-  p.sub { color: #6b7280; font-size: 1.05em; margin-bottom: 24px; }
-  pre { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px 18px; font-size: .88em; color: #1e293b; margin-bottom: 20px; overflow-x: auto; }
-  a { color: #d97706; text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  .back { margin-top: 32px; font-size: .9em; color: #6b7280; }
-  .step h3 { font-size: 1em; font-weight: 600; margin-bottom: 8px; margin-top: 20px; color: #1a1a2e; }
-  .step p { color: #4b5563; font-size: .88em; line-height: 1.5; }
-  footer { margin-top: 32px; color: #9ca3af; font-size: .8em; }
-  footer a { color: #9ca3af; }
-  nav { display: flex; justify-content: center; gap: 24px; padding: 0 0 32px; }
-  nav a { color: #6b7280; text-decoration: none; font-size: .9em; font-weight: 500; }
-  nav a:hover { color: #d97706; }
+<link rel="icon" type="image/svg+xml" href="/assets/dog.svg">
 
-
-  /* shared navigation */
-  body { padding-top: 24px; margin-top: 0; }
-  nav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 18px;
-    flex-wrap: wrap;
-    width: min(calc(100vw - 48px), 960px);
-    margin: 0 auto 32px;
-    padding: 8px 0 0;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  nav a { color: #6b7280; text-decoration: none; font-size: .9em; font-weight: 500; line-height: 1.4; }
-  nav a:hover, nav a.active { color: #d97706; }
-  /* end shared navigation */
-</style>
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/assets/site.js" defer></script>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
 <nav>
-  <a href="/">specdog</a>
-  <a href="/dotdog" class="active">dotdog</a>
+  <a href="/" class="brand"><img src="/assets/dog.svg" width="28" height="28" alt="">specdog</a>
+  <a href="/dotdog" class="active" aria-current="page">dotdog</a>
   <a href="/about">about</a>
   <a href="/handbook">guide</a>
   <a href="/agents">for agents</a>
-  <a href="/dogfood">dogfood</a>
   <a href="/blog">blog</a>
   <a href="/leash">leash</a>
   <a href="/collar">collar</a>
 </nav>
-<h1>dotdog / Homebrew</h1>
-<p class="sub">macOS-native install. No config.</p>
+</header>
+<main id="main" class="page">
+<h1>Dotdog / Homebrew</h1>
+<p class="sub">A separately maintained distribution; verify the formula version before installing.</p>
 
 <pre><code>brew tap specdog/dotdog
 brew install dotdog
 dotdog --version</code></pre>
 
+<p>The existing <a href="https://github.com/specdog/homebrew-dotdog/blob/feat/init/Formula/dotdog.rb">formula</a> pins Dotdog 0.3.5. It is not the 1.0 distribution. For current Dotdog 1.0 use <a href="/dotdog">npm or Bun</a>; do not assume the tap has been upgraded.</p>
 <div class="step">
 <h3>What this does</h3>
 <p>Downloads dotdog from npm. Installs globally via Homebrew. Depends only on Node.js.</p>
@@ -80,7 +45,11 @@ dotdog --version</code></pre>
 <div class="back">
   <a href="/">← Back to specdog</a>
 </div>
+</main>
+<footer>
+  <p>specdog · Feed the dog. Ship with specs.</p>
+  <p>Created by <a href="/about#justin-diclemente">Justin DiClemente</a> · <a href="https://github.com/specdog">GitHub</a></p>
+</footer>
 
-<footer>dotdog@0.3.3 · <a href="https://github.com/specdog/dotdog/blob/main/LICENSE">MIT</a></footer>
 </body>
 </html>

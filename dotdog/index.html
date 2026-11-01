@@ -5,63 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>dotdog — CLI and MCP tooling | specdog</title>
 <meta name="description" content="dotdog CLI and MCP tooling for .dog specs, .dag graphs, repo mapping, and multi-repo workspaces.">
-<link rel="icon" type="image/svg+xml" href="/dotdog/assets/dog.svg">
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fff; color: #1a1a2e; max-width: 720px; margin: 0 auto; padding: 40px 24px; line-height: 1.75; }
-  nav { display: flex; justify-content: center; gap: 18px; padding: 0 0 32px; flex-wrap: wrap; }
-  nav a { color: #6b7280; text-decoration: none; font-size: .9em; font-weight: 500; }
-  nav a:hover, nav a.active { color: #d97706; }
-  h1 { font-size: 2.2em; margin-bottom: 8px; }
-  .hero-art { display: block; width: 100px; height: 100px; margin: 0 auto 20px; }
-  h2 { font-size: 1.35em; margin: 36px 0 12px; border-bottom: 1px solid #e5e7eb; padding-bottom: 6px; }
-  pre { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px 18px; font-size: .85em; overflow-x: auto; margin: 8px 0; }
-  table { width: 100%; border-collapse: collapse; margin: 16px 0; }
-  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid #e5e7eb; }
-  th { font-size: .85em; color: #6b7280; font-weight: 600; }
-  td { font-size: .9em; }
-  .badge-row { display: flex; gap: 12px; align-items: center; margin: 16px 0; flex-wrap: wrap; }
-  .tagline { font-size: 1.1em; color: #4b5563; margin-bottom: 16px; }
-  .explain { background: #fef3c7; border-left: 3px solid #f59e0b; padding: 12px 16px; border-radius: 4px; margin: 16px 0; font-size: .92em; }
-  .explain strong { color: #92400e; }
-  footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid #e5e7eb; text-align: center; font-size: .85em; color: #9ca3af; }
-  a { color: #d97706; }
+<link rel="icon" type="image/svg+xml" href="/assets/dog.svg">
 
-
-  /* shared navigation */
-  body { padding-top: 24px; margin-top: 0; }
-  nav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 18px;
-    flex-wrap: wrap;
-    width: min(calc(100vw - 48px), 960px);
-    margin: 0 auto 32px;
-    padding: 8px 0 0;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  nav a { color: #6b7280; text-decoration: none; font-size: .9em; font-weight: 500; line-height: 1.4; }
-  nav a:hover, nav a.active { color: #d97706; }
-  /* end shared navigation */
-</style>
 <link rel="canonical" href="https://specdog.github.io/dotdog/">
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/assets/site.js" defer></script>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
 <nav>
-  <a href="/">specdog</a>
-  <a href="/dotdog" class="active">dotdog</a>
+  <a href="/" class="brand"><img src="/assets/dog.svg" width="28" height="28" alt="">specdog</a>
+  <a href="/dotdog" class="active" aria-current="page">dotdog</a>
   <a href="/about">about</a>
   <a href="/handbook">guide</a>
   <a href="/agents">for agents</a>
-  <a href="/dogfood">dogfood</a>
   <a href="/blog">blog</a>
   <a href="/leash">leash</a>
   <a href="/collar">collar</a>
 </nav>
-
+</header>
+<main id="main" class="page">
 <img class="hero-art" src="/dotdog/assets/dog.svg" alt="specdog dog logo">
 
 <h1>dotdog</h1>
@@ -105,7 +69,11 @@ dotdog workspace graph --json</pre>
 
 <h2>Links</h2>
 <p><a href="https://www.npmjs.com/package/dotdog">npm</a> · <a href="https://github.com/specdog/dotdog">GitHub</a> · <a href="/handbook">guide</a></p>
+</main>
+<footer>
+  <p>specdog · Feed the dog. Ship with specs.</p>
+  <p>Created by <a href="/about#justin-diclemente">Justin DiClemente</a> · <a href="https://github.com/specdog">GitHub</a></p>
+</footer>
 
-<footer>dotdog · specdog tooling · <a href="https://github.com/specdog/dotdog/blob/main/LICENSE">MIT</a></footer>
 </body>
 </html>

@@ -3,33 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Redirecting to specdog</title>
-<meta name="robots" content="noindex,follow">
-<link rel="canonical" href="https://specdog.github.io/">
-<meta http-equiv="refresh" content="0; url=/">
-<style>
-  * { box-sizing: border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #1a1a2e; background: #fff; padding: 24px; margin: 0; }
-  nav { display: flex; justify-content: center; align-items: center; gap: 18px; flex-wrap: wrap; width: min(calc(100vw - 48px), 960px); margin: 0 auto 32px; padding: 8px 0 0; }
-  nav a { color: #6b7280; text-decoration: none; font-size: .9em; font-weight: 500; line-height: 1.4; }
-  nav a:hover, nav a.active { color: #d97706; }
-  main { max-width: 720px; margin: 0 auto; text-align: center; }
-  a { color: #d97706; }
-</style>
+<title>Dogbench | specdog</title>
+<meta name="description" content="Experimental local agent-usage comparisons with explicit measurement boundaries.">
+<link rel="canonical" href="https://specdog.github.io/dogbench/">
+<link rel="icon" type="image/svg+xml" href="/assets/dog.svg">
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/assets/site.js" defer></script>
+
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
 <nav>
-  <a href="/" class="active">specdog</a>
+  <a href="/" class="brand"><img src="/assets/dog.svg" width="28" height="28" alt="">specdog</a>
   <a href="/dotdog">dotdog</a>
   <a href="/about">about</a>
   <a href="/handbook">guide</a>
   <a href="/agents">for agents</a>
-  <a href="/dogfood">dogfood</a>
   <a href="/blog">blog</a>
   <a href="/leash">leash</a>
   <a href="/collar">collar</a>
 </nav>
-<main><p>Redirecting to <a href="/">specdog</a>.</p></main>
-<script>location.replace('/');</script>
+</header>
+<main id="main" class="page">
+<p class="eyebrow">Field guide / Practical workflows</p>
+<h1>Dogbench</h1>
+
+<p class="lead">Experimental local tooling for agent usage comparisons. No public scoreboard, guaranteed savings, or model-quality ranking.</p>
+<p>Dogbench collects usage from supported agent clients and explores token, timing and cost comparisons. Check the <a href="https://github.com/specdog/dogbench">current source and setup requirements</a> before running it; provider-backed runs can incur usage charges.</p>
+<h2>What a useful report needs</h2><ul><li>Pinned task, inputs, model/provider and runtime.</li><li>Clear cache state, retries and included tool/output traffic.</li><li>Actual usage distinguished from estimates and missing data.</li><li>Task correctness, repeated runs, variance and sanitized evidence.</li></ul>
+<p>The website has not independently reproduced the complete Dogbench provider/comparison surface. Older README sample numbers are not live results.</p>
+<div class="reading-links"><a href="/blog/dogbench-measurement/">Measurement guide</a><a href="https://github.com/specdog/dogbench">GitHub</a><a href="/dotdog/path-performance">Scoped Dotdog release measurements</a></div>
+</main>
+<footer>
+  <p>specdog · Feed the dog. Ship with specs.</p>
+  <p>Created by <a href="/about#justin-diclemente">Justin DiClemente</a> · <a href="https://github.com/specdog">GitHub</a></p>
+</footer>
 </body>
 </html>

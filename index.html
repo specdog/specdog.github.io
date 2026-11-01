@@ -6,117 +6,24 @@
 <title>specdog — Feed the dog. Ship with specs.</title>
 <meta name="description" content="Dotdog 1.0: local-first spec and code graphs, saved REA/Ghidra call-graph traversal, and optional TypeScript contract inspection for coding agents.">
 <link rel="llms-txt" href="/llms.txt">
-<link rel="icon" type="image/svg+xml" href="/dotdog/assets/dog.svg">
+<link rel="icon" type="image/svg+xml" href="/assets/dog.svg">
 <link rel="canonical" href="https://specdog.github.io/">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Organization","name":"specdog","url":"https://specdog.github.io","sameAs":["https://github.com/specdog","https://www.npmjs.com/package/dotdog"]}
 </script>
-<style>
-  :root { color-scheme: light; --ink: #1a1a2e; --muted: #5b6170; --amber: #f59e0b; --line: #e8e5dd; }
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body { margin: 0; background: #fffdf8; color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; }
-  a { color: #925006; text-underline-offset: 4px; }
-  a:hover { color: #6f3c00; }
-  button { font: inherit; cursor: pointer; }
-  a:focus-visible, button:focus-visible { outline: 3px solid #b45309; outline-offset: 5px; }
-  .skip-link { position: absolute; top: -80px; left: 20px; padding: 10px 16px; background: white; z-index: 2; }
-  .skip-link:focus { top: 12px; }
-  .site-header, main, footer { width: min(1080px, calc(100% - 64px)); margin: auto; }
-  .site-header { border-bottom: 1px solid var(--line); }
-  nav { display: flex; align-items: center; gap: 23px; padding: 23px 0; flex-wrap: wrap; }
-  nav a { text-decoration: none; color: var(--muted); font-size: 14px; font-weight: 500; }
-  nav .active { margin-right: auto; font-size: 23px; font-weight: 750; letter-spacing: -.8px; color: var(--ink); }
-  .hero { display: grid; grid-template-columns: 1.4fr 1fr; gap: 72px; align-items: center; padding: 76px 0 60px; }
-  .release-link { display: inline-flex; gap: 12px; align-items: center; font-size: 13px; font-weight: 600; text-decoration: none; }
-  .release-link span { padding: 3px 10px; background: #fef0cd; border: 1px solid #eddaaa; border-radius: 99px; white-space: nowrap; }
-  h1 { font-size: clamp(44px, 5.7vw, 68px); line-height: 1.06; letter-spacing: -3px; margin: 23px 0; font-weight: 750; }
-  h1 span { color: #a65a00; }
-  .hero-copy > p { font-size: 18px; line-height: 1.65; color: var(--muted); max-width: 550px; margin: 0 0 27px; }
-  .btns { display: flex; gap: 12px; flex-wrap: wrap; }
-  .btn { display: inline-block; padding: 11px 20px; border-radius: 7px; font-size: 14px; font-weight: 650; text-decoration: none; border: 1px solid var(--line); background: #fff; color: var(--ink); }
-  .btn.primary { background: var(--amber); border-color: var(--amber); }
-  .btn:hover { background: #fef0cd; color: var(--ink); }
-  .btn.primary:hover { background: #e99400; }
-  .hero-copy .byline { margin: 17px 0 0; font-size: 12px; color: var(--muted); }
-  .dog-panel { text-align: center; padding: 27px 20px 22px; background: #fff8e9; border: 1px solid #eedfbd; border-radius: 16px; }
-  .eyebrow { font-size: 11px; letter-spacing: 1.8px; font-weight: 700; text-transform: uppercase; color: #78623c; margin: 0; }
-  .dog-widget { display: block; width: 166px; height: 166px; margin: 17px auto 0; border: 0; background: transparent; border-radius: 50%; }
-  #dog-svg { width: 150px; height: 150px; transition: transform .15s; }
-  #dog-status { min-height: 26px; font-size: 13px; color: #78623c; margin: 7px 0 17px; }
-  .actions { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
-  .actions button { background: #fffdf8; border: 1px solid #e7d7b4; color: #6f511f; padding: 5px 12px; border-radius: 99px; font-size: 12px; }
-  .actions button:hover { background: #fef0cd; }
-  .install { display: grid; grid-template-columns: 1fr 1.5fr; gap: 48px; align-items: start; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 32px 0; }
-  h2 { font-size: 27px; line-height: 1.25; letter-spacing: -.7px; margin: 0 0 10px; }
-  .section-copy { margin: 0; color: var(--muted); font-size: 14px; }
-  .terminal { background: #1e293b; color: #e2e8f0; border: 1px solid #334155; border-radius: 10px; overflow: hidden; }
-  .terminal-bar { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border-bottom: 1px solid #334155; }
-  [role="tablist"] { display: flex; gap: 4px; }
-  [role="tab"] { border: 0; border-radius: 5px; padding: 4px 12px; color: #b6c3d5; background: transparent; font-size: 12px; }
-  [role="tab"][aria-selected="true"] { color: #fff; background: #3b485c; }
-  .copy-btn { border: 1px solid #526178; border-radius: 5px; padding: 3px 10px; color: #e2e8f0; background: transparent; font-size: 12px; }
-  .copy-btn:hover { background: #3b485c; }
-  .terminal pre { margin: 0; padding: 21px 20px; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 13px; color: #93c5fd; }
-  .requirements { color: var(--muted); font-size: 12px; margin: 12px 0 0; }
-  .copy-status { font-size: 12px; color: #fcd38a; padding: 0 20px; }
-  .copy-status:empty { display: none; }
-  .features { padding: 56px 0; }
-  .section-heading { margin-bottom: 24px; }
-  .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
-  .feature { border-top: 2px solid #e5c785; padding-top: 18px; }
-  .feature .eyebrow { color: #925006; }
-  h3 { font-size: 19px; letter-spacing: -.35px; margin: 9px 0; }
-  .feature p:not(.eyebrow) { font-size: 14px; color: var(--muted); margin: 0 0 13px; }
-  .feature a { font-size: 13px; font-weight: 600; }
-  .resource-strip { display: flex; justify-content: space-between; align-items: center; gap: 25px; padding: 24px; background: #f6f4ee; border: 1px solid var(--line); border-radius: 10px; }
-  .resource-strip h2 { font-size: 20px; margin-bottom: 6px; }
-  .resource-links { display: flex; gap: 20px; flex-wrap: wrap; font-size: 13px; font-weight: 600; }
-  .family { padding: 48px 0; }
-  .family-heading { font-size: 12px; color: var(--muted); margin: 0 0 15px; }
-  .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
-  .product-card a { font-size: 16px; font-weight: 700; text-decoration: none; }
-  .product-card p { margin: 5px 0 0; font-size: 13px; color: var(--muted); }
-  footer { display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; padding: 22px 0 30px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); }
-  footer p { margin: 0; }
-  footer a { color: var(--muted); }
-  @media (max-width: 800px) {
-    nav { gap: 15px; }
-    nav .active { flex-basis: 100%; margin: 0; }
-    .hero { gap: 30px; padding: 44px 0; }
-    h1 { font-size: 48px; letter-spacing: -2px; }
-    .hero-copy > p { font-size: 16px; }
-    .install { grid-template-columns: 1fr; gap: 20px; }
-    .feature-grid { gap: 20px; }
-    .resource-strip { align-items: flex-start; flex-direction: column; }
-  }
-  @media (max-width: 560px) {
-    .site-header, main, footer { width: calc(100% - 40px); }
-    nav { gap: 10px 18px; padding: 18px 0; }
-    nav a { font-size: 12px; }
-    .hero { grid-template-columns: 1fr; gap: 28px; padding: 34px 0; }
-    h1 { font-size: 48px; }
-    .dog-panel { padding: 18px; }
-    .dog-widget { margin-top: 5px; height: 140px; }
-    #dog-svg { height: 130px; }
-    .feature-grid, .product-grid { grid-template-columns: 1fr; gap: 25px; }
-    .features { padding: 36px 0; }
-    .family { padding: 34px 0; }
-    .release-link { gap: 8px; font-size: 12px; }
-  }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } #dog-svg { transition: none; } }
-</style>
+
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/assets/site.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
 <nav>
-  <a href="/" class="active" aria-current="page">specdog</a>
+  <a href="/" class="brand active" aria-current="page"><img src="/assets/dog.svg" width="28" height="28" alt="">specdog</a>
   <a href="/dotdog">dotdog</a>
   <a href="/about">about</a>
   <a href="/handbook">guide</a>
   <a href="/agents">for agents</a>
-  <a href="/dogfood">dogfood</a>
   <a href="/blog">blog</a>
   <a href="/leash">leash</a>
   <a href="/collar">collar</a>
@@ -227,8 +134,9 @@
 </main>
 <footer>
   <p>specdog · Feed the dog. Ship with specs.</p>
-  <p>dotdog@<span id="version">1.0.0</span> · <a href="https://www.npmjs.com/package/dotdog">npm</a> · <a href="https://github.com/specdog/dotdog/blob/main/LICENSE">MIT</a></p>
+  <p>Created by <a href="/about#justin-diclemente">Justin DiClemente</a> · <a href="https://github.com/specdog">GitHub</a></p>
 </footer>
+
 <script>
 const svg = document.getElementById('dog-svg'), st = document.getElementById('dog-status');
 const bone = document.getElementById('bone'), tongue = document.getElementById('tongue');
@@ -264,8 +172,6 @@ async function copyInstall(btn) {
   }
   setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
 }
-async function loadVersion() { try { const response = await fetch('https://registry.npmjs.org/dotdog/latest'); if (!response.ok) return; const data = await response.json(); if (typeof data.version === 'string') document.getElementById('version').textContent = data.version; } catch {} }
-loadVersion();
 </script>
 </body>
 </html>

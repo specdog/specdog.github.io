@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Specs, types, and graphs: the Dotdog 1.0 research | specdog</title>
+<meta name="description" content="New SDD research, compiler API changes, and the tested boundaries behind Dotdog 1.0.">
+<link rel="canonical" href="https://specdog.github.io/blog/dotdog-1-research/">
+<link rel="icon" type="image/svg+xml" href="/assets/dog.svg">
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/assets/site.js" defer></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Specs, types, and graphs: the Dotdog 1.0 research", "datePublished": "2026-11-01", "author": {"@type": "Person", "name": "Justin DiClemente", "url": "https://github.com/logohere"}, "mainEntityOfPage": "https://specdog.github.io/blog/dotdog-1-research/"}</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+<nav>
+  <a href="/" class="brand"><img src="/assets/dog.svg" width="28" height="28" alt="">specdog</a>
+  <a href="/dotdog">dotdog</a>
+  <a href="/about">about</a>
+  <a href="/handbook">guide</a>
+  <a href="/agents">for agents</a>
+  <a href="/blog" class="active" aria-current="page">blog</a>
+  <a href="/leash">leash</a>
+  <a href="/collar">collar</a>
+</nav>
+</header>
+<main id="main" class="page">
+<p class="eyebrow">From the pack / Product notes</p>
+<h1>Specs, types, and graphs: the Dotdog 1.0 research</h1>
+<p class="meta"><time datetime="2026-11-01">November 1, 2026</time> · By <a href="/about#justin-diclemente">Justin DiClemente</a></p>
+<p class="lead">Specs, types, and graphs solve different problems. The useful part is connecting them without turning partial evidence into a promise.</p>
+<h2>Start with three separate questions</h2>
+<table><tr><th>Question</th><th>Artifact</th><th>Limit</th></tr><tr><td>What should the system do?</td><td>Authored specification</td><td>A clear rule may still be wrong or unimplemented.</td></tr><tr><td>Which states and interfaces can code represent?</td><td>Types and compiler diagnostics</td><td>Only encoded constraints are checked; untrusted runtime input still needs parsing.</td></tr><tr><td>How do artifacts and observations connect?</td><td>Graphs with source/evidence identities</td><td>Missing or truncated relationships do not prove independence.</td></tr></table>
+<p>Dotdog 1.0 keeps those roles distinct. Specs hold intent, repository extraction records a bounded view of code, and imported type/native graphs retain the evidence behind their relationships. We did not add another database or make a compiler mandatory for ordinary graph use.</p>
+<h2>New research: intent helps, but maintenance still costs</h2>
+<p>Agarwal and colleagues' October revision of <a href="https://arxiv.org/abs/2608.25202v4">Spec-Driven Development as Prescribed and as Practiced</a> studies public artifacts, practitioner discussions and interviews. Participants reported more reliable agent behavior alongside added planning/review work; the authors also identify specification decay and differences between individual and team adoption. This is an empirical preprint, not a controlled validation of Dotdog.</p>
+<p>Our design implication is to preserve intent and source evidence separately, make freshness inspectable, and keep checks reproducible. A completeness score is not a substitute for runtime tests or ongoing review.</p>
+<h2>New compiler APIs do not mean automatic compatibility</h2>
+<p>Microsoft's <a href="https://devblogs.microsoft.com/typescript/announcing-typescript-7-1-beta/">October 20 TypeScript 7.1 beta announcement</a> introduces separate synchronous/asynchronous compiler entry points and snapshot-based updates. Its examples also make resource disposal explicit. This is relevant future adapter work, not a reason to silently replace the interface a released tool actually tested.</p>
+<p>Dotdog 1.0 supports a trusted project-installed <strong>TypeScript 7.0.2</strong> compiler through its version-specific <code>unstable/sync</code> API. It retains original project settings and diagnostics in a bounded Node worker. Other compiler versions and unsupported project configurations fail explicitly. The beta was researched separately; it is not a required dependency or a claimed supported version.</p>
+<h2>Specs remain useful outside one tool</h2>
+<p><a href="https://github.github.com/spec-kit/reference/extensions.html">GitHub Spec Kit's extension model</a> allows additional commands and integrations while keeping their behavior and governance explicit. Dotdog reuses that boundary with an optional community extension for local import, inspection and stdio MCP access. It does not replace Spec Kit's workflow or require a new hosted service.</p>
+<h2>What we actually checked</h2>
+<p>The <a href="https://github.com/specdog/dotdog/releases/tag/v1.0.0">1.0 release record</a> links the approved source, retained npm archive, checksums and publisher. The final implementation suite passed 133 tests and 2,124 assertions. Fresh npm/Bun registry consumers exercised spec refresh, context/impact, real compiler invalid/repair behavior, evidence-tamper rejection, REA import/path and real stdio MCP.</p>
+<p>The separate <a href="/docs/type-driven-design-tested-findings">research findings</a> preserve earlier prototype failures and historical compiler/corpus checkpoints. A broken legacy extractor was not relabeled a production success. The published adapter uses the separately tested compiler interface.</p>
+<h2>What we have not established</h2>
+<p>These checks do not measure coding-agent productivity, whole-program semantic closure or general cost savings. Authenticated model-driven Claude invocation/edit-refresh remains unverified. Type success does not prove business requirements; saved native references do not prove runtime equivalence.</p>
+<p>That is why the old dogfood dashboard is no longer a live-status claim. Versioned inputs, exact checks and retained failure boundaries are more useful than unqualified green numbers.</p>
+<h2>Try the workflows</h2>
+<div class="reading-links"><a href="/guides/type-driven-development/">Type-driven development guide</a><a href="/guides/rea-graphs/">REA/Ghidra graph guide</a><a href="/dotdog/v1-migration">Upgrade to 1.0</a></div>
+<p>Further reading: <a href="/docs/dotdog-type-driven-design-thesis">technical thesis</a>, <a href="/output/pdf/dotdog-type-driven-design-thesis.pdf">historical thesis PDF</a>, and <a href="/dotdog/path-performance">measured performance scope</a>.</p>
+</main>
+<footer>
+  <p>specdog · Feed the dog. Ship with specs.</p>
+  <p>Created by <a href="/about#justin-diclemente">Justin DiClemente</a> · <a href="https://github.com/specdog">GitHub</a></p>
+</footer>
+</body>
+</html>

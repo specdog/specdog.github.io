@@ -35,9 +35,12 @@ def main() -> int:
         if "<nav>" not in s or "</nav>" not in s:
             issues.append(f"missing nav: {p.name}")
             continue
+        nav = s.split("<nav>", 1)[1].split("</nav>", 1)[0]
         for link in nav_links:
-            if link not in s:
+            if f'href="{link}"' not in nav:
                 issues.append(f"missing nav link {link} in {p.name}")
+        if 'href="/assets/site.css"' not in s:
+            issues.append(f"missing shared stylesheet: {p}")
 
     if issues:
         print("SITE CHECK FAILED")

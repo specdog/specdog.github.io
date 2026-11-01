@@ -1,0 +1,28 @@
+{
+  "scope": "47 baseline checks plus 14 additional synthetic graph-evidence cases; not a production graph integration",
+  "local": {
+    "tests": 61,
+    "pass": 61,
+    "fail": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "duration_ms": 14425.276667
+  },
+  "cleanLockfileReplay": {
+    "tests": 61,
+    "pass": 61,
+    "fail": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "duration_ms": 14186.777584
+  },
+  "sourceHashes": {
+    "trace-evidence.mjs": "a92607e61d6c129dc59f9547d482bc9034a2a5a61b660aa54da057362738ba4b",
+    "test/trace-evidence.test.mjs": "f71162bd8550f1b0c6d374a16ba1d3ba29eb3d25250ff218a052996f04d44015"
+  },
+  "limitations": [
+    "The graph links and run records in this experiment are explicit synthetic fixtures.",
+    "The evaluator checks declared evidence bookkeeping, not semantic rule satisfaction.",
+    "Previously documented parser/configuration and context-completeness limitations remain."
+  ]
+}

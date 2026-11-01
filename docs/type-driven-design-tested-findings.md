@@ -2,6 +2,8 @@
 
 This extends the [initial research](type-driven-design-research.md) with a runnable [research harness](../research/type-driven-design/README.md). No production Dotdog source was changed.
 
+The later [technical thesis](dotdog-type-driven-design-thesis.md) adds real-life use cases, a deeper traceability/tooling review, and fourteen synthetic graph-evidence cases. Its combined 61-check record is preserved separately from the original experiment below.
+
 ## Decision after testing
 
 Keep this as a separable research module inside the Specdog project for now. Prioritize checked boundary values and selected-symbol type context. Do not market it as a universal type-design tool, full semantic indexer, or type-safe coding agent.

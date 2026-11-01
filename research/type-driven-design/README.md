@@ -30,6 +30,7 @@ The [CI workflow](../../.github/workflows/type-design-research.yml) checks out p
 - A parser prototype around Dotdog's real workspace validator, including 2,000 seeded malformed-input trials and 500 generated valid manifests.
 - Selected symbols in two real codebases, with missing dependencies and bounded context reported explicitly.
 - A separate TypeScript 7.1 beta native-API snapshot/repair smoke test. The context adapter does not implement the 7.1 API.
+- Fourteen synthetic graph-evidence cases distinguish current records from missing, stale, partial, unreviewed, ambiguous, or incorrectly classified evidence. These test bookkeeping, not semantic satisfaction of real requirements.
 
 ## Reading the results
 
@@ -38,3 +39,17 @@ The [CI workflow](../../.github/workflows/type-design-research.yml) checks out p
 Some passing tests reproduce known defects or compatibility limits. In particular, the production validator still crashes for malformed nested values, and the parser prototype's optional-field inference is incompatible with the existing domain interfaces under `exactOptionalPropertyTypes: true`. The prototype strips unknown object fields through Zod's default object behavior. It is not a drop-in production replacement.
 
 [Research and measured findings](../../docs/type-driven-design-tested-findings.md) distinguish these checks from unperformed agent-performance experiments.
+
+## Thesis
+
+The [technical thesis source](../../docs/dotdog-type-driven-design-thesis.md) develops the real-life Dotdog use cases and the proposed evidence model. The [combined test record](results/thesis-tests.json) retains the 61-check local and clean-replay results; the earlier 47-check experiment remains separately preserved.
+
+Render the PDF from this directory:
+
+```sh
+python3 -m venv .pdf-venv
+.pdf-venv/bin/python -m pip install -r requirements-pdf.txt
+.pdf-venv/bin/python render-thesis.py
+```
+
+PDF dependencies are for document production only. The renderer uses system Arial/Times fonts when available and base PDF fonts otherwise.

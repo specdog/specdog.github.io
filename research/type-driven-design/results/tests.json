@@ -1,0 +1,50 @@
+{
+  "scope": "Research prototype tests, including explicit reproductions of known production/prototype limitations",
+  "node": "v26.8.1",
+  "local": {
+    "tests": 47,
+    "pass": 47,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "duration_ms": 9136.708042
+  },
+  "cleanLockfileReplay": {
+    "tests": 47,
+    "pass": 47,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "duration_ms": 10778.634042
+  },
+  "generatedInputs": {
+    "arbitraryJSON": {
+      "runs": 1000,
+      "seed": 20261031
+    },
+    "nestedManifestMutations": {
+      "runs": 1000,
+      "seed": 20261101
+    },
+    "validManifests": {
+      "runs": 500,
+      "seed": 20261102
+    }
+  },
+  "versions": {
+    "typescript59": "5.9.3",
+    "typescript60": "6.0.3",
+    "typescript71": "7.1.0-beta",
+    "zod": "4.6.7",
+    "fast-check": "4.10.2"
+  },
+  "knownLimitationsExercised": [
+    "Existing Dotdog validator crashes on malformed nested data",
+    "Existing Dotdog validator accepts a group missing repos",
+    "Parser output is not assignable to existing interfaces with exactOptionalPropertyTypes enabled",
+    "The TypeScript 5/6 context adapter does not implement the 7.1 API",
+    "Project-reference builds and inferred-signature closure are unsupported"
+  ]
+}

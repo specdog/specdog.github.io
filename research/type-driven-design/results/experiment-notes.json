@@ -1,0 +1,68 @@
+{
+  "initialContextSuite": {
+    "tests": 16,
+    "passed": 14,
+    "failed": 2,
+    "cause": "Generic type parameter binders were emitted as independent declarations",
+    "resolution": "Skip type-parameter declaration nodes; retain the enclosing generic signature and its bounds"
+  },
+  "initialModuleFixture": "Negative parser tests initially included unrelated ESM/CJS diagnostics TS1479 and TS1541; fixture configuration was corrected before accepting negative evidence.",
+  "initialDotdogCorpus": [
+    {
+      "compiler": "5.9.3",
+      "options": {
+        "strict": true,
+        "exactOptionalPropertyTypes": true,
+        "skipLibCheck": false,
+        "target": "ESNext",
+        "module": "NodeNext"
+      },
+      "diagnostics": [
+        {
+          "code": 2375,
+          "file": "packages/dotdog/src/dag/schema.ts",
+          "line": 131
+        },
+        {
+          "code": 2375,
+          "file": "packages/dotdog/src/dag/schema.ts",
+          "line": 146
+        },
+        {
+          "code": 2835,
+          "file": "packages/dotdog/src/workspace/selection.ts",
+          "line": 1
+        }
+      ]
+    },
+    {
+      "compiler": "6.0.3",
+      "options": {
+        "strict": true,
+        "exactOptionalPropertyTypes": true,
+        "skipLibCheck": false,
+        "target": "ESNext",
+        "module": "NodeNext"
+      },
+      "diagnostics": [
+        {
+          "code": 2375,
+          "file": "packages/dotdog/src/dag/schema.ts",
+          "line": 131
+        },
+        {
+          "code": 2375,
+          "file": "packages/dotdog/src/dag/schema.ts",
+          "line": 146
+        },
+        {
+          "code": 2835,
+          "file": "packages/dotdog/src/workspace/selection.ts",
+          "line": 1
+        }
+      ]
+    }
+  ],
+  "brandMarkerRegression": "Computed unique-symbol references required their own traversal; a dedicated regression now verifies retention of a local marker declaration.",
+  "optionalPropertyPolicy": "The remaining optional-field mismatch is TS2379, reproduced on both compiler versions rather than suppressed."
+}

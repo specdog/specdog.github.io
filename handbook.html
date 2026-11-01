@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Spec-Driven Development | specdog</title>
-<meta name="description" content="Spec-Driven Development: write specs first, compile to a graph AI agents can query, eliminate hallucination.">
+<meta name="description" content="Combine spec-driven development with type-driven design: model domain rules, valid states, typed transitions, and runtime boundaries before implementation.">
 <link rel="icon" type="image/svg+xml" href="/dotdog/assets/dog.svg">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -26,9 +26,10 @@
   li { margin-bottom: 6px; }
   blockquote { border-left: 4px solid #f59e0b; padding-left: 16px; margin: 16px 0; color: #6b7280; font-style: italic; }
   table { width: 100%; border-collapse: collapse; margin: 16px 0; }
-  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid #e5e7eb; font-size: .9em; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid #e5e7eb; font-size: .9em; overflow-wrap: anywhere; }
   th { font-weight: 600; color: #1a1a2e; }
   td { color: #374151; }
+  .code-wrap { position: relative; }
   .copy-btn { position: absolute; top: 8px; right: 8px; background: none; border: none; color: #94a3b8; cursor: pointer; padding: 4px 6px; border-radius: 4px; line-height: 1; }
   .copy-btn:hover { color: #e2e8f0; background: rgba(255,255,255,0.08); }
   .copy-btn.copied { color: #4ade80; }
@@ -73,43 +74,77 @@
 <p>Spec-Driven Development (SDD) is a methodology that makes software specs the <strong>ground truth</strong> for AI coding agents. Instead of the agent reading prose and guessing, it queries a compiled knowledge graph.</p>
 
 <h2>What problem does it solve?</h2>
-<p>AI coding agents are powerful but imprecise. Give them 600 lines of prose in a <code>.dog</code> file and they'll waste 8,015 tokens scanning for the 4 lines that matter. They hallucinate entity names, invent relationships, miss required fields. The longer the spec, the more they drift.</p>
-<p>SDD solves this by compiling human-written specs into a <strong>positional DAG graph</strong> — a token-efficient structure the agent loads in one shot. The DAG is 94% smaller than source. It doesn't replace reading — it replaces <em>scanning</em>.</p>
+<p>Coding agents need project-specific names, constraints and relationships. Scanning prose can miss relevant details; a compiled graph provides a structured index for targeted queries.</p>
+<p>Dotdog compiles human-written specs into a graph and keeps intended behavior distinct from observed code. Token costs depend on the source, retained metadata and query scope; graph compilation does not prevent hallucination or prove implementation correctness.</p>
 
 <table>
 <tr><th></th><th>Without SDD</th><th>With SDD</th></tr>
-<tr><td>Agent input</td><td>~8,100 tokens of prose</td><td>~740 tokens of graph</td></tr>
-<tr><td>Entity names</td><td>Extracted by guesswork</td><td>Exact, from DAG</td></tr>
-<tr><td>Relationships</td><td>Invented or missed</td><td>Pre-compiled edges</td></tr>
-<tr><td>Hallucination</td><td>Common</td><td>Near-zero</td></tr>
-<tr><td>Verification</td><td>Manual review</td><td>Automated (<code>dotdog validate</code>)</td></tr>
+<tr><td>Agent input</td><td>Source documents</td><td>Selected graph context and source evidence</td></tr>
+<tr><td>Entity names</td><td>Read from source</td><td>Queryable identifiers and labels</td></tr>
+<tr><td>Relationships</td><td>Read or inferred</td><td>Explicit edges with available provenance</td></tr>
+<tr><td>Verification</td><td>Review and tests</td><td>Spec checks plus review and application tests</td></tr>
 </table>
 
 <h2>The DAG: a compressed index, not a summary</h2>
-<p>If the agent ignores the DAG and reads <code>.dog</code> files directly, they waste 8,015 tokens. The DAG is a compiled index — it doesn't replace reading the spec, it replaces <strong>scanning 600 lines of prose to find which 4 lines matter</strong>.</p>
-<p>A <code>.dag</code> file stores entities, properties, states, lifecycles, and relationships in a <strong>v2 positional format</strong> — no JSON keys, no whitespace overhead. The agent gets the exact graph: 11 entities, 5 relationships, every property typed, every lifecycle transition mapped. One file. All structure.</p>
+<p>A <code>.dag</code> is an index of the compiled model, not a replacement for source evidence or tests. Prefer bounded context, impact and path queries over loading every artifact.</p>
+<p>Spec graphs retain entities, properties, states, lifecycles, relationships and descriptions. Imported and observed graphs carry their own identities, provenance and coverage. Missing edges and truncated queries do not prove independence.</p>
 
 <h2>The practice</h2>
 <ol>
 <li><strong>Specify</strong> — write <code>.dog</code> files: entities with properties, states, lifecycles, and relationships</li>
-<li><strong>Validate</strong> — score completeness before every commit. The score must not decrease.</li>
-<li><strong>Compile</strong> — build a <code>.dag</code> graph. 94% smaller than source. Token-efficient.</li>
-<li><strong>Expose</strong> — MCP server for AI agents. Six tools: <code>getEntity</code>, <code>traverse</code>, <code>search</code>, <code>schema</code>, <code>summary</code>, <code>listProjects</code>.</li>
-<li><strong>Verify</strong> — detect drift between spec and code. <code>dotdog verify --init</code> auto-maps entities to code files.</li>
+<li><strong>Design with types</strong> — translate domain rules into types and operation signatures before implementation. <a href="#type-driven-design">Model valid states and explicit failures.</a></li>
+<li><strong>Validate</strong> — inspect spec completeness and resolve reported gaps; a score is not application verification.</li>
+<li><strong>Compile</strong> — build a <code>.dag</code> graph, or use <code>refresh</code> to update spec/code graphs together.</li>
+<li><strong>Expose</strong> — use the local stdio MCP server's eleven tools for entity, path, context, impact and workspace queries. See the <a href="/agents">tool reference</a>.</li>
+<li><strong>Verify</strong> — use <code>status</code> for freshness, explicit scenario/reference checks for recorded mappings, and the project's own compiler and tests for behavior.</li>
 </ol>
 
+<h2 id="type-driven-design">Type-driven design</h2>
+<p>These are three distinct practices: <strong>spec-driven design</strong> defines intended behavior and constraints; <strong>type-driven design</strong> shapes implementation through types; <strong>graph mapping</strong> records entities and relationships for navigation and traceability. A graph can connect the artifacts, but is not a type system.</p>
+<p>Specs describe the intended behavior. Type-driven design turns the rules a language can express into types and function signatures, then uses the type checker to guide implementation. This complements spec-driven development and test-driven development; it does not replace either. <a href="https://idris-lang.org/">Idris describes this types-first approach</a>, including dependent types that can express relationships between values.</p>
+<ol>
+<li><strong>Name domain values</strong> — distinguish identifiers, units, and validated values where mixing them would be an error. Use opaque types or controlled constructors when a plain alias provides no protection.</li>
+<li><strong>Model alternatives</strong> — use unions or enums for distinct states, with each state's required data. Avoid independent flags and optional fields that permit invalid combinations. See <a href="https://fsharpforfunandprofit.com/posts/designing-with-types-making-illegal-states-unrepresentable/">Scott Wlaschin's domain-modeling example</a>.</li>
+<li><strong>Define operations first</strong> — specify accepted states, returned states, and failure cases before writing function bodies. For ownership-sensitive workflows, <a href="https://doc.rust-lang.org/embedded-book/static-guarantees/typestate-programming.html">Rust typestate</a> can consume an old state when producing the next.</li>
+<li><strong>Parse at boundaries</strong> — check external data and return a domain value or an explicit error. Preserve what the check established in the returned type instead of discarding that information. This is <a href="https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/">Alexis King's “Parse, don't validate” principle</a>.</li>
+<li><strong>Verify both layers</strong> — type-check valid usage and examples that must fail to compile. Test runtime parsing, business behavior, and integration failures separately.</li>
+</ol>
+
+<h3>Example: state-specific data</h3>
+<p>Suppose the spec requires a receipt for a paid order and a tracking reference for a shipped order. A TypeScript discriminated union keeps those fields with their states:</p>
+<pre><code>type Draft = { state: "draft"; id: string };
+type Paid = { state: "paid"; id: string; receipt: string };
+type Shipped = {
+  state: "shipped";
+  id: string;
+  receipt: string;
+  tracking: string;
+};
+type Order = Draft | Paid | Shipped;
+
+function markShipped(order: Paid, tracking: string): Shipped {
+  return { ...order, state: "shipped", tracking };
+}</code></pre>
+<p>A typed caller cannot pass a <code>Draft</code> to <code>markShipped</code>, and a <code>Shipped</code> value requires tracking data. Use <a href="https://www.typescriptlang.org/docs/handbook/2/narrowing.html#exhaustiveness-checking"><code>never</code> exhaustiveness checks</a> when handling all order variants. This function only records a transition; it does not arrange delivery or prove payment occurred.</p>
+<p>TypeScript does not consume the original order, so this signature does not prevent repeated calls. Strings also do not prove that receipt or tracking references are genuine or nonempty. Boundary parsing and runtime business checks remain necessary; <a href="https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#type-assertions">a type assertion performs no runtime checking</a>.</p>
+
+<h3>Use it with dotdog</h3>
+<p>Record domain rules in <code>SPEC.dog</code>, properties and lifecycle rules in <code>data-model.dog</code>, and implementation and verification tasks in <code>plan.dog</code>. Compile the specs so agents can query the model, then implement the corresponding types in the project's language. Review spec and type changes together.</p>
+<p><code>dotdog validate</code> checks spec completeness; <code>dotdog compile</code> produces the graph. Neither command type-checks application code or proves that lifecycle rules are enforced. Run the project's own type checker and tests as separate checks.</p>
+<p>Dotdog 1.0 also offers opt-in <code>types inspect</code> for selected TypeScript 7.0.2 contracts and saved REA/Ghidra graph import. See <a href="/dotdog/type-contracts">type contracts</a> and the <a href="/dotdog#rea--ghidra-evidence">saved native-evidence workflow</a> for supported inputs and limitations.</p>
+
 <h2>The loop</h2>
-<pre><code>npm install -g dotdog       # install
+<div class="code-wrap"><pre><code>npm install -g dotdog       # install
 dotdog init my-app          # scaffold specs
 dotdog validate             # score completeness
 dotdog compile              # build .dag graph
 dotdog serve                # expose to AI agents</code></pre>
 <button class="copy-btn" onclick="copyBlock(this)" title="Copy">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-</button>
+</button></div>
 
 <h2>The spec file anatomy</h2>
-<p>A complete spec project has 7 <code>.dog</code> files:</p>
+<p>Spec projects can use these files; minimal scaffolds need not contain every optional document:</p>
 
 <table>
 <tr><th>File</th><th>Purpose</th></tr>
@@ -122,25 +157,22 @@ dotdog serve                # expose to AI agents</code></pre>
 <tr><td><code>DESIGN-SYSTEM.dog</code></td><td>Optional: design tokens, surfaces</td></tr>
 </table>
 
-<p>Three files are required for validation scoring. Four are optional. A complete spec pushes from 95% to 100%.</p>
+<p>Validation reports structural completeness, not whether requirements are correct or implemented.</p>
 
 <h2>Why specs as ground truth?</h2>
-<p>AI agents are trained on the internet — they know every framework, every API, every pattern. What they don't know is <em>your</em> project. Your entity names. Your lifecycle rules. Your invariants.</p>
-<p>When specs are in prose (READMEs, docs, comments), the agent has to interpret them. Interpretation means drift. Drift means wrong code.</p>
-<p>When specs are in a DAG, the agent <strong>queries</strong> instead of interpreting. No guessing entity names. No inventing properties. No missing required fields. The DAG is a database for the agent's brain.</p>
+<p>Specs record project-specific intent: entity names, lifecycle rules and invariants. Graph queries make that model easier to navigate and cite.</p>
+<p>When code and specs disagree, inspect freshness and evidence, then resolve the discrepancy through review. Neither a graph nor an agent should silently decide which requirement is correct.</p>
 
-<h2>AI agents aren't optional anymore</h2>
-<p>Every developer has an AI agent in their editor, in their CLI, in their CI pipeline. These agents will read your codebase whether you prepare for them or not. The question is: do they read structured ground truth, or do they read prose and guess?</p>
-<p>SDD makes your codebase <strong>agent-native</strong>. The <code>.dag</code> is the agent's entry point. The MCP server is its query interface. The pre-commit hook blocks regressions. The agent never ships code that violates the spec — because the spec is law, not suggestion.</p>
+<h2>Agent integration</h2>
+<p>Install repository-scoped skills with <code>dotdog skills install --agent both</code>, or connect <code>dotdog serve</code> through a supported stdio MCP host. Hooks are optional and removable. Run independent CI checks rather than relying on editor automation alone.</p>
 
-<h2>Who uses this</h2>
+<h2>Where it fits</h2>
 <ul>
 <li><strong>New projects</strong> — spec before code. <code>dotdog init --minimal</code> scaffolds in seconds.</li>
-<li><strong>Existing codebases</strong> — add specs alongside code. <code>dotdog verify --init</code> auto-maps entities.</li>
-<li><strong>Teams</strong> — validate in CI, share MCP server. Score gates on every PR.</li>
-<li><strong>Smart contracts</strong> — one bug costs millions. Spec the invariants first, let the DAG enforce them.</li>
+<li><strong>Existing codebases</strong> — run <code>dotdog refresh</code>, query observed code, and add explicit spec mappings.</li>
+<li><strong>Teams</strong> — run pinned CLI checks and application tests in CI; use local stdio MCP sessions.</li>
+<li><strong>Smart contracts</strong> — record invariants, then verify them with appropriate compiler, runtime and security checks. Graphs do not enforce them.</li>
 <li><strong>AI agents</strong> — <a href="/agents">agent instructions</a> for working with dotdog projects.</li>
-      <a href="/dogfood">dogfood</a>
 </ul>
 
 <h2>Further reading</h2>
@@ -149,15 +181,14 @@ dotdog serve                # expose to AI agents</code></pre>
 <li><a href="/dotdog/adopting">Adding dotdog to an existing project</a></li>
 <li><a href="/dotdog/integrations">Integrations: CI, pre-commit, MCP</a></li>
 <li><a href="/agents">For AI Agents: how to work with dotdog projects</a></li>
-      <a href="/dogfood">dogfood</a>
 <li><a href="https://martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html">Martin Fowler on SDD</a></li>
 </ul>
 
-<footer>dotdog@<span id="version">0.5.0</span> &middot; <a href="https://github.com/specdog/dotdog/blob/main/LICENSE">MIT</a></footer>
+<footer>dotdog@<span id="version">1.0.0</span> &middot; <a href="https://github.com/specdog/dotdog/blob/main/LICENSE">MIT</a></footer>
 <script>
 async function loadVersion(){try{const r=await fetch('https://registry.npmjs.org/dotdog/latest');const d=await r.json();document.getElementById('version').textContent=d.version;}catch(e){}}
 loadVersion();
-function copyBlock(btn){const pre=btn.parentElement.querySelector('pre');navigator.clipboard.writeText(pre.textContent).then(()=>{btn.classList.add('copied');btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';},2000);});}
+function copyBlock(btn){const pre=btn.previousElementSibling;navigator.clipboard.writeText(pre.textContent).then(()=>{btn.classList.add('copied');btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';},2000);});}
 </script>
 </body>
 </html>

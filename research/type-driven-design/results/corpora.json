@@ -1,0 +1,642 @@
+{
+  "node": "v26.8.1",
+  "measurement": "One local run; bytes are not model tokens; timings are not a benchmark",
+  "results": [
+    {
+      "repository": "specdog/dotdog",
+      "revision": "773dc265ecc30f1ec3cb417d1eb051719ea78ba9",
+      "compiler": "5.9.3",
+      "scope": "Targeted research configuration, not the repository full build or test suite",
+      "options": {
+        "strict": true,
+        "skipLibCheck": false,
+        "target": "ESNext",
+        "module": "ESNext",
+        "moduleResolution": "Bundler",
+        "exactOptionalPropertyTypes": false
+      },
+      "programSourceFiles": 90,
+      "localSourceFiles": 4,
+      "localSourceBytes": 14705,
+      "diagnostics": [],
+      "setupMs": 513.89,
+      "targets": [
+        {
+          "name": "selectionFromOptions",
+          "file": "packages/dotdog/src/workspace/selection.ts",
+          "status": "checked",
+          "declarationCount": 2,
+          "names": [
+            "selectionFromOptions",
+            "WorkspaceSelection"
+          ],
+          "omitted": [],
+          "external": [],
+          "contextBytes": 360,
+          "targetFileBytes": 1074,
+          "extractionMs": 2.61
+        },
+        {
+          "name": "WorkspaceConfig",
+          "file": "packages/dotdog/src/workspace/types.ts",
+          "status": "checked",
+          "declarationCount": 6,
+          "names": [
+            "WorkspaceConfig",
+            "WorkspaceIdentity",
+            "RepoConfig",
+            "WorkspaceGroup",
+            "WorkspaceEdge",
+            "RepoSpecConfig"
+          ],
+          "omitted": [],
+          "external": [],
+          "contextBytes": 907,
+          "targetFileBytes": 1793,
+          "extractionMs": 0.16
+        },
+        {
+          "name": "RepositoryWorldModel",
+          "file": "packages/dotdog/src/dag/schema.ts",
+          "status": "partial",
+          "declarationCount": 8,
+          "names": [
+            "RepositoryWorldModel",
+            "WorldNode",
+            "WorldEdge",
+            "WorldPrediction",
+            "WorldNodeKind",
+            "GraphOrigin",
+            "Confidence",
+            "WorldEdgeVerb"
+          ],
+          "omitted": [],
+          "external": [
+            "Record"
+          ],
+          "contextBytes": 1783,
+          "targetFileBytes": 5223,
+          "extractionMs": 0.22
+        },
+        {
+          "name": "auditDesign",
+          "file": "packages/dotdog/src/design/audit.ts",
+          "status": "checked",
+          "declarationCount": 4,
+          "names": [
+            "auditDesign",
+            "DesignReport",
+            "DesignFinding",
+            "DesignSeverity"
+          ],
+          "omitted": [],
+          "external": [],
+          "contextBytes": 646,
+          "targetFileBytes": 6615,
+          "extractionMs": 0.31
+        }
+      ]
+    },
+    {
+      "repository": "sindresorhus/type-fest",
+      "revision": "c3e825ffc1e687dd13a0003b771802d95964aaf9",
+      "compiler": "5.9.3",
+      "scope": "Targeted research configuration, not the repository full build or test suite",
+      "options": {
+        "strict": true,
+        "skipLibCheck": false,
+        "target": "ESNext",
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "exactOptionalPropertyTypes": true
+      },
+      "programSourceFiles": 157,
+      "localSourceFiles": 70,
+      "localSourceBytes": 227070,
+      "diagnostics": [],
+      "setupMs": 631.47,
+      "targets": [
+        {
+          "name": "Simplify",
+          "file": "source/simplify.d.ts",
+          "status": "partial",
+          "declarationCount": 3,
+          "names": [
+            "Simplify",
+            "BrandedPrimitive",
+            "Primitive"
+          ],
+          "omitted": [],
+          "external": [
+            "Extract"
+          ],
+          "contextBytes": 664,
+          "targetFileBytes": 5943,
+          "extractionMs": 0.36
+        },
+        {
+          "name": "Merge",
+          "file": "source/merge.d.ts",
+          "status": "partial",
+          "declarationCount": 24,
+          "names": [
+            "Merge",
+            "If",
+            "IsEqual",
+            "IsAny",
+            "CombineTwoArrays",
+            "_Merge",
+            "IsNever",
+            "_IsEqual",
+            "IsArrayReadonly",
+            "DropLeading",
+            "CallSignatureOf",
+            "MergeObjects",
+            "UnknownArray",
+            "SimplifyObject",
+            "PickIndexSignature",
+            "KeyAliases",
+            "OmitIndexSignature",
+            "NormalizedKeys",
+            "ToString",
+            "StringToNumber",
+            "_StringToNumber",
+            "UnwrapBrand",
+            "PositiveInfinity",
+            "NegativeInfinity"
+          ],
+          "omitted": [
+            {
+              "name": "IfNotAnyOrNever",
+              "reason": "budget"
+            },
+            {
+              "name": "_UnwrapBrand",
+              "reason": "budget"
+            },
+            {
+              "name": "Primitive",
+              "reason": "budget"
+            }
+          ],
+          "external": [
+            "Array",
+            "NoInfer",
+            "PropertyKey",
+            "ReadonlyArray",
+            "Record",
+            "Required"
+          ],
+          "contextBytes": 5724,
+          "targetFileBytes": 7423,
+          "extractionMs": 0.97
+        },
+        {
+          "name": "Jsonify",
+          "file": "source/jsonify.d.ts",
+          "status": "partial",
+          "declarationCount": 24,
+          "names": [
+            "Jsonify",
+            "IsAny",
+            "PositiveInfinity",
+            "NegativeInfinity",
+            "JsonPrimitive",
+            "JsonValue",
+            "NormalizeJsonValue",
+            "WithoutToJson",
+            "EmptyObject",
+            "TypedArray",
+            "NotJsonable",
+            "UnknownArray",
+            "JsonifyList",
+            "UntagTuple",
+            "JsonifyObject",
+            "UndefinedToOptional",
+            "OmittedValueToUndefined",
+            "ToJsonResult",
+            "IsUnknown",
+            "JsonObject",
+            "JsonArray",
+            "NormalizeJsonList",
+            "emptyObjectSymbol",
+            "FindGlobalType"
+          ],
+          "omitted": [
+            {
+              "name": "NeverToNull",
+              "reason": "budget"
+            },
+            {
+              "name": "JsonifyListItem",
+              "reason": "budget"
+            },
+            {
+              "name": "ContainsItself",
+              "reason": "budget"
+            },
+            {
+              "name": "IsArrayOfUnknownLength",
+              "reason": "budget"
+            },
+            {
+              "name": "RemoveFlavors",
+              "reason": "budget"
+            },
+            {
+              "name": "TagContainer",
+              "reason": "budget"
+            },
+            {
+              "name": "UnwrapTagged",
+              "reason": "budget"
+            },
+            {
+              "name": "SimplifyObject",
+              "reason": "budget"
+            },
+            {
+              "name": "DefinedKeyFilter",
+              "reason": "budget"
+            },
+            {
+              "name": "OptionalKeyFilter",
+              "reason": "budget"
+            }
+          ],
+          "external": [
+            "Array",
+            "ArrayBuffer",
+            "BigInt",
+            "BigInt64Array",
+            "BigUint64Array",
+            "Boolean",
+            "DataView",
+            "Exclude",
+            "Float32Array",
+            "Float64Array",
+            "Function",
+            "Int16Array",
+            "Int32Array",
+            "Int8Array",
+            "NoInfer",
+            "Number",
+            "Omit",
+            "ReadonlyArray",
+            "ReadonlyMap",
+            "ReadonlySet",
+            "Record",
+            "RegExp",
+            "SharedArrayBuffer",
+            "String",
+            "Uint16Array",
+            "Uint32Array",
+            "Uint8Array",
+            "Uint8ClampedArray",
+            "tag"
+          ],
+          "contextBytes": 7523,
+          "targetFileBytes": 13123,
+          "extractionMs": 0.96
+        },
+        {
+          "name": "Tagged",
+          "file": "source/tagged.d.ts",
+          "status": "partial",
+          "declarationCount": 3,
+          "names": [
+            "Tagged",
+            "Tag",
+            "TagContainer"
+          ],
+          "omitted": [],
+          "external": [
+            "PropertyKey",
+            "tag"
+          ],
+          "contextBytes": 348,
+          "targetFileBytes": 13391,
+          "extractionMs": 0.08
+        }
+      ]
+    },
+    {
+      "repository": "specdog/dotdog",
+      "revision": "773dc265ecc30f1ec3cb417d1eb051719ea78ba9",
+      "compiler": "6.0.3",
+      "scope": "Targeted research configuration, not the repository full build or test suite",
+      "options": {
+        "strict": true,
+        "skipLibCheck": false,
+        "target": "ESNext",
+        "module": "ESNext",
+        "moduleResolution": "Bundler",
+        "exactOptionalPropertyTypes": false
+      },
+      "programSourceFiles": 97,
+      "localSourceFiles": 4,
+      "localSourceBytes": 14705,
+      "diagnostics": [],
+      "setupMs": 505.36,
+      "targets": [
+        {
+          "name": "selectionFromOptions",
+          "file": "packages/dotdog/src/workspace/selection.ts",
+          "status": "checked",
+          "declarationCount": 2,
+          "names": [
+            "selectionFromOptions",
+            "WorkspaceSelection"
+          ],
+          "omitted": [],
+          "external": [],
+          "contextBytes": 360,
+          "targetFileBytes": 1074,
+          "extractionMs": 2.48
+        },
+        {
+          "name": "WorkspaceConfig",
+          "file": "packages/dotdog/src/workspace/types.ts",
+          "status": "checked",
+          "declarationCount": 6,
+          "names": [
+            "WorkspaceConfig",
+            "WorkspaceIdentity",
+            "RepoConfig",
+            "WorkspaceGroup",
+            "WorkspaceEdge",
+            "RepoSpecConfig"
+          ],
+          "omitted": [],
+          "external": [],
+          "contextBytes": 907,
+          "targetFileBytes": 1793,
+          "extractionMs": 0.12
+        },
+        {
+          "name": "RepositoryWorldModel",
+          "file": "packages/dotdog/src/dag/schema.ts",
+          "status": "partial",
+          "declarationCount": 8,
+          "names": [
+            "RepositoryWorldModel",
+            "WorldNode",
+            "WorldEdge",
+            "WorldPrediction",
+            "WorldNodeKind",
+            "GraphOrigin",
+            "Confidence",
+            "WorldEdgeVerb"
+          ],
+          "omitted": [],
+          "external": [
+            "Record"
+          ],
+          "contextBytes": 1783,
+          "targetFileBytes": 5223,
+          "extractionMs": 0.14
+        },
+        {
+          "name": "auditDesign",
+          "file": "packages/dotdog/src/design/audit.ts",
+          "status": "checked",
+          "declarationCount": 4,
+          "names": [
+            "auditDesign",
+            "DesignReport",
+            "DesignFinding",
+            "DesignSeverity"
+          ],
+          "omitted": [],
+          "external": [],
+          "contextBytes": 646,
+          "targetFileBytes": 6615,
+          "extractionMs": 0.28
+        }
+      ]
+    },
+    {
+      "repository": "sindresorhus/type-fest",
+      "revision": "c3e825ffc1e687dd13a0003b771802d95964aaf9",
+      "compiler": "6.0.3",
+      "scope": "Targeted research configuration, not the repository full build or test suite",
+      "options": {
+        "strict": true,
+        "skipLibCheck": false,
+        "target": "ESNext",
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "exactOptionalPropertyTypes": true
+      },
+      "programSourceFiles": 164,
+      "localSourceFiles": 70,
+      "localSourceBytes": 227070,
+      "diagnostics": [],
+      "setupMs": 592.35,
+      "targets": [
+        {
+          "name": "Simplify",
+          "file": "source/simplify.d.ts",
+          "status": "partial",
+          "declarationCount": 3,
+          "names": [
+            "Simplify",
+            "BrandedPrimitive",
+            "Primitive"
+          ],
+          "omitted": [],
+          "external": [
+            "Extract"
+          ],
+          "contextBytes": 664,
+          "targetFileBytes": 5943,
+          "extractionMs": 0.31
+        },
+        {
+          "name": "Merge",
+          "file": "source/merge.d.ts",
+          "status": "partial",
+          "declarationCount": 24,
+          "names": [
+            "Merge",
+            "If",
+            "IsEqual",
+            "IsAny",
+            "CombineTwoArrays",
+            "_Merge",
+            "IsNever",
+            "_IsEqual",
+            "IsArrayReadonly",
+            "DropLeading",
+            "CallSignatureOf",
+            "MergeObjects",
+            "UnknownArray",
+            "SimplifyObject",
+            "PickIndexSignature",
+            "KeyAliases",
+            "OmitIndexSignature",
+            "NormalizedKeys",
+            "ToString",
+            "StringToNumber",
+            "_StringToNumber",
+            "UnwrapBrand",
+            "PositiveInfinity",
+            "NegativeInfinity"
+          ],
+          "omitted": [
+            {
+              "name": "IfNotAnyOrNever",
+              "reason": "budget"
+            },
+            {
+              "name": "_UnwrapBrand",
+              "reason": "budget"
+            },
+            {
+              "name": "Primitive",
+              "reason": "budget"
+            }
+          ],
+          "external": [
+            "Array",
+            "NoInfer",
+            "PropertyKey",
+            "ReadonlyArray",
+            "Record",
+            "Required"
+          ],
+          "contextBytes": 5724,
+          "targetFileBytes": 7423,
+          "extractionMs": 0.71
+        },
+        {
+          "name": "Jsonify",
+          "file": "source/jsonify.d.ts",
+          "status": "partial",
+          "declarationCount": 24,
+          "names": [
+            "Jsonify",
+            "IsAny",
+            "PositiveInfinity",
+            "NegativeInfinity",
+            "JsonPrimitive",
+            "JsonValue",
+            "NormalizeJsonValue",
+            "WithoutToJson",
+            "EmptyObject",
+            "TypedArray",
+            "NotJsonable",
+            "UnknownArray",
+            "JsonifyList",
+            "UntagTuple",
+            "JsonifyObject",
+            "UndefinedToOptional",
+            "OmittedValueToUndefined",
+            "ToJsonResult",
+            "IsUnknown",
+            "JsonObject",
+            "JsonArray",
+            "NormalizeJsonList",
+            "emptyObjectSymbol",
+            "FindGlobalType"
+          ],
+          "omitted": [
+            {
+              "name": "NeverToNull",
+              "reason": "budget"
+            },
+            {
+              "name": "JsonifyListItem",
+              "reason": "budget"
+            },
+            {
+              "name": "ContainsItself",
+              "reason": "budget"
+            },
+            {
+              "name": "IsArrayOfUnknownLength",
+              "reason": "budget"
+            },
+            {
+              "name": "RemoveFlavors",
+              "reason": "budget"
+            },
+            {
+              "name": "TagContainer",
+              "reason": "budget"
+            },
+            {
+              "name": "UnwrapTagged",
+              "reason": "budget"
+            },
+            {
+              "name": "SimplifyObject",
+              "reason": "budget"
+            },
+            {
+              "name": "DefinedKeyFilter",
+              "reason": "budget"
+            },
+            {
+              "name": "OptionalKeyFilter",
+              "reason": "budget"
+            }
+          ],
+          "external": [
+            "Array",
+            "ArrayBuffer",
+            "BigInt",
+            "BigInt64Array",
+            "BigUint64Array",
+            "Boolean",
+            "DataView",
+            "Exclude",
+            "Float32Array",
+            "Float64Array",
+            "Function",
+            "Int16Array",
+            "Int32Array",
+            "Int8Array",
+            "NoInfer",
+            "Number",
+            "Omit",
+            "ReadonlyArray",
+            "ReadonlyMap",
+            "ReadonlySet",
+            "Record",
+            "RegExp",
+            "SharedArrayBuffer",
+            "String",
+            "Uint16Array",
+            "Uint32Array",
+            "Uint8Array",
+            "Uint8ClampedArray",
+            "tag"
+          ],
+          "contextBytes": 7523,
+          "targetFileBytes": 13123,
+          "extractionMs": 0.85
+        },
+        {
+          "name": "Tagged",
+          "file": "source/tagged.d.ts",
+          "status": "partial",
+          "declarationCount": 3,
+          "names": [
+            "Tagged",
+            "Tag",
+            "TagContainer"
+          ],
+          "omitted": [],
+          "external": [
+            "PropertyKey",
+            "tag"
+          ],
+          "contextBytes": 348,
+          "targetFileBytes": 13391,
+          "extractionMs": 0.07
+        }
+      ]
+    }
+  ]
+}

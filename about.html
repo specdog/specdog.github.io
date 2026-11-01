@@ -58,10 +58,11 @@
 <h1>About specdog</h1>
 <p>specdog is a toolkit for making software specs easier for both humans and AI agents to read. The goal is simple: keep intent, implementation rules, and agent instructions in structured files that can be validated and queried.</p>
 <p>The project focuses on spec-driven development, agent discovery, and small runtime surfaces that reduce guesswork when an agent enters a codebase.</p>
+<p>The <a href="/handbook#type-driven-design">type-driven design workflow</a> connects spec rules to domain types, state transitions, and explicit failures in application code, with runtime parsing at external boundaries.</p>
 
 <h2>What we build</h2>
 <div class="grid">
-  <div class="card"><a href="/dotdog">dotdog</a><p>CLI and MCP tooling for writing, validating, and querying structured project specs.</p></div>
+  <div class="card"><a href="/dotdog">dotdog</a><p>Dotdog 1.0 provides local-first spec/code graphs, saved REA/Ghidra call-graph traversal, and optional TypeScript contract inspection. <a href="https://github.com/specdog/dotdog/releases/tag/v1.0.0">Release notes</a>.</p></div>
   <div class="card"><a href="/collar">collar</a><p>An agent harness that loads graph-backed behavior instead of relying on loose prompt text.</p></div>
   <div class="card"><a href="/leash">leash</a><p>A robotics-oriented harness for simulation-first agent control and capability gating.</p></div>
 </div>

@@ -12,11 +12,11 @@ def main() -> int:
     data = json.loads(MANIFEST.read_text())
     issues = []
     for item in data["files"]:
-        p = Path(item["path"])
+        p = (ROOT / item["path"]).resolve()
         try:
             p.relative_to(ROOT)
         except ValueError:
-            print(f"README CHECK SKIP external path: {p}")
+            issues.append("README path must stay within this repository")
             continue
         if not p.exists():
             issues.append(f"missing file: {p}")

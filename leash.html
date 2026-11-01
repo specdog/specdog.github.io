@@ -51,6 +51,13 @@ leash run sim-http</code></pre>
 curl -s http://127.0.0.1:8000/telemetry | jq</code></pre>
 <p>This runs entirely in simulation. No robot required.</p>
 
+<h2>Agent workflows</h2>
+<p>Configured agent runs use durable sessions, a browser console and explicitly scoped capabilities. Requests still pass through the normal runtime checks.</p>
+<pre><code>leash agent run "summarize current health" --session demo
+leash agent sessions list
+leash agent headful --no-open
+leash agent capability call health --allow health</code></pre>
+
 <h2>Features</h2>
 <div class="grid">
   <div class="card"><strong>CLI, HTTP, and MCP</strong><span class="muted">One runtime across human, app, and agent clients.</span></div>

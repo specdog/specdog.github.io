@@ -18,9 +18,7 @@
 - https://specdog.github.io/blog/dotdog-1-research/ — Dotdog research
 - https://specdog.github.io/blog/collar-graph-backed-agents/ — Collar context
 - https://specdog.github.io/blog/leash-control-boundaries/ — Leash boundaries
-- https://specdog.github.io/blog/dogbench-measurement/ — Dogbench measurement
 - https://specdog.github.io/homebrew — Homebrew
-- https://specdog.github.io/dogbench — Dogbench
 
 ## Verified release
 - https://github.com/specdog/dotdog/releases/tag/v1.0.0 — Original npm artifact, checksums, provenance and documented limits. npm and Bun install the same package.
